@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.system.mapper.UserMapper">
+    <resultMap id="baseResultMap" type="com.example.system.entity.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+        <result property="email" column="email"/>
+        <result property="loginName" column="loginName"/>
+        <result property="inputUserId" column="inputUserId"/>
+        <result property="inputTime" column="inputTime"/>
+        <result property="updateUserId" column="updateUserId"/>
+        <result property="updateTime" column="updateTime"/>
+    </resultMap>
+
+    <select id="userList" resultMap="baseResultMap">
+        select t.id,t.name,t.sex,t.phone,t.address,t.email,t.loginName,t.phone,t.inputTime
+        from vue_cli_2021_system.t_user t
+        <where>
+            <if test="name != null and name != ''">
+                and t.name like concat('%',trim(#{name}),'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and t.phone = #{phone}
+            </if>
+            <if test="sex != null and sex != ''">
+                and t.sex = #{sex}
+            </if>
+        </where>
+        order by t.id desc
+    </select>
+
+</mapper>

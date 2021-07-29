@@ -1,0 +1,34 @@
+server:
+  port: 9002
+  servlet:
+    context-path: /test
+    encoding:
+      force-request: true
+      force-response: true
+spring:
+  application:
+    name: test
+  profiles:
+    active: @profile.active@
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: 100MB
+  jackson:
+    date-format: yyyy-MM-d HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      INDENT_OUTPUT: true
+  cloud:
+    #nacos配置
+    nacos:
+      discovery:
+        server-addr: @nacos.address@
+        service: ${spring.application.name}
+        #username: @nacos.userName@
+        #password: @nacos.passWord@
+knife4j:
+  enable: true
+logging:
+  level:
+    org.apache.shiro.web.servlet: debug

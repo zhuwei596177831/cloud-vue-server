@@ -1,0 +1,42 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: @profile.active@
+  cloud:
+    nacos:
+      discovery:
+        server-addr: @nacos.address@
+        service: ${spring.application.name}
+    #        username: @nacos.userName@
+    #        password: @nacos.passWord@
+    gateway:
+      enabled: true
+      #Global timeouts
+      httpclient:
+        #the default is 45s
+        connect-timeout: 5000
+        response-timeout: 5s
+      routes:
+        #system路由配置
+        - id: system
+          uri: lb://system
+          predicates:
+            - Path=/api/system/**
+          filters:
+            - StripPrefix=1
+        #test路由
+        - id: test
+          uri: lb://test
+          predicates:
+            - Path=/api/test/**
+          filters:
+            - StripPrefix=1
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-d HH:mm:ss
+#logging:
+#  level:
+#    com.example.system.feignClient: debug

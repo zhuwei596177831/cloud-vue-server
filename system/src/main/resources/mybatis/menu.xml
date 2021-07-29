@@ -1,0 +1,43 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.system.mapper.MenuMapper">
+
+    <select id="menuList" resultType="com.example.system.entity.Menu">
+        select t.id,t.type,t.name,t.code,t.parentId,t.path,t.iconClass,t.inputTime,t.inputUserId,
+        t.updateTime,t.updateUserId,t.sort,p.name as parentName
+        from vue_cli_2021_system.t_menu t
+        left join vue_cli_2021_system.t_menu p on p.id = t.parentId
+        <where>
+            <if test="name != null and name != ''">
+                t.name like concat('%',trim(#{name}),'%')
+            </if>
+            <if test="type != null">
+                and t.type = #{type}
+            </if>
+            <if test="types != null and types.size() != 0">
+                and t.type in
+                <foreach collection="types" item="type" open="(" close=")" separator=",">
+                    #{type}
+                </foreach>
+            </if>
+            <if test="parentId != null and parentId != 0">
+                and t.parentId = #{parentId}
+            </if>
+        </where>
+        order by t.sort
+    </select>
+
+    <select id="findMenusByUserId" resultType="com.example.system.entity.Menu">
+        select distinct m.id, m.code, m.name, m.type, m.parentId, m.iconClass, m.path
+        from vue_cli_2021_system.t_user u,
+             vue_cli_2021_system.t_user_role tur,
+             vue_cli_2021_system.t_role_menu trm,
+             vue_cli_2021_system.t_menu m
+        where u.id = tur.userId
+          and tur.roleId = trm.roleId
+          and trm.menuId = m.id
+          and u.id = #{userId}
+    </select>
+
+</mapper>
