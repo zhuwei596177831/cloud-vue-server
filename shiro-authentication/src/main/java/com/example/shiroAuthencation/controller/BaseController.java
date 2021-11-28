@@ -1,7 +1,7 @@
 package com.example.shiroAuthencation.controller;
 
 import com.example.core.entity.PageInfo;
-import com.example.system.entity.User;
+import com.example.core.vo.system.UserVo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -24,8 +24,8 @@ public abstract class BaseController {
      * @author: 朱伟伟
      * @date: 2021-06-24 17:21
      **/
-    protected User getUser() {
-        return (User) SecurityUtils.getSubject().getPrincipal();
+    protected UserVo getUser() {
+        return (UserVo) SecurityUtils.getSubject().getPrincipal();
     }
 
     /**

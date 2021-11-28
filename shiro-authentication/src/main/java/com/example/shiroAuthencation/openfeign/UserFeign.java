@@ -1,7 +1,7 @@
-package com.example.system.openFeign;
+package com.example.shiroAuthencation.openfeign;
 
-import com.example.system.entity.User;
-import com.example.system.openFeign.fallback.UserFeignFallBack;
+import com.example.core.vo.system.UserVo;
+import com.example.shiroAuthencation.openfeign.fallback.UserFeignFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +27,6 @@ public interface UserFeign {
      * @description: 根据用户名查询用户
      **/
     @PostMapping("/getUserByLoginName")
-    User getUserByLoginName(@RequestParam(value = "username") String loginName);
+    UserVo getUserByLoginName(@RequestParam(value = "username") String loginName);
 
 }

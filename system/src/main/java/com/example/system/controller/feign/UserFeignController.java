@@ -1,13 +1,14 @@
 package com.example.system.controller.feign;
 
-import com.example.core.entity.Result;
+import com.example.core.vo.system.UserVo;
 import com.example.system.entity.User;
 import com.example.system.service.UserService;
-import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author 朱伟伟
@@ -28,8 +29,14 @@ public class UserFeignController {
      * @description: 根据用户名查询用户
      **/
     @PostMapping("/getUserByLoginName")
-    public User getUserByLoginName(@RequestParam String username) {
-        return userService.getUserByLoginName(username);
+    public UserVo getUserByLoginName(@RequestParam String username) {
+        User user = userService.getUserByLoginName(username);
+        if (user == null) {
+            return null;
+        }
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(user, userVo);
+        return userVo;
     }
 
 }

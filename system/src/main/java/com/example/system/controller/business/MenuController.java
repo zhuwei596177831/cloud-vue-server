@@ -2,13 +2,15 @@ package com.example.system.controller.business;
 
 import com.example.core.entity.*;
 import com.example.core.enums.MenuType;
+import com.example.core.vo.system.UserVo;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.example.system.entity.Menu;
-import com.example.system.entity.User;
 import com.example.system.entity.req.MenuReq;
 import com.example.system.service.MenuService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +59,7 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "添加菜单")
     @PostMapping("/addMenu")
     public Result addMenu(@RequestBody @Validated({Menu.Add.class}) Menu menu) {
-        User user = getUser();
+        UserVo user = getUser();
         menu.setInputUserId(user.getId());
         menu.setInputTime(LocalDateTime.now());
         Result result = menuService.addMenu(menu);
@@ -74,7 +76,7 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "修改菜单")
     @PutMapping("/updateMenu")
     public Result updateMenu(@RequestBody @Validated({Menu.Update.class}) Menu menu) {
-        User user = getUser();
+        UserVo user = getUser();
         menu.setUpdateUserId(user.getId());
         menu.setUpdateTime(LocalDateTime.now());
         Result result = menuService.updateMenu(menu);
@@ -106,8 +108,8 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "用户权限菜单")
     @PostMapping("/userMenus")
     public Result<ArrayData<Menu>> userMenus() {
-        User user = getUser();
-        return Result.ok(menuService.userMenus(user));
+        UserVo user = getUser();
+        return Result.ok(menuService.userMenus(user.getId()));
     }
 
     /**

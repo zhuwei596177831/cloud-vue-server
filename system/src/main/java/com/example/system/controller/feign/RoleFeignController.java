@@ -1,7 +1,8 @@
 package com.example.system.controller.feign;
 
-import com.example.system.entity.Role;
+import com.example.core.vo.system.RoleVo;
 import com.example.system.service.RoleService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Role Feign controller
@@ -30,8 +32,13 @@ public class RoleFeignController {
      * @description: 根据用户id查询角色集合
      **/
     @PostMapping("/findRolesByUserId")
-    public Set<Role> findRolesByUserId(@RequestParam Long userId) {
-        return roleService.findRolesByUserId(userId);
+    public Set<RoleVo> findRolesByUserId(@RequestParam Long userId) {
+        return roleService.findRolesByUserId(userId).stream()
+                .map(role -> {
+                    RoleVo roleVo = new RoleVo();
+                    BeanUtils.copyProperties(role, roleVo);
+                    return roleVo;
+                }).collect(Collectors.toSet());
     }
 
 }

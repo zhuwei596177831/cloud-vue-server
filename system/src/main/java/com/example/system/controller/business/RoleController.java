@@ -3,9 +3,9 @@ package com.example.system.controller.business;
 import com.example.core.entity.ArrayData;
 import com.example.core.entity.PageInfo;
 import com.example.core.entity.Result;
+import com.example.core.vo.system.UserVo;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.example.system.entity.Role;
-import com.example.system.entity.User;
 import com.example.system.entity.req.RoleMenuReq;
 import com.example.system.entity.req.RoleReq;
 import com.example.system.service.RoleService;
@@ -58,7 +58,7 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "添加角色")
     @PostMapping("/addRole")
     public Result<Integer> addRole(@RequestBody @Validated({Role.Add.class}) Role role) {
-        User user = getUser();
+        UserVo user = getUser();
         role.setInputTime(LocalDateTime.now());
         role.setInputUserId(user.getId());
         return roleService.addRole(role);
@@ -74,7 +74,7 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "修改角色")
     @PutMapping("/updateRole")
     public Result updateRole(@RequestBody @Validated({Role.Update.class}) Role role) {
-        User user = getUser();
+        UserVo user = getUser();
         role.setUpdateTime(LocalDateTime.now());
         role.setUpdateUserId(user.getId());
         return roleService.updateRole(role);

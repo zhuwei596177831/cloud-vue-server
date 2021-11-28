@@ -1,7 +1,7 @@
-package com.example.system.openFeign;
+package com.example.shiroAuthencation.openfeign;
 
-import com.example.system.entity.Role;
-import com.example.system.openFeign.fallback.RoleFeignFallBack;
+import com.example.core.vo.system.RoleVo;
+import com.example.shiroAuthencation.openfeign.fallback.RoleFeignFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,5 +28,5 @@ public interface RoleFeign {
      * @date: 2021-07-25 16:22
      **/
     @PostMapping("/findRolesByUserId")
-    Set<Role> findRolesByUserId(@RequestParam("userId") Long userId);
+    Set<RoleVo> findRolesByUserId(@RequestParam("userId") Long userId);
 }

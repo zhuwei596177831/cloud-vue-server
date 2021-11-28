@@ -1,7 +1,7 @@
-package com.example.system.openFeign;
+package com.example.shiroAuthencation.openfeign;
 
-import com.example.system.entity.Menu;
-import com.example.system.openFeign.fallback.MenuFeignFallBack;
+import com.example.core.vo.system.MenuVo;
+import com.example.shiroAuthencation.openfeign.fallback.MenuFeignFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +29,6 @@ public interface MenuFeign {
      * @date: 2021-07-25 16:41
      **/
     @PostMapping("/findMenusByUserId")
-    Set<Menu> findMenusByUserId(@RequestParam("userId") Long userId);
+    Set<MenuVo> findMenusByUserId(@RequestParam("userId") Long userId);
 
 }

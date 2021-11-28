@@ -3,6 +3,7 @@ package com.example.system.controller.business;
 import com.example.core.entity.ArrayData;
 import com.example.core.entity.PageInfo;
 import com.example.core.entity.Result;
+import com.example.core.vo.system.UserVo;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.example.system.entity.User;
 import com.example.system.entity.req.UserReq;
@@ -62,7 +63,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "添加用户")
     @PostMapping("/addUser")
     public Result addUser(@RequestBody @Validated({User.Add.class}) User userReq) {
-        User user = getUser();
+        UserVo user = getUser();
         userReq.setInputUserId(user.getId());
         userReq.setInputTime(LocalDateTime.now());
         return userService.addUser(userReq);
@@ -78,7 +79,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "修改用户")
     @PutMapping("/updateUser")
     public Result updateUser(@RequestBody @Validated({User.Update.class}) User userReq) {
-        User user = getUser();
+        UserVo user = getUser();
         userReq.setUpdateUserId(user.getId());
         userReq.setUpdateTime(LocalDateTime.now());
         return userService.updateUser(userReq);

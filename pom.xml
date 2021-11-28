@@ -12,9 +12,8 @@
     <modules>
         <module>core</module>
         <module>core-web</module>
-        <module>shiro-authentication</module>
         <module>gateway</module>
-        <module>system-api</module>
+        <module>shiro-authentication</module>
         <module>system</module>
         <module>test</module>
     </modules>

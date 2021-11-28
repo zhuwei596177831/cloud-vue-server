@@ -1,12 +1,12 @@
 package com.example.shiroAuthencation.realm;
 
 import com.example.core.util.ConstantsHolder;
-import com.example.system.entity.Menu;
-import com.example.system.entity.Role;
-import com.example.system.entity.User;
-import com.example.system.openFeign.MenuFeign;
-import com.example.system.openFeign.RoleFeign;
-import com.example.system.openFeign.UserFeign;
+import com.example.core.vo.system.MenuVo;
+import com.example.core.vo.system.RoleVo;
+import com.example.core.vo.system.UserVo;
+import com.example.shiroAuthencation.openfeign.MenuFeign;
+import com.example.shiroAuthencation.openfeign.RoleFeign;
+import com.example.shiroAuthencation.openfeign.UserFeign;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.AllowAllCredentialsMatcher;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -15,7 +15,6 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
@@ -59,20 +58,20 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
         String username = usernamePasswordToken.getUsername();
-        User user = userFeign.getUserByLoginName(username);
-        if (user == null || user.getId() == null) {
+        UserVo userVo = userFeign.getUserByLoginName(username);
+        if (userVo == null || userVo.getId() == null) {
             throw new AuthenticationException(ConstantsHolder.USER_LOGIN_ERROR);
         }
-        return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(username), getName());
+        return new SimpleAuthenticationInfo(userVo, userVo.getPassword(), ByteSource.Util.bytes(username), getName());
     }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        User user = (User) principals.getPrimaryPrincipal();
-        Set<Role> roles = roleFeign.findRolesByUserId(user.getId());
-        Set<String> roleCodes = roles.stream().map(Role::getCode).collect(Collectors.toSet());
-        Set<Menu> menus = menuFeign.findMenusByUserId(user.getId());
-        Set<String> menuCodes = menus.stream().map(Menu::getCode).collect(Collectors.toSet());
+        UserVo userVo = (UserVo) principals.getPrimaryPrincipal();
+        Set<RoleVo> roleVos = roleFeign.findRolesByUserId(userVo.getId());
+        Set<String> roleCodes = roleVos.stream().map(RoleVo::getCode).collect(Collectors.toSet());
+        Set<MenuVo> menus = menuFeign.findMenusByUserId(userVo.getId());
+        Set<String> menuCodes = menus.stream().map(MenuVo::getCode).collect(Collectors.toSet());
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo(roleCodes);
         simpleAuthorizationInfo.setStringPermissions(menuCodes);
         return simpleAuthorizationInfo;

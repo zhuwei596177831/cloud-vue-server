@@ -2,13 +2,11 @@ package com.example.system.service;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.core.entity.*;
 import com.example.core.enums.MenuType;
 import com.example.core.enums.RedisKey;
 import com.example.system.entity.Menu;
 import com.example.system.entity.RoleMenu;
-import com.example.system.entity.User;
 import com.example.system.entity.req.MenuReq;
 import com.example.system.mapper.MenuMapper;
 import com.example.system.mapper.RoleMenuMapper;
@@ -146,12 +144,12 @@ public class MenuService {
     /**
      * 查询用户所有的权限菜单
      *
-     * @param user:
+     * @param userId:
      * @author: 朱伟伟
      * @date: 2021-06-26 22:34
      **/
-    public List<Menu> userMenus(User user) {
-        Set<Menu> all = this.findMenusByUserId(user.getId()).stream().filter(m -> !MenuType.MENU_BUTTON.getValue().equals(m.getType())).collect(Collectors.toSet());
+    public List<Menu> userMenus(Long userId) {
+        Set<Menu> all = this.findMenusByUserId(userId).stream().filter(m -> !MenuType.MENU_BUTTON.getValue().equals(m.getType())).collect(Collectors.toSet());
         Set<Menu> moduleMenus = all.stream().filter(m -> MenuType.MENU_MODEL.getValue().equals(m.getType())).collect(Collectors.toSet());
         if (!CollectionUtils.isEmpty(moduleMenus)) {
             recursionChildren(moduleMenus, all);
