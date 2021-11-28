@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class UserNamePasswordRealm extends AuthorizingRealm {
 
     @Autowired(required = false)
-    private ObjectProvider<UserFeign> userFeignObjectProvider;
+    private UserFeign userFeign;
     @Autowired(required = false)
     private RoleFeign roleFeign;
     @Autowired(required = false)
@@ -59,7 +59,7 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
         String username = usernamePasswordToken.getUsername();
-        User user = userFeignObjectProvider.getObject().getUserByLoginName(username);
+        User user = userFeign.getUserByLoginName(username);
         if (user == null || user.getId() == null) {
             throw new AuthenticationException(ConstantsHolder.USER_LOGIN_ERROR);
         }
