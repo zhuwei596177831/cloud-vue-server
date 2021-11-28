@@ -6,9 +6,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 
 @SpringBootApplication(scanBasePackages = {"com.example"})
-@EnableFeignClients(basePackages = {
-        "com.example.system.openFeign"
-})
+@EnableFeignClients(basePackages = {"com.example"})
 public class SystemApplication {
 
     public static void main(String[] args) {
