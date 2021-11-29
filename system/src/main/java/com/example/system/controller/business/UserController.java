@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 朱伟伟
@@ -121,7 +122,7 @@ public class UserController extends BaseController {
      **/
     @ApiOperation(value = "获取用户信息")
     @PostMapping("/findUser")
-    public Result<User> findUser() {
-        return Result.ok((User) SecurityUtils.getSubject().getPrincipal());
+    public Result<UserVo> findUser() {
+        return Result.ok((UserVo) SecurityUtils.getSubject().getPrincipal());
     }
 }
