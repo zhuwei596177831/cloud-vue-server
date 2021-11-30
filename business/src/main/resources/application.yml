@@ -1,13 +1,13 @@
 server:
-  port: 9001
+  port: 9003
   servlet:
-    context-path: /system
+    context-path: /business
     encoding:
       force-request: true
       force-response: true
 spring:
   application:
-    name: system
+    name: business
   profiles:
     active: @profile.active@
   servlet:

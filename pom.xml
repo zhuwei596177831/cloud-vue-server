@@ -15,7 +15,10 @@
         <module>gateway</module>
         <module>shiro-authentication</module>
         <module>system</module>
-        <module>test</module>
+        <module>storage</module>
+        <module>order</module>
+        <module>account</module>
+        <module>business</module>
     </modules>
 
     <properties>

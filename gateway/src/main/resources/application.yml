@@ -10,15 +10,15 @@ spring:
       discovery:
         server-addr: @nacos.address@
         service: ${spring.application.name}
-    #        username: @nacos.userName@
-    #        password: @nacos.passWord@
+        username: @nacos.userName@
+        password: @nacos.passWord@
     gateway:
       enabled: true
       #Global timeouts
-      httpclient:
-        #the default is 45s
-        connect-timeout: 5000
-        response-timeout: 5s
+      #      httpclient:
+      #the default is 45s
+      #        connect-timeout: 10000
+      #        response-timeout: 10s
       routes:
         #system路由配置
         - id: system
@@ -27,11 +27,32 @@ spring:
             - Path=/api/system/**
           filters:
             - StripPrefix=1
-        #test路由
-        - id: test
-          uri: lb://test
+        #account路由配置
+        - id: account
+          uri: lb://account
           predicates:
-            - Path=/api/test/**
+            - Path=/api/account/**
+          filters:
+            - StripPrefix=1
+        #business路由配置
+        - id: business
+          uri: lb://business
+          predicates:
+            - Path=/api/business/**
+          filters:
+            - StripPrefix=1
+        #order路由配置
+        - id: order
+          uri: lb://order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
+        #storage路由配置
+        - id: storage
+          uri: lb://storage
+          predicates:
+            - Path=/api/storage/**
           filters:
             - StripPrefix=1
   jackson:

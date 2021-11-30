@@ -1,13 +1,13 @@
 server:
-  port: 9001
+  port: 9002
   servlet:
-    context-path: /system
+    context-path: /account
     encoding:
       force-request: true
       force-response: true
 spring:
   application:
-    name: system
+    name: account
   profiles:
     active: @profile.active@
   servlet:

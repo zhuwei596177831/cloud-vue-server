@@ -1,13 +1,13 @@
 server:
-  port: 9001
+  port: 9005
   servlet:
-    context-path: /system
+    context-path: /storage
     encoding:
       force-request: true
       force-response: true
 spring:
   application:
-    name: system
+    name: storage
   profiles:
     active: @profile.active@
   servlet:
