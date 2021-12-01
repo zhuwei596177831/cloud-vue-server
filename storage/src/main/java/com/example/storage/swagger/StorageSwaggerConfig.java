@@ -27,7 +27,7 @@ import java.util.List;
 @EnableSwagger2WebMvc
 @Configuration
 @Import(BeanValidatorPluginsConfiguration.class)
-public class SystemSwaggerConfig {
+public class StorageSwaggerConfig {
 
     @Bean(value = "storageApi")
     @Order(value = 1)
@@ -35,7 +35,7 @@ public class SystemSwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(groupApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.storage.controller.business"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.storage.controller"))
                 .paths(PathSelectors.any())
                 .build();
 //                .securityContexts(CollectionUtils.newArrayList(securityContext(), securityContext1()))

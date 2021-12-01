@@ -1,4 +1,4 @@
-package com.example.business.feignclient;
+package com.example.business.openfeign.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 

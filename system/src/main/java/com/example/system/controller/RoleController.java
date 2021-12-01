@@ -1,4 +1,4 @@
-package com.example.system.controller.business;
+package com.example.system.controller;
 
 import com.example.core.entity.ArrayData;
 import com.example.core.entity.PageInfo;

@@ -1,4 +1,4 @@
-package com.example.system.controller.business;
+package com.example.system.controller;
 
 import com.example.core.entity.Result;
 import com.example.shiroAuthencation.controller.BaseController;

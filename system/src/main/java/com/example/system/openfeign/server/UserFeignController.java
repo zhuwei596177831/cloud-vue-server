@@ -1,4 +1,4 @@
-package com.example.system.controller.feign;
+package com.example.system.openfeign.server;
 
 import com.example.core.vo.system.UserVo;
 import com.example.system.entity.User;

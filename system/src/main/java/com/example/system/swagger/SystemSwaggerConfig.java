@@ -32,7 +32,7 @@ public class SystemSwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(groupApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.system.controller.business"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.system.controller"))
                 .paths(PathSelectors.any())
                 .build();
 //                .securityContexts(CollectionUtils.newArrayList(securityContext(), securityContext1()))
