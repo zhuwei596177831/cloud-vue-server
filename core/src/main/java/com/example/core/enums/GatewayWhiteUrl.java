@@ -11,6 +11,7 @@ import lombok.Getter;
 public enum GatewayWhiteUrl {
     SYSTEM_USER_FEIGN("/openFeign/**", "openfeign调用不校验"),
     SWAGGER_API_DOC("/v2/api-docs/**", "swagger文档"),
+    SSEATA_TEST("/test/**", "swagger文档"),
     ;
     private final String url;
     private final String desc;

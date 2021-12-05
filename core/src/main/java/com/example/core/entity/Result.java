@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 
 /**
  * @author 朱伟伟
@@ -58,6 +56,10 @@ public class Result<T> extends BaseEntity {
 
     public boolean isSuccess() {
         return this.getCode().equals("0000");
+    }
+
+    public boolean isNotSuccess() {
+        return !isSuccess();
     }
 
 }

@@ -58,6 +58,3 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-d HH:mm:ss
-#logging:
-#  level:
-#    com.example.system.feignClient: debug

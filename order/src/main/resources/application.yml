@@ -87,3 +87,28 @@ knife4j:
 logging:
   level:
     org.apache.shiro.web.servlet: debug
+    com.example.order.openfeign.client: debug
+#Seata client端 nacos 配置
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  #事务分组名称 若不配置，默认获取属性spring.application.name的值+"-fescar-service-group"
+  tx-service-group: order_test_tx_group
+  enable-auto-data-source-proxy: true
+  data-source-proxy-mode: AT
+  use-jdk-proxy: false
+  service:
+    vgroup-mapping:
+      order_test_tx_group: default
+  registry:
+    type: nacos
+    load-balance: RandomLoadBalance
+    load-balance-virtual-nodes: 10
+    nacos:
+      namespace: ""
+      server-addr: @nacos.address@
+      group: "SEATA_GROUP"
+      username: @nacos.userName@
+      password: @nacos.passWord@
+      #与 seata server 配置的application一致
+      application: seata-server

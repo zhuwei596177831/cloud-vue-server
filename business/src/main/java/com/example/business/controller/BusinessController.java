@@ -1,5 +1,8 @@
 package com.example.business.controller;
 
+import com.example.business.service.BusinessService;
+import com.example.core.entity.Result;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,4 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/test")
 public class BusinessController {
+
+    private final BusinessService businessService;
+
+    public BusinessController(BusinessService businessService) {
+        this.businessService = businessService;
+    }
+
+    @GetMapping("/seataTest")
+    public Result seataTest() {
+        return businessService.seataTest();
+    }
+
 }

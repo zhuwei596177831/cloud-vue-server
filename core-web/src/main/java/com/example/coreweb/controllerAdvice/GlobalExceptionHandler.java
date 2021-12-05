@@ -21,7 +21,7 @@ import javax.validation.ConstraintViolationException;
  * {@link RequestMappingHandlerAdapter#getDataBinderFactory}
  */
 @RestControllerAdvice
-public class CustomExceptionAdvice {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public Result constraintViolationExceptionHandler(ConstraintViolationException e) {

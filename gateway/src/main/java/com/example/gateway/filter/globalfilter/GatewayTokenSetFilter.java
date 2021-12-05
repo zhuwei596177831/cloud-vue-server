@@ -1,4 +1,4 @@
-package com.example.gateway.filter.globalFilter;
+package com.example.gateway.filter.globalfilter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.core.util.ConstantsHolder;
