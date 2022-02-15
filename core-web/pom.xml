@@ -55,6 +55,10 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
     </dependencies>
 
 

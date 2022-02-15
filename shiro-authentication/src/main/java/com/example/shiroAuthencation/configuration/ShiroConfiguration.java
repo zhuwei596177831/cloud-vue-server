@@ -5,7 +5,6 @@ import com.example.core.util.ConstantsHolder;
 import com.example.shiroAuthencation.filter.CustomAccessFilter;
 import com.example.shiroAuthencation.listener.ShiroSessionListener;
 import com.example.shiroAuthencation.realm.UserNamePasswordRealm;
-import com.example.shiroAuthencation.sessionManager.CustomSessionManager;
 import com.example.shiroAuthencation.sessioncache.ShiroReisCache;
 import com.example.shiroAuthencation.sessioncache.ShiroReisCacheManager;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -105,7 +104,6 @@ public class ShiroConfiguration {
         return defaultWebSecurityManager;
     }
 
-
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager defaultWebSecurityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -135,7 +133,7 @@ public class ShiroConfiguration {
     }
 
     /**
-     * 添加LifecycleBeanPostProcessor配置项，LifecycleBeanPostProcessor将统一管理Initializable和Destroyable的实现类，
+     * 添加LifecycleBeanPostProcessor配置项，LifecycleBeanPostProcessor将统一管理Shiro、Initializable和Destroyable的实现类，
      * 从而达到统一管理Shiro Bean的生命周期的目的
      *
      * @return

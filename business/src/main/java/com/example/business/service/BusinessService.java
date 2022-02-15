@@ -33,13 +33,13 @@ public class BusinessService {
         if (result.isNotSuccess()) {
             throw new RuntimeException(result.getMsg());
         }
-        result = orderFeignClient.saveOrder();
-        if (result.isNotSuccess()) {
-            throw new RuntimeException(result.getMsg());
-        }
-        //if (1 + 1 == 2) {
-        //    throw new RuntimeException("顾柳霞");
+        //result = orderFeignClient.saveOrder();
+        //if (result.isNotSuccess()) {
+        //    throw new RuntimeException(result.getMsg());
         //}
+        if (1 + 1 == 2) {
+            throw new RuntimeException("顾柳霞");
+        }
         return Result.ok();
     }
 }
