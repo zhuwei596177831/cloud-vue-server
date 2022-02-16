@@ -1,4 +1,4 @@
-package com.example.coreweb.redis;
+package com.example.coreweb.cache.redis;
 
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -18,8 +18,8 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
  * @see org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
  * @see org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration
  */
-@Configuration(proxyBeanMethods = false)
-public class MyRedisConfiguration {
+//@Configuration(proxyBeanMethods = false)
+public class SingleRedisConfiguration {
 
     @Bean
     @ConditionalOnMissingBean

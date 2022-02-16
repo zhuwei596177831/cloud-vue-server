@@ -44,6 +44,7 @@
         <knife4j.version>2.0.8</knife4j.version>
         <swagger-annotations.version>1.5.22</swagger-annotations.version>
         <springfox-spi.version>2.10.5</springfox-spi.version>
+        <ehcache.version>2.10.6</ehcache.version>
     </properties>
 
     <dependencyManagement>
@@ -173,6 +174,11 @@
                         <artifactId>seata-spring-boot-starter</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>${ehcache.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
