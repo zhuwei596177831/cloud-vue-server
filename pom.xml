@@ -44,7 +44,7 @@
         <knife4j.version>2.0.8</knife4j.version>
         <swagger-annotations.version>1.5.22</swagger-annotations.version>
         <springfox-spi.version>2.10.5</springfox-spi.version>
-        <ehcache.version>2.10.6</ehcache.version>
+        <caffeine.version>2.9.2</caffeine.version>
     </properties>
 
     <dependencyManagement>
@@ -175,10 +175,11 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <!--caffeine缓存-->
             <dependency>
-                <groupId>net.sf.ehcache</groupId>
-                <artifactId>ehcache</artifactId>
-                <version>${ehcache.version}</version>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
