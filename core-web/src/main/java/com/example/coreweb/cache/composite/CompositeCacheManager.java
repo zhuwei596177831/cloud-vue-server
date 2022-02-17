@@ -9,6 +9,8 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author 朱伟伟
@@ -16,6 +18,8 @@ import java.util.Collection;
  * @description
  */
 public class CompositeCacheManager implements CacheManager {
+
+    private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
 
     private final CaffeineCacheManager caffeineCacheManager;
     private final RedisCacheManager redisCacheManager;
@@ -27,13 +31,27 @@ public class CompositeCacheManager implements CacheManager {
 
     @Override
     public Cache getCache(String name) {
+        Cache cache = cacheMap.get(name);
+        if (cache == null) {
+            synchronized (this.cacheMap) {
+                cache = cacheMap.get(name);
+                if (cache == null) {
+                    cache = createCache(name);
+                    this.cacheMap.put(name, cache);
+                }
+            }
+        }
+        return cache;
+    }
+
+    private Cache createCache(String name) {
         CaffeineCache caffeineCache = null;
         RedisCache redisCache = null;
-        Cache caffeineC = caffeineCacheManager.getCache(name);
+        Cache caffeineC = this.caffeineCacheManager.getCache(name);
         if (caffeineC != null) {
             caffeineCache = (CaffeineCache) caffeineC;
         }
-        Cache redisC = redisCacheManager.getCache(name);
+        Cache redisC = this.redisCacheManager.getCache(name);
         if (redisC != null) {
             redisCache = (RedisCache) redisC;
         }
