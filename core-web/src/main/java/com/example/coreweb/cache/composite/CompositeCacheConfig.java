@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 朱伟伟
@@ -50,7 +51,12 @@ public class CompositeCacheConfig {
         } else {
             Caffeine<Object, Object> caffeine = Caffeine.newBuilder()
                     //指定缓存可能包含的最大条目数
-                    .maximumSize(10_000);
+                    .maximumSize(10_000)
+                    //条目创建后时间自动删除
+                    .expireAfterWrite(10, TimeUnit.SECONDS)
+                    //条目在最后一次被访问后自动删除
+                    //.expireAfterAccess(10, TimeUnit.SECONDS)
+                    ;
             caffeineCacheManager.setCaffeine(caffeine);
         }
         List<String> cacheNames = cacheProperties.getCacheNames();
