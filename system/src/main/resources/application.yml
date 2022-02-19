@@ -85,9 +85,13 @@ mybatis-plus:
 knife4j:
   enable: true
 logging:
+  group:
+    debug_level: org.apache.shiro.web.servlet,com.example.system.openfeign.client
   level:
-    org.apache.shiro.web.servlet: debug
-    com.example.system.openfeign.client: debug
+    debug_level: debug
+#  level:
+#    org.apache.shiro.web.servlet: debug
+#    com.example.system.openfeign.client: debug
 #Seata client端 nacos 配置
 seata:
   enabled: true
