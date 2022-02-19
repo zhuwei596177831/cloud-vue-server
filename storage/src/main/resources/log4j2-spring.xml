@@ -3,8 +3,6 @@
     <appenders>
 
         <Console name="consolePrint" target="SYSTEM_OUT">
-            <!--只接受程序中INFO级别的日志进行处理-->
-            <!--            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>-->
             <PatternLayout pattern="[%d{HH:mm:ss.SSS}] %-5level %class{36} %L %M - %msg%xEx%n"/>
         </Console>
 
@@ -13,8 +11,8 @@
         <RollingFile name="RollingFileDebug" fileName="./logs/storage/debug.log"
                      filePattern="logs/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log.gz">
             <Filters>
-                <ThresholdFilter level="DEBUG"/>
                 <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="DEBUG"/>
             </Filters>
             <PatternLayout
                     pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %class{36} %L %M - %msg%xEx%n"/>
@@ -24,13 +22,12 @@
             </Policies>
         </RollingFile>
 
-        <!--处理INFO级别的日志，并把该日志放到logs/info.log文件中-->
+        <!--处理DEBUG、INFO级别的日志，并把该日志放到logs/info.log文件中-->
         <RollingFile name="RollingFileInfo" fileName="./logs/storage/info.log"
                      filePattern="logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
             <Filters>
-                <!--只接受INFO级别的日志，其余的全部拒绝处理-->
-                <ThresholdFilter level="INFO"/>
                 <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="DEBUG"/>
             </Filters>
             <PatternLayout
                     pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %class{36} %L %M - %msg%xEx%n"/>
@@ -44,8 +41,8 @@
         <RollingFile name="RollingFileWarn" fileName="./logs/storage/warn.log"
                      filePattern="logs/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log.gz">
             <Filters>
-                <ThresholdFilter level="WARN"/>
                 <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="WARN"/>
             </Filters>
             <PatternLayout
                     pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %class{36} %L %M - %msg%xEx%n"/>
@@ -68,14 +65,14 @@
         </RollingFile>
 
         <!--druid的日志记录追加器-->
-        <RollingFile name="druidSqlRollingFile" fileName="./logs/storage/druid-sql.log"
-                     filePattern="logs/$${date:yyyy-MM}/api-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %L %M - %msg%xEx%n"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="500 MB"/>
-                <TimeBasedTriggeringPolicy/>
-            </Policies>
-        </RollingFile>
+        <!--        <RollingFile name="druidSqlRollingFile" fileName="./logs/storage/druid-sql.log"-->
+        <!--                     filePattern="logs/$${date:yyyy-MM}/api-%d{yyyy-MM-dd}-%i.log.gz">-->
+        <!--            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %L %M - %msg%xEx%n"/>-->
+        <!--            <Policies>-->
+        <!--                <SizeBasedTriggeringPolicy size="500 MB"/>-->
+        <!--                <TimeBasedTriggeringPolicy/>-->
+        <!--            </Policies>-->
+        <!--        </RollingFile>-->
     </appenders>
 
     <loggers>
@@ -84,13 +81,13 @@
             <appender-ref ref="RollingFileInfo"/>
             <appender-ref ref="RollingFileWarn"/>
             <appender-ref ref="RollingFileError"/>
-            <!--            <appender-ref ref="RollingFileDebug"/>-->
         </root>
 
         <!--记录druid-sql的记录-->
         <logger name="druid.sql.Statement" level="debug" additivity="false">
-            <appender-ref ref="druidSqlRollingFile"/>
+            <!--            <appender-ref ref="druidSqlRollingFile"/>-->
             <appender-ref ref="consolePrint"/>
+            <appender-ref ref="RollingFileInfo"/>
         </logger>
 
         <!--        <logger name="com.example.system.mapper" level="debug" additivity="false">-->
