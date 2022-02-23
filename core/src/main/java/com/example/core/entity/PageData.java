@@ -15,7 +15,7 @@ import java.util.Collection;
  */
 @Getter
 @Setter
-public class ArrayData<T> extends BaseEntity {
+public class PageData<T> extends BaseEntity {
     private static final long serialVersionUID = 403443358176094884L;
     /**
      * 数据
@@ -49,7 +49,7 @@ public class ArrayData<T> extends BaseEntity {
     private long total;
 
 
-    public ArrayData(Page<T> page) {
+    public PageData(Page<T> page) {
         PageInfo<T> pageInfo = new PageInfo<>(page);
         this.data = page.getResult();
         this.pageNum = page.getPageNum();
@@ -59,7 +59,7 @@ public class ArrayData<T> extends BaseEntity {
         this.total = page.getTotal();
     }
 
-    public ArrayData(com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> page) {
+    public PageData(com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> page) {
         this.data = page.getRecords();
         this.pageNum = page.getCurrent();
         this.pageSize = page.getSize();
@@ -68,7 +68,7 @@ public class ArrayData<T> extends BaseEntity {
         this.total = page.getTotal();
     }
 
-    public ArrayData(Collection<T> data) {
+    public PageData(Collection<T> data) {
         this.data = data;
         this.pageNum = 1;
         this.pageSize = data.size();

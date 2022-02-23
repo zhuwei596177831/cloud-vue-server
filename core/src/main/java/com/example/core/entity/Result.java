@@ -42,16 +42,16 @@ public class Result<T> extends BaseEntity {
         return new Result<>("0000", "成功", data);
     }
 
-    public static <E> Result<ArrayData<E>> ok(Collection<E> data) {
+    public static <E> Result<PageData<E>> ok(Collection<E> data) {
         if (data instanceof Page) {
             Page<E> page = (Page<E>) data;
-            return new Result<>("0000", "成功", new ArrayData<>(page));
+            return new Result<>("0000", "成功", new PageData<>(page));
         }
-        return new Result<>("0000", "成功", new ArrayData<>(data));
+        return new Result<>("0000", "成功", new PageData<>(data));
     }
 
-    public static <E> Result<ArrayData<E>> ok(com.baomidou.mybatisplus.extension.plugins.pagination.Page<E> page) {
-        return new Result<>("0000", "成功", new ArrayData<>(page));
+    public static <E> Result<PageData<E>> ok(com.baomidou.mybatisplus.extension.plugins.pagination.Page<E> page) {
+        return new Result<>("0000", "成功", new PageData<>(page));
     }
 
     public boolean isSuccess() {

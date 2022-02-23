@@ -1,6 +1,6 @@
 package com.example.system.controller;
 
-import com.example.core.entity.ArrayData;
+import com.example.core.entity.PageData;
 import com.example.core.entity.PageInfo;
 import com.example.core.entity.Result;
 import com.example.core.vo.system.UserVo;
@@ -43,7 +43,7 @@ public class RoleController extends BaseController {
      **/
     @ApiOperation(value = "角色分页数据")
     @PostMapping("/rolePageList")
-    public Result<ArrayData<Role>> rolePageList(RoleReq roleReq) {
+    public Result<PageData<Role>> rolePageList(RoleReq roleReq) {
         PageInfo pageInfo = getPageInfo();
         return Result.ok(roleService.roleList(roleReq, pageInfo));
     }
@@ -115,7 +115,7 @@ public class RoleController extends BaseController {
      **/
     @ApiOperation(value = "所有角色数据")
     @PostMapping("/findAllRoles")
-    public Result<ArrayData<Role>> findAllRoles() {
+    public Result<PageData<Role>> findAllRoles() {
         return Result.ok(roleService.findAllRoles());
     }
 }

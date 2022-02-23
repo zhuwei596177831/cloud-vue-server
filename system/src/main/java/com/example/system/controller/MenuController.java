@@ -44,7 +44,7 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "菜单分页数据")
     @PostMapping("/menuPageList")
-    public Result<ArrayData<Menu>> menuPageList(MenuReq menuReq) {
+    public Result<PageData<Menu>> menuPageList(MenuReq menuReq) {
         PageInfo pageInfo = getPageInfo();
         List<Menu> menuList = menuService.menuList(menuReq, pageInfo);
         return Result.ok(menuList);
@@ -107,7 +107,7 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "用户权限菜单")
     @PostMapping("/userMenus")
-    public Result<ArrayData<Menu>> userMenus() {
+    public Result<PageData<Menu>> userMenus() {
         UserVo user = getUser();
         return Result.ok(menuService.userMenus(user.getId()));
     }
@@ -120,7 +120,7 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "菜单列表：菜单树")
     @PostMapping("/menuTrees")
-    public Result<ArrayData<MenuTree>> menuTrees() {
+    public Result<PageData<MenuTree>> menuTrees() {
         return Result.ok(menuService.menuTrees());
     }
 
@@ -132,7 +132,7 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "菜单类型")
     @PostMapping("/menuTypes")
-    public Result<ArrayData<EnumModel>> menuTypes() {
+    public Result<PageData<EnumModel>> menuTypes() {
         return Result.ok(MenuType.toEnumModel());
     }
 
@@ -145,7 +145,7 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "根据菜单类型查询 上级菜单列表下拉数据")
     @PostMapping("/cascaderTrees")
-    public Result<ArrayData<Cascader>> cascaderTrees(@RequestParam Integer type) {
+    public Result<PageData<Cascader>> cascaderTrees(@RequestParam Integer type) {
         List<Cascader> cascaders = menuService.cascaderTrees(type);
         return Result.ok(cascaders);
     }
@@ -159,7 +159,7 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "根据菜单类型查询 上级菜单列表下拉数据")
     @PostMapping("/parentMenus")
-    public Result<ArrayData<Menu>> parentMenus(@RequestParam Integer type) {
+    public Result<PageData<Menu>> parentMenus(@RequestParam Integer type) {
         if (MenuType.MENU_MODEL.getValue().equals(type)) {
             return Result.ok(Collections.emptyList());
         }
@@ -183,7 +183,7 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "权限分配：菜单树")
     @PostMapping("/getMenuTrees")
-    public Result<ArrayData<MenuTree>> getMenuTrees() {
+    public Result<PageData<MenuTree>> getMenuTrees() {
         return Result.ok(menuService.getMenuTrees());
     }
 

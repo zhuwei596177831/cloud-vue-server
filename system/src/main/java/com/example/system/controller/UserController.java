@@ -1,6 +1,6 @@
 package com.example.system.controller;
 
-import com.example.core.entity.ArrayData;
+import com.example.core.entity.PageData;
 import com.example.core.entity.PageInfo;
 import com.example.core.entity.Result;
 import com.example.core.vo.system.UserVo;
@@ -47,7 +47,7 @@ public class UserController extends BaseController {
      * @date: 2021-07-25 18:20
      **/
     @PostMapping("/userPageList")
-    public Result<ArrayData<User>> userPageList(UserReq userReq) {
+    public Result<PageData<User>> userPageList(UserReq userReq) {
         PageInfo pageInfo = getPageInfo();
         List<User> userList = userService.userList(userReq, pageInfo);
         return Result.ok(userList);
