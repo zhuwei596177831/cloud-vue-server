@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,6 +22,8 @@ public class DistributedLockRedis {
 
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private static final ThreadLocal<String> UNIQUE_LOCK_VALUE = new ThreadLocal<>();
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -48,13 +51,17 @@ public class DistributedLockRedis {
      **/
     public Boolean lock(String key, int timeout, TimeUnit unit) {
         String threadName = Thread.currentThread().getName();
-        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent(key, threadName, timeout, unit);
+        String value = UUID.randomUUID().toString();
+        UNIQUE_LOCK_VALUE.set(value);
+        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent(key, value, timeout, unit);
         Boolean result = lock != null && lock;
         if (result) {
+            //1、启动线程 实现超时补偿机制
+            //2、不用补偿，业务代码提交前自行查询锁进行判断 是否提交还是回滚
             compensateTimeout(key, timeout, unit, threadName);
         } else {
             String exist = stringRedisTemplate.opsForValue().get(key);
-            if (threadName.equals(exist)) {
+            if (exist != null && exist.equals(UNIQUE_LOCK_VALUE.get())) {
                 logger.info("线程：{}取得锁{}成功", threadName, key);
                 return true;
             }
@@ -83,9 +90,13 @@ public class DistributedLockRedis {
      **/
     public Boolean unLock(String key) {
         String value = stringRedisTemplate.opsForValue().get(key);
-        if (Thread.currentThread().getName().equals(value)) {
-            logger.info("删除线程：{}的redis锁：{}", value, key);
-            return stringRedisTemplate.delete(key);
+        if (value != null && value.equals(UNIQUE_LOCK_VALUE.get())) {
+            logger.info("删除线程：{}的redis锁：{}", Thread.currentThread().getName(), key);
+            try {
+                return stringRedisTemplate.delete(key);
+            } finally {
+                UNIQUE_LOCK_VALUE.remove();
+            }
         }
         return false;
     }
@@ -103,7 +114,7 @@ public class DistributedLockRedis {
                 logger.info("当前锁是否存在？：{}", exist);
                 if (exist != null && exist) {
                     String value = stringRedisTemplate.opsForValue().get(key);
-                    if (threadName.equals(value)) {
+                    if (value != null && value.equals(UNIQUE_LOCK_VALUE.get())) {
                         logger.info("延长线程：{}的redis锁：{} {} {}", threadName, key, timeout, unit.name());
                         stringRedisTemplate.expire(key, timeout, unit);
                     } else {
