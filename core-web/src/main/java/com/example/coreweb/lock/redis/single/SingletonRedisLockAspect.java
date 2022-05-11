@@ -1,4 +1,4 @@
-package com.example.coreweb.lock.redis;
+package com.example.coreweb.lock.redis.single;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -14,17 +14,17 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class RedisLockAspect {
+public class SingletonRedisLockAspect {
 
     @Autowired
-    private DistributedLockRedis distributedLockRedis;
+    private SingletonDistributedLockRedis singletonDistributedLockRedis;
 
     /**
      * 加锁
      */
-    @Before(value = "@annotation(redisLock)")
-    public void lock(JoinPoint joinPoint, RedisLock redisLock) {
-        Boolean lock = distributedLockRedis.lock(redisLock);
+    @Before(value = "@annotation(singletonRedisLock)")
+    public void lock(JoinPoint joinPoint, SingletonRedisLock singletonRedisLock) {
+        Boolean lock = singletonDistributedLockRedis.lock(singletonRedisLock);
         if (!lock) {
             throw new RuntimeException("加锁失败");
         }
@@ -33,9 +33,9 @@ public class RedisLockAspect {
     /**
      * 解锁
      */
-    @After(value = "@annotation(redisLock)")
-    public void unlock(JoinPoint joinPoint, RedisLock redisLock) {
-        distributedLockRedis.unLock(redisLock);
+    @After(value = "@annotation(singletonRedisLock)")
+    public void unlock(JoinPoint joinPoint, SingletonRedisLock singletonRedisLock) {
+        singletonDistributedLockRedis.unLock(singletonRedisLock);
     }
 
 }

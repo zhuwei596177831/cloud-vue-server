@@ -6,8 +6,8 @@
     <select id="menuList" resultType="com.example.system.entity.Menu">
         select t.id,t.type,t.name,t.code,t.parentId,t.path,t.iconClass,t.inputTime,t.inputUserId,
         t.updateTime,t.updateUserId,t.sort,p.name as parentName
-        from vue_cli_2021_system.t_menu t
-        left join vue_cli_2021_system.t_menu p on p.id = t.parentId
+        from `system`.t_menu t
+        left join `system`.t_menu p on p.id = t.parentId
         <where>
             <if test="name != null and name != ''">
                 t.name like concat('%',trim(#{name}),'%')
@@ -30,10 +30,10 @@
 
     <select id="findMenusByUserId" resultType="com.example.system.entity.Menu">
         select distinct m.id, m.code, m.name, m.type, m.parentId, m.iconClass, m.path
-        from vue_cli_2021_system.t_user u,
-             vue_cli_2021_system.t_user_role tur,
-             vue_cli_2021_system.t_role_menu trm,
-             vue_cli_2021_system.t_menu m
+        from `system`.t_user u,
+             `system`.t_user_role tur,
+             `system`.t_role_menu trm,
+             `system`.t_menu m
         where u.id = tur.userId
           and tur.roleId = trm.roleId
           and trm.menuId = m.id

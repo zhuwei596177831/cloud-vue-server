@@ -19,9 +19,9 @@
     <select id="roleList" resultMap="baseResultMap">
         select t.id,t.code,t.name,t.inputTime,t.inputUserId,t.updateTime,t.updateUserId,t.checkedMenuIds,
         i.name as inputUserName,u.name as updateUserName
-        from vue_cli_2021_system.t_role t
-        left join vue_cli_2021_system.t_user i on t.inputUserId = i.id
-        left join vue_cli_2021_system.t_user u on t.inputUserId = u.id
+        from `system`.t_role t
+        left join `system`.t_user i on t.inputUserId = i.id
+        left join `system`.t_user u on t.inputUserId = u.id
         <where>
             <if test="name != null and name != ''">
                 t.name like concat('%',trim(#{name}),'%')
@@ -32,9 +32,9 @@
 
     <select id="findRolesByUserId" resultType="com.example.system.entity.Role">
         select r.id, r.code, r.name
-        from vue_cli_2021_system.t_role r,
-             vue_cli_2021_system.t_user u,
-             vue_cli_2021_system.t_user_role tur
+        from `system`.t_role r,
+             `system`.t_user u,
+             `system`.t_user_role tur
         where r.id = tur.roleId
           and tur.userId = u.id
           and u.id = #{userId}

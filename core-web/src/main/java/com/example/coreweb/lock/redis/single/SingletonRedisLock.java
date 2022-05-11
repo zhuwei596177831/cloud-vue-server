@@ -1,4 +1,4 @@
-package com.example.coreweb.lock.redis;
+package com.example.coreweb.lock.redis.single;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RedisLock {
+public @interface SingletonRedisLock {
 
     /**
      * redis 锁的key

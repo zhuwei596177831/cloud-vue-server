@@ -18,7 +18,7 @@
 
     <select id="userList" resultMap="baseResultMap">
         select t.id,t.name,t.sex,t.phone,t.address,t.email,t.loginName,t.phone,t.inputTime
-        from vue_cli_2021_system.t_user t
+        from `system`.t_user t
         <where>
             <if test="name != null and name != ''">
                 and t.name like concat('%',trim(#{name}),'%')
