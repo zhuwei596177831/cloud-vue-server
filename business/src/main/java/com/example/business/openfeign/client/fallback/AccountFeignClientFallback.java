@@ -1,8 +1,7 @@
 package com.example.business.openfeign.client.fallback;
 
 import com.example.business.openfeign.client.AccountFeignClient;
-import com.example.core.entity.Result;
-import com.example.core.entity.ResultCode;
+import com.example.core.entity.Json;
 import com.example.core.vo.system.UserVo;
 import feign.hystrix.FallbackFactory;
 import org.slf4j.Logger;
@@ -23,10 +22,10 @@ public class AccountFeignClientFallback implements FallbackFactory<AccountFeignC
     public AccountFeignClient create(Throwable cause) {
         return new AccountFeignClient() {
             @Override
-            public Result saveAccount(String header, String name, UserVo userVo) {
+            public Json saveAccount(String header, String name, UserVo userVo) {
                 cause.printStackTrace();
                 logger.error("创建账户失败;{}", cause.getMessage());
-                return ResultCode.COMMON.getResult(cause.getMessage());
+                return Json.fail(cause.getMessage());
             }
         };
     }

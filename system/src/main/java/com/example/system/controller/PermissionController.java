@@ -1,8 +1,7 @@
 package com.example.system.controller;
 
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import org.apache.shiro.SecurityUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +23,8 @@ public class PermissionController {
      * @date: 2021-07-27 14:19
      **/
     @PostMapping("/hasRoles")
-    public Result<Boolean> hasRoles(@RequestBody List<String> codes) {
-        return Result.ok(SecurityUtils.getSubject().hasAllRoles(codes));
+    public Json hasRoles(@RequestBody List<String> codes) {
+        return Json.ok(SecurityUtils.getSubject().hasAllRoles(codes));
     }
 
     /**
@@ -36,8 +35,8 @@ public class PermissionController {
      * @date: 2021-07-25 17:55
      **/
     @PostMapping("/hasPermission")
-    public Result<Boolean> hasPermission(@RequestParam String code) {
-        return Result.ok(SecurityUtils.getSubject().isPermitted(code));
+    public Json hasPermission(@RequestParam String code) {
+        return Json.ok(SecurityUtils.getSubject().isPermitted(code));
     }
 
 }

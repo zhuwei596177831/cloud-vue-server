@@ -1,8 +1,7 @@
 package com.example.system.controller;
 
-import com.example.core.entity.PageData;
+import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
-import com.example.core.entity.Result;
 import com.example.core.vo.system.UserVo;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.example.system.entity.Role;
@@ -43,9 +42,9 @@ public class RoleController extends BaseController {
      **/
     @ApiOperation(value = "角色分页数据")
     @PostMapping("/rolePageList")
-    public Result<PageData<Role>> rolePageList(RoleReq roleReq) {
+    public Json rolePageList(RoleReq roleReq) {
         PageInfo pageInfo = getPageInfo();
-        return Result.ok(roleService.roleList(roleReq, pageInfo));
+        return Json.ok(roleService.roleList(roleReq, pageInfo));
     }
 
     /**
@@ -57,7 +56,7 @@ public class RoleController extends BaseController {
      **/
     @ApiOperation(value = "添加角色")
     @PostMapping("/addRole")
-    public Result<Integer> addRole(@RequestBody @Validated({Role.Add.class}) Role role) {
+    public Json addRole(@RequestBody @Validated({Role.Add.class}) Role role) {
         UserVo user = getUser();
         role.setInputTime(LocalDateTime.now());
         role.setInputUserId(user.getId());
@@ -73,7 +72,7 @@ public class RoleController extends BaseController {
      **/
     @ApiOperation(value = "修改角色")
     @PutMapping("/updateRole")
-    public Result updateRole(@RequestBody @Validated({Role.Update.class}) Role role) {
+    public Json updateRole(@RequestBody @Validated({Role.Update.class}) Role role) {
         UserVo user = getUser();
         role.setUpdateTime(LocalDateTime.now());
         role.setUpdateUserId(user.getId());
@@ -89,7 +88,7 @@ public class RoleController extends BaseController {
      **/
     @ApiOperation(value = "删除角色")
     @DeleteMapping("/deleteRoleById/{id}")
-    public Result deleteRoleById(@PathVariable("id") @NotNull(message = "角色id不能为空") Long id) {
+    public Json deleteRoleById(@PathVariable("id") @NotNull(message = "角色id不能为空") Long id) {
         return roleService.deleteRoleById(id);
     }
 
@@ -102,7 +101,7 @@ public class RoleController extends BaseController {
      **/
     @ApiOperation(value = "角色分配菜单")
     @PostMapping("/permissionRoleMenus")
-    public Result permissionRoleMenus(@RequestBody @Validated RoleMenuReq roleMenuReq) {
+    public Json permissionRoleMenus(@RequestBody @Validated RoleMenuReq roleMenuReq) {
         return roleService.permissionRoleMenus(roleMenuReq, getUser().getId());
     }
 
@@ -115,7 +114,7 @@ public class RoleController extends BaseController {
      **/
     @ApiOperation(value = "所有角色数据")
     @PostMapping("/findAllRoles")
-    public Result<PageData<Role>> findAllRoles() {
-        return Result.ok(roleService.findAllRoles());
+    public Json findAllRoles() {
+        return Json.ok(roleService.findAllRoles());
     }
 }

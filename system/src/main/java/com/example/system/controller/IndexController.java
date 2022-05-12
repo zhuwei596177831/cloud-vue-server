@@ -1,6 +1,6 @@
 package com.example.system.controller;
 
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
@@ -31,8 +31,8 @@ public class IndexController extends BaseController {
      **/
     @ApiOperation(value = "首页")
     @PostMapping("/index")
-    public Result<String> index() {
-        return Result.ok();
+    public Json index() {
+        return Json.success();
     }
 
 }

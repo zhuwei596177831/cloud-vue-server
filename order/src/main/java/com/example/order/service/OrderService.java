@@ -1,6 +1,6 @@
 package com.example.order.service;
 
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import com.example.order.entity.Order;
 import com.example.order.mapper.OrderMapper;
 import com.example.order.openfeign.client.StorageFeignClient;
@@ -22,14 +22,14 @@ public class OrderService {
     private StorageFeignClient storageFeignClient;
 
     @Transactional(rollbackFor = Exception.class)
-    public Result saveOrder() {
+    public Json saveOrder() {
         Order order = new Order();
         order.setName("测试订单");
         orderMapper.insert(order);
-        Result result = storageFeignClient.saveStorage();
+        Json result = storageFeignClient.saveStorage();
         if (result.isNotSuccess()) {
             throw new RuntimeException(result.getMsg());
         }
-        return Result.ok();
+        return Json.success();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.system.controller;
 
-import com.example.core.entity.*;
+import com.example.core.entity.Cascader;
+import com.example.core.entity.Json;
+import com.example.core.entity.PageInfo;
 import com.example.core.enums.MenuType;
 import com.example.core.vo.system.UserVo;
 import com.example.shiroAuthencation.controller.BaseController;
@@ -44,10 +46,10 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "菜单分页数据")
     @PostMapping("/menuPageList")
-    public Result<PageData<Menu>> menuPageList(MenuReq menuReq) {
+    public Json menuPageList(MenuReq menuReq) {
         PageInfo pageInfo = getPageInfo();
         List<Menu> menuList = menuService.menuList(menuReq, pageInfo);
-        return Result.ok(menuList);
+        return Json.ok(menuList);
     }
 
     /**
@@ -58,13 +60,13 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "添加菜单")
     @PostMapping("/addMenu")
-    public Result addMenu(@RequestBody @Validated({Menu.Add.class}) Menu menu) {
+    public Json addMenu(@RequestBody @Validated({Menu.Add.class}) Menu menu) {
         UserVo user = getUser();
         menu.setInputUserId(user.getId());
         menu.setInputTime(LocalDateTime.now());
-        Result result = menuService.addMenu(menu);
+        Json json = menuService.addMenu(menu);
         menuService.refreshRedisMenuTrees();
-        return result;
+        return json;
     }
 
     /**
@@ -75,13 +77,13 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "修改菜单")
     @PutMapping("/updateMenu")
-    public Result updateMenu(@RequestBody @Validated({Menu.Update.class}) Menu menu) {
+    public Json updateMenu(@RequestBody @Validated({Menu.Update.class}) Menu menu) {
         UserVo user = getUser();
         menu.setUpdateUserId(user.getId());
         menu.setUpdateTime(LocalDateTime.now());
-        Result result = menuService.updateMenu(menu);
+        Json json = menuService.updateMenu(menu);
         menuService.refreshRedisMenuTrees();
-        return result;
+        return json;
     }
 
     /**
@@ -93,10 +95,10 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "删除菜单")
     @ApiImplicitParam(name = "menuId", value = "菜单id", required = true)
     @DeleteMapping("/deleteMenuById/{menuId}")
-    public Result deleteMenuById(@PathVariable @NotNull(message = "菜单id不能为空") Long menuId) {
-        Result result = menuService.deleteMenuById(menuId);
+    public Json deleteMenuById(@PathVariable @NotNull(message = "菜单id不能为空") Long menuId) {
+        Json json = menuService.deleteMenuById(menuId);
         menuService.refreshRedisMenuTrees();
-        return result;
+        return json;
     }
 
     /**
@@ -107,9 +109,9 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "用户权限菜单")
     @PostMapping("/userMenus")
-    public Result<PageData<Menu>> userMenus() {
+    public Json userMenus() {
         UserVo user = getUser();
-        return Result.ok(menuService.userMenus(user.getId()));
+        return Json.ok(menuService.userMenus(user.getId()));
     }
 
     /**
@@ -120,8 +122,8 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "菜单列表：菜单树")
     @PostMapping("/menuTrees")
-    public Result<PageData<MenuTree>> menuTrees() {
-        return Result.ok(menuService.menuTrees());
+    public Json menuTrees() {
+        return Json.ok(menuService.menuTrees());
     }
 
     /**
@@ -132,8 +134,8 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "菜单类型")
     @PostMapping("/menuTypes")
-    public Result<PageData<EnumModel>> menuTypes() {
-        return Result.ok(MenuType.toEnumModel());
+    public Json menuTypes() {
+        return Json.ok(MenuType.toEnumModel());
     }
 
     /**
@@ -145,9 +147,9 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "根据菜单类型查询 上级菜单列表下拉数据")
     @PostMapping("/cascaderTrees")
-    public Result<PageData<Cascader>> cascaderTrees(@RequestParam Integer type) {
+    public Json cascaderTrees(@RequestParam Integer type) {
         List<Cascader> cascaders = menuService.cascaderTrees(type);
-        return Result.ok(cascaders);
+        return Json.ok(cascaders);
     }
 
     /**
@@ -159,9 +161,9 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "根据菜单类型查询 上级菜单列表下拉数据")
     @PostMapping("/parentMenus")
-    public Result<PageData<Menu>> parentMenus(@RequestParam Integer type) {
+    public Json parentMenus(@RequestParam Integer type) {
         if (MenuType.MENU_MODEL.getValue().equals(type)) {
-            return Result.ok(Collections.emptyList());
+            return Json.ok(Collections.emptyList());
         }
         MenuReq menuReq = new MenuReq();
         if (MenuType.MENU_NAVIGATION.getValue().equals(type)) {
@@ -169,10 +171,10 @@ public class MenuController extends BaseController {
         } else if (MenuType.MENU_BUTTON.getValue().equals(type)) {
             menuReq.setType(MenuType.MENU_NAVIGATION.getValue());
         } else {
-            return Result.ok(Collections.emptyList());
+            return Json.ok(Collections.emptyList());
         }
         List<Menu> menuList = menuService.menuList(menuReq, null);
-        return Result.ok(menuList);
+        return Json.ok(menuList);
     }
 
     /**
@@ -183,8 +185,8 @@ public class MenuController extends BaseController {
      **/
     @ApiOperation(value = "权限分配：菜单树")
     @PostMapping("/getMenuTrees")
-    public Result<PageData<MenuTree>> getMenuTrees() {
-        return Result.ok(menuService.getMenuTrees());
+    public Json getMenuTrees() {
+        return Json.ok(menuService.getMenuTrees());
     }
 
 

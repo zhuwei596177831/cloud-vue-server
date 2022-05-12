@@ -1,7 +1,6 @@
-package com.example.coreweb.controllerAdvice;
+package com.example.coreweb.exception;
 
-import com.example.core.entity.Result;
-import com.example.core.entity.ResultCode;
+import com.example.core.entity.Json;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
@@ -23,9 +22,27 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * 处理手动抛出的自定义异常ApplicationException
+     *
+     * @param e:
+     * @author: 朱伟伟
+     * @date: 2022-05-07 17:58
+     **/
+    @ExceptionHandler(ApplicationException.class)
+    public Json applicationException(ApplicationException e) {
+        e.printStackTrace();
+        if (e.getResponseCode() != null) {
+            return Json.fail(e.getResponseCode().getCode(), e.getMessage());
+        }
+        return Json.fail(e.getMessage());
+    }
+
+
     @ExceptionHandler(ConstraintViolationException.class)
-    public Result constraintViolationExceptionHandler(ConstraintViolationException e) {
-        return ResultCode.COMMON.getResult(e.getMessage());
+    public Json constraintViolationExceptionHandler(ConstraintViolationException e) {
+        e.printStackTrace();
+        return Json.fail(e.getMessage());
     }
 
     /**
@@ -36,9 +53,10 @@ public class GlobalExceptionHandler {
      * @see org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor#resolveArgument
      **/
     @ExceptionHandler(java.net.BindException.class)
-    public Result MethodArgumentNotValidExceptionHandler(BindException e) {
+    public Json MethodArgumentNotValidExceptionHandler(BindException e) {
+        e.printStackTrace();
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
-        return ResultCode.COMMON.getResult(objectError.getDefaultMessage());
+        return Json.fail(objectError.getDefaultMessage());
     }
 
     /**
@@ -49,10 +67,12 @@ public class GlobalExceptionHandler {
      * @see org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor#resolveArgument
      **/
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Result MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+    public Json MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        e.printStackTrace();
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
-        return ResultCode.COMMON.getResult(objectError.getDefaultMessage());
+        return Json.fail(objectError.getDefaultMessage());
     }
+
     /**
      * @param e:
      * @author: 朱伟伟
@@ -61,14 +81,15 @@ public class GlobalExceptionHandler {
      * @see org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor#readWithMessageConverters
      **/
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
-    public Result httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return ResultCode.COMMON.getResult(e.getMessage());
+    public Json httpMessageNotReadableException(HttpMessageNotReadableException e) {
+        e.printStackTrace();
+        return Json.fail(e.getMessage());
     }
 
     @ExceptionHandler(value = {Exception.class})
-    public Result exception(Exception e) {
+    public Json exception(Exception e) {
         e.printStackTrace();
-        return ResultCode.COMMON.getResult(e.getMessage());
+        return Json.fail(e.getMessage());
     }
 
 

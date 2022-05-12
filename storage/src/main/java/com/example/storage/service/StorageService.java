@@ -1,6 +1,6 @@
 package com.example.storage.service;
 
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import com.example.storage.entity.Storage;
 import com.example.storage.mapper.StorageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ public class StorageService {
     private StorageMapper storageMapper;
 
     @Transactional(rollbackFor = Exception.class)
-    public Result saveStorage() {
+    public Json saveStorage() {
         Storage storage = new Storage();
         storage.setName("测试仓储");
         storageMapper.insert(storage);
         //if (1 + 1 == 2) {
         //    throw new RuntimeException("测试仓储");
         //}
-        return Result.ok();
+        return Json.success();
     }
 }

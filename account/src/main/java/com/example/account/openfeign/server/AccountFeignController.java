@@ -2,7 +2,7 @@ package com.example.account.openfeign.server;
 
 import com.alibaba.fastjson.JSON;
 import com.example.account.service.AccountService;
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import com.example.core.vo.system.UserVo;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +22,9 @@ public class AccountFeignController {
     }
 
     @PostMapping("/saveAccount")
-    public Result saveAccount(@RequestHeader("header") String header,
-                              @RequestParam("name") String name,
-                              @RequestBody UserVo userVo) {
+    public Json saveAccount(@RequestHeader("header") String header,
+                            @RequestParam("name") String name,
+                            @RequestBody UserVo userVo) {
         System.out.println(header);
         System.out.println(name);
         System.out.println(JSON.toJSONString(userVo));

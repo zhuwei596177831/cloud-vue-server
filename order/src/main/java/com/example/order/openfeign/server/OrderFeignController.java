@@ -1,6 +1,6 @@
 package com.example.order.openfeign.server;
 
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import com.example.order.service.OrderService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,7 @@ public class OrderFeignController {
     }
 
     @PostMapping("/saveOrder")
-    public Result saveOrder() {
+    public Json saveOrder() {
         return orderService.saveOrder();
     }
 

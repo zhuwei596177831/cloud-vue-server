@@ -2,14 +2,19 @@ package com.example.system.service;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.example.core.entity.*;
+import com.example.core.entity.Cascader;
+import com.example.core.entity.Json;
+import com.example.core.entity.MenuTree;
+import com.example.core.entity.PageInfo;
 import com.example.core.enums.MenuType;
 import com.example.core.enums.RedisKey;
+import com.example.coreweb.exception.ApplicationException;
 import com.example.system.entity.Menu;
 import com.example.system.entity.RoleMenu;
 import com.example.system.entity.req.MenuReq;
 import com.example.system.mapper.MenuMapper;
 import com.example.system.mapper.RoleMenuMapper;
+import com.example.system.responsecode.MenuResponseCode;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -57,13 +62,10 @@ public class MenuService {
      * @description: 添加菜单
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result addMenu(Menu menu) {
-        Result result = validateMenu(menu);
-        if (!result.isSuccess()) {
-            return result;
-        }
+    public Json addMenu(Menu menu) {
+        validateMenu(menu);
         menuMapper.insert(menu);
-        return Result.ok();
+        return Json.success();
     }
 
     /**
@@ -73,39 +75,36 @@ public class MenuService {
      * @description: 修改菜单
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result updateMenu(Menu menu) {
-        Result result = validateMenu(menu);
-        if (!result.isSuccess()) {
-            return result;
-        }
+    public Json updateMenu(Menu menu) {
+        validateMenu(menu);
         menuMapper.updateById(menu);
-        return Result.ok();
+        return Json.success();
     }
 
-    private Result validateMenu(Menu menu) {
+    private void validateMenu(Menu menu) {
         if (!MenuType.MENU_MODEL.getValue().equals(menu.getType())) {
             if (menu.getParentId() == null) {
-                return ResultCode.COMMON.getResult("上级菜单不能为空");
+                throw new ApplicationException(MenuResponseCode.PARENT_ID_IS_NULL);
             }
         }
         if (MenuType.MENU_MODEL.getValue().equals(menu.getType())) {
             if (!StringUtils.hasText(menu.getIconClass())) {
-                return ResultCode.COMMON.getResult("菜单图标不能为空");
+                throw new ApplicationException(MenuResponseCode.ICON_IS_NULL);
             }
         }
         if (MenuType.MENU_NAVIGATION.getValue().equals(menu.getType())) {
             if (!StringUtils.hasText(menu.getPath())) {
-                return ResultCode.COMMON.getResult("菜单路径不能为空");
+                throw new ApplicationException(MenuResponseCode.PATH_IS_NULL);
             }
         }
         List<Menu> menus = this.menuList(new MenuReq(), null);
         boolean existFlag = menus.stream().anyMatch(m -> m.getCode().equals(menu.getCode()) && !m.getId().equals(menu.getId()));
         if (existFlag) {
-            return ResultCode.COMMON.getResult("菜单编码已存在");
+            throw new ApplicationException(MenuResponseCode.CODE_EXIST);
         }
         existFlag = menus.stream().anyMatch(m -> m.getName().equals(menu.getName()) && !m.getId().equals(menu.getId()));
         if (existFlag) {
-            return ResultCode.COMMON.getResult("菜单名称已存在");
+            throw new ApplicationException(MenuResponseCode.NAME_EXIST);
         }
         if (MenuType.MENU_BUTTON.getValue().equals(menu.getType())) {
             menu.setPath(null);
@@ -114,7 +113,6 @@ public class MenuService {
         if (MenuType.MENU_MODEL.getValue().equals(menu.getType())) {
             menu.setParentId(null);
         }
-        return Result.ok();
     }
 
     /**
@@ -124,21 +122,21 @@ public class MenuService {
      * @description: 删除菜单
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result deleteMenuById(Long menuId) {
+    public Json deleteMenuById(Long menuId) {
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = new LambdaQueryWrapper<>();
         menuLambdaQueryWrapper.eq(Menu::getParentId, menuId);
         List<Menu> menus = menuMapper.selectList(menuLambdaQueryWrapper);
         if (!CollectionUtils.isEmpty(menus)) {
-            return ResultCode.COMMON.getResult("请先删除菜单下的子菜单!");
+            throw new ApplicationException(MenuResponseCode.DELETE_CHILD_MENU_FIRST);
         }
         LambdaQueryWrapper<RoleMenu> roleMenuLambdaQueryWrapper = new LambdaQueryWrapper<>();
         roleMenuLambdaQueryWrapper.eq(RoleMenu::getMenuId, menuId);
         List<RoleMenu> roleMenus = roleMenuMapper.selectList(roleMenuLambdaQueryWrapper);
         if (!CollectionUtils.isEmpty(roleMenus)) {
-            return ResultCode.COMMON.getResult("菜单已和角色绑定!");
+            throw new ApplicationException(MenuResponseCode.ALREADY_BIND_ROLE);
         }
         menuMapper.deleteById(menuId);
-        return Result.ok();
+        return Json.success();
     }
 
     /**

@@ -1,6 +1,5 @@
-package com.example.coreweb.controllerAdvice;
+package com.example.coreweb.support;
 
-import com.example.coreweb.support.MethodDesc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

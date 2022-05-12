@@ -1,6 +1,6 @@
 package com.example.order.openfeign.client;
 
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -17,6 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface StorageFeignClient {
 
     @PostMapping("/saveStorage")
-    Result saveStorage();
+    Json saveStorage();
 
 }

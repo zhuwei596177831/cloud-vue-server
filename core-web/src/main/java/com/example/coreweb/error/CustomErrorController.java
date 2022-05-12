@@ -1,8 +1,7 @@
 package com.example.coreweb.error;
 
 
-import com.example.core.entity.Result;
-import com.example.core.entity.ResultCode;
+import com.example.core.entity.Json;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 public class CustomErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
 
     @RequestMapping
-    public Result error(HttpServletRequest request) {
-        return ResultCode.COMMON.getResult("无效的请求");
+    public Json error(HttpServletRequest request) {
+        return Json.fail("无效的请求");
     }
 
     @Override

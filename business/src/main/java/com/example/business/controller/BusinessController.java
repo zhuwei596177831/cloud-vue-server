@@ -1,7 +1,7 @@
 package com.example.business.controller;
 
 import com.example.business.service.BusinessService;
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +22,7 @@ public class BusinessController {
     }
 
     @GetMapping("/seataTest")
-    public Result seataTest() {
+    public Json seataTest() {
         return businessService.seataTest();
     }
 

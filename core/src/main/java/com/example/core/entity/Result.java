@@ -25,37 +25,40 @@ public class Result<T> extends BaseEntity {
     private String code;
     @ApiModelProperty(value = "错误消息")
     private String msg;
+    @ApiModelProperty(value = "成功/失败标志")
+    private boolean success;
     @ApiModelProperty(value = "数据")
     private T data;
 
-    public Result(String code, String msg, T data) {
+    public Result(String code, String msg, boolean success, T data) {
         this.code = code;
         this.msg = msg;
+        this.success = success;
         this.data = data;
     }
 
     public static <T> Result<T> ok() {
-        return new Result<>("0000", "成功", null);
+        return new Result<>("0000", "成功", true, null);
     }
 
     public static <T> Result<T> ok(T data) {
-        return new Result<>("0000", "成功", data);
+        return new Result<>("0000", "成功", true, data);
     }
 
     public static <E> Result<PageData<E>> ok(Collection<E> data) {
         if (data instanceof Page) {
             Page<E> page = (Page<E>) data;
-            return new Result<>("0000", "成功", new PageData<>(page));
+            return new Result<>("0000", "成功", true, new PageData<>(page));
         }
-        return new Result<>("0000", "成功", new PageData<>(data));
+        return new Result<>("0000", "成功", true, new PageData<>(data));
     }
 
     public static <E> Result<PageData<E>> ok(com.baomidou.mybatisplus.extension.plugins.pagination.Page<E> page) {
-        return new Result<>("0000", "成功", new PageData<>(page));
+        return new Result<>("0000", "成功", true, new PageData<>(page));
     }
 
     public boolean isSuccess() {
-        return this.getCode().equals("0000");
+        return success;
     }
 
     public boolean isNotSuccess() {

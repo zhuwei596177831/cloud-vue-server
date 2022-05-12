@@ -1,9 +1,9 @@
 package com.example.coreweb.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.core.entity.ResultCode;
-import com.example.core.util.ConstantsHolder;
 import com.example.core.enums.GatewayWhiteUrl;
+import com.example.core.util.ConstantsHolder;
+import com.example.coreweb.exception.ApplicationResponseCode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +66,7 @@ public class GatewayTokenCheckFilter implements Filter, OrderedFilter {
         ) {
             servletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
             servletResponse.setCharacterEncoding(StandardCharsets.UTF_8.displayName());
-            servletResponse.getWriter().write(ResultCode.GATEWAY_CHECK_FAIL.getResult().toString());
+            servletResponse.getWriter().write(ApplicationResponseCode.GATEWAY_CHECK_FAIL.getJson().toString());
             return;
         }
         filterChain.doFilter(servletRequest, servletResponse);

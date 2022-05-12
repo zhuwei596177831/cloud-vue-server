@@ -1,8 +1,7 @@
 package com.example.system.controller;
 
-import com.example.core.entity.PageData;
+import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
-import com.example.core.entity.Result;
 import com.example.core.vo.system.UserVo;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.example.system.entity.User;
@@ -47,10 +46,10 @@ public class UserController extends BaseController {
      * @date: 2021-07-25 18:20
      **/
     @PostMapping("/userPageList")
-    public Result<PageData<User>> userPageList(UserReq userReq) {
+    public Json userPageList(UserReq userReq) {
         PageInfo pageInfo = getPageInfo();
         List<User> userList = userService.userList(userReq, pageInfo);
-        return Result.ok(userList);
+        return Json.ok(userList);
     }
 
     /**
@@ -62,7 +61,7 @@ public class UserController extends BaseController {
      **/
     @ApiOperation(value = "添加用户")
     @PostMapping("/addUser")
-    public Result addUser(@RequestBody @Validated({User.Add.class}) User userReq) {
+    public Json addUser(@RequestBody @Validated({User.Add.class}) User userReq) {
         UserVo user = getUser();
         userReq.setInputUserId(user.getId());
         userReq.setInputTime(LocalDateTime.now());
@@ -78,7 +77,7 @@ public class UserController extends BaseController {
      **/
     @ApiOperation(value = "修改用户")
     @PutMapping("/updateUser")
-    public Result updateUser(@RequestBody @Validated({User.Update.class}) User userReq) {
+    public Json updateUser(@RequestBody @Validated({User.Update.class}) User userReq) {
         UserVo user = getUser();
         userReq.setUpdateUserId(user.getId());
         userReq.setUpdateTime(LocalDateTime.now());
@@ -95,7 +94,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "删除用户")
     @ApiImplicitParam(name = "userId", value = "用户id", required = true)
     @DeleteMapping("/deleteUserById/{userId}")
-    public Result deleteUserById(@PathVariable @NotNull(message = "用户id不能为空") Long userId) {
+    public Json deleteUserById(@PathVariable @NotNull(message = "用户id不能为空") Long userId) {
         return userService.deleteUserById(userId);
     }
 
@@ -109,7 +108,7 @@ public class UserController extends BaseController {
     @ApiOperation(value = "重置密码")
     @ApiImplicitParam(name = "userId", value = "用户id", required = true)
     @PostMapping("/resetPassword/{userId}")
-    public Result resetPassword(@PathVariable @NotNull(message = "用户id不能为空") Long userId) {
+    public Json resetPassword(@PathVariable @NotNull(message = "用户id不能为空") Long userId) {
         return userService.resetPassword(userId);
     }
 
@@ -121,7 +120,7 @@ public class UserController extends BaseController {
      **/
     @ApiOperation(value = "获取用户信息")
     @PostMapping("/findUser")
-    public Result<UserVo> findUser() {
-        return Result.ok((UserVo) SecurityUtils.getSubject().getPrincipal());
+    public Json findUser() {
+        return Json.ok(SecurityUtils.getSubject().getPrincipal());
     }
 }

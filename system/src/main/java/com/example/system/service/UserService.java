@@ -1,11 +1,11 @@
 package com.example.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
-import com.example.core.entity.Result;
-import com.example.core.entity.ResultCode;
 import com.example.core.util.ConstantsHolder;
 import com.example.core.util.PasswordHelper;
+import com.example.coreweb.exception.ApplicationException;
 import com.example.system.entity.Role;
 import com.example.system.entity.User;
 import com.example.system.entity.UserRole;
@@ -13,11 +13,11 @@ import com.example.system.entity.req.UserReq;
 import com.example.system.mapper.RoleMapper;
 import com.example.system.mapper.UserMapper;
 import com.example.system.mapper.UserRoleMapper;
+import com.example.system.responsecode.UserResponseCode;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
@@ -86,15 +86,12 @@ public class UserService {
      * @date: 2021-07-25 18:30
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result addUser(User user) {
-        Result result = validate(user);
-        if (!result.isSuccess()) {
-            return result;
-        }
+    public Json addUser(User user) {
+        validate(user);
         user.setPassword(PasswordHelper.md5(user.getLoginName(), ConstantsHolder.DEFAULT_PASSWORD));
         userMapper.insert(user);
         addUserRole(user.getRoleIds(), user.getId(), user.getInputUserId());
-        return Result.ok();
+        return Json.success();
     }
 
     /**
@@ -105,15 +102,12 @@ public class UserService {
      * @date: 2021-07-25 18:34
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result updateUser(User user) {
-        Result result = validate(user);
-        if (!result.isSuccess()) {
-            return result;
-        }
+    public Json updateUser(User user) {
+        validate(user);
         userMapper.updateById(user);
         userRoleMapper.delete(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getId()));
         addUserRole(user.getRoleIds(), user.getId(), user.getUpdateUserId());
-        return Result.ok();
+        return Json.success();
     }
 
     private void addUserRole(List<Long> roleIds, Long userId, Long inputUserId) {
@@ -127,16 +121,15 @@ public class UserService {
         });
     }
 
-    private Result validate(User user) {
+    private void validate(User user) {
         User exist = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getLoginName, user.getLoginName()));
         if (exist != null && !exist.getId().equals(user.getId())) {
-            return ResultCode.COMMON.getResult("登录名已存在");
+            throw new ApplicationException(UserResponseCode.LOGIN_NAME_EXIST);
         }
         exist = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getPhone, user.getPhone()));
         if (exist != null && !exist.getId().equals(user.getId())) {
-            return ResultCode.COMMON.getResult("手机号已存在");
+            throw new ApplicationException(UserResponseCode.PHONE_EXIST);
         }
-        return Result.ok();
     }
 
 
@@ -148,10 +141,10 @@ public class UserService {
      * @date: 2021-07-25 18:51
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result deleteUserById(Long userId) {
+    public Json deleteUserById(Long userId) {
         userMapper.deleteById(userId);
         userRoleMapper.delete(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, userId));
-        return Result.ok();
+        return Json.success();
     }
 
     /**
@@ -162,15 +155,15 @@ public class UserService {
      * @date: 2021-07-25 18:54
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result resetPassword(Long userId) {
+    public Json resetPassword(Long userId) {
         User exist = userMapper.selectById(userId);
         if (exist == null) {
-            return ResultCode.COMMON.getResult("用户不存在");
+            throw new ApplicationException(UserResponseCode.USER_NOT_EXIST);
         }
         User user = new User();
         user.setId(userId);
         user.setPassword(PasswordHelper.md5(exist.getLoginName(), ConstantsHolder.DEFAULT_PASSWORD));
         userMapper.updateById(user);
-        return null;
+        return Json.success();
     }
 }

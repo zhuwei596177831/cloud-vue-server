@@ -1,7 +1,7 @@
 package com.example.business.openfeign.client;
 
 import com.example.business.openfeign.client.fallback.AccountFeignClientFallback;
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import com.example.core.vo.system.UserVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface AccountFeignClient {
 
     @PostMapping("/saveAccount")
-    Result saveAccount(@RequestHeader("header") String header,
-                       @RequestParam("name") String name,
-                       @RequestBody UserVo userVo);
+    Json saveAccount(@RequestHeader("header") String header,
+                     @RequestParam("name") String name,
+                     @RequestBody UserVo userVo);
 
 }

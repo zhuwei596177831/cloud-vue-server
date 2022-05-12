@@ -2,7 +2,7 @@ package com.example.business.service;
 
 import com.example.business.entity.Test;
 import com.example.business.mapper.TestMapper;
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +19,11 @@ public class TestService {
     private TestMapper testMapper;
 
     @Transactional(rollbackFor = Exception.class)
-    public Result saveTest() {
+    public Json saveTest() {
         Test test = new Test();
         test.setName("test");
         testMapper.insert(test);
-        return Result.ok();
+        return Json.success();
     }
 
 }

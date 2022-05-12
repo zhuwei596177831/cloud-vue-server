@@ -2,7 +2,7 @@ package com.example.business.service;
 
 import com.example.business.openfeign.client.AccountFeignClient;
 import com.example.business.openfeign.client.OrderFeignClient;
-import com.example.core.entity.Result;
+import com.example.core.entity.Json;
 import com.example.core.vo.system.UserVo;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,11 @@ public class BusinessService {
 
 
     @GlobalTransactional(rollbackFor = Exception.class)
-    public Result seataTest() {
+    public Json seataTest() {
         testService.saveTest();
         UserVo userVo = new UserVo();
         userVo.setName("顾柳霞");
-        Result result = accountFeignClient.saveAccount("aaa", "朱伟伟", userVo);
+        Json result = accountFeignClient.saveAccount("aaa", "朱伟伟", userVo);
         if (result.isNotSuccess()) {
             throw new RuntimeException(result.getMsg());
         }
@@ -40,6 +40,6 @@ public class BusinessService {
         if (1 + 1 == 2) {
             throw new RuntimeException("顾柳霞");
         }
-        return Result.ok();
+        return Json.success();
     }
 }

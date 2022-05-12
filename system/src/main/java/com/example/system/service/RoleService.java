@@ -2,21 +2,26 @@ package com.example.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
-import com.example.core.entity.Result;
-import com.example.core.entity.ResultCode;
-import com.example.system.entity.*;
+import com.example.coreweb.exception.ApplicationException;
+import com.example.system.entity.Menu;
+import com.example.system.entity.Role;
+import com.example.system.entity.RoleMenu;
+import com.example.system.entity.UserRole;
 import com.example.system.entity.req.RoleMenuReq;
 import com.example.system.entity.req.RoleReq;
-import com.example.system.mapper.*;
+import com.example.system.mapper.MenuMapper;
+import com.example.system.mapper.RoleMapper;
+import com.example.system.mapper.RoleMenuMapper;
+import com.example.system.mapper.UserRoleMapper;
+import com.example.system.responsecode.RoleResponseCode;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -72,13 +77,10 @@ public class RoleService {
      * @date: 2021-07-23 14:27
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result<Integer> addRole(Role role) {
-        Result result = validateRole(role);
-        if (!result.isSuccess()) {
-            return result;
-        }
+    public Json addRole(Role role) {
+        validateRole(role);
         roleMapper.insert(role);
-        return Result.ok();
+        return Json.success();
     }
 
     /**
@@ -89,25 +91,21 @@ public class RoleService {
      * @date: 2021-07-23 14:44
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result updateRole(Role role) {
-        Result result = validateRole(role);
-        if (!result.isSuccess()) {
-            return result;
-        }
+    public Json updateRole(Role role) {
+        validateRole(role);
         roleMapper.updateById(role);
-        return Result.ok();
+        return Json.success();
     }
 
-    private Result validateRole(Role role) {
+    private void validateRole(Role role) {
         Role exist = roleMapper.selectOne(new LambdaQueryWrapper<Role>().eq(Role::getCode, role.getCode()));
         if (exist != null && !exist.getId().equals(role.getId())) {
-            return ResultCode.COMMON.getResult("角色编码已存在");
+            throw new ApplicationException(RoleResponseCode.CODE_EXIST);
         }
         exist = roleMapper.selectOne(new LambdaQueryWrapper<Role>().eq(Role::getName, role.getName()));
         if (exist != null && !exist.getId().equals(role.getId())) {
-            return ResultCode.COMMON.getResult("角色名称已存在");
+            throw new ApplicationException(RoleResponseCode.NAME_EXIST);
         }
-        return Result.ok();
     }
 
     /**
@@ -118,19 +116,19 @@ public class RoleService {
      * @date: 2021-07-23 14:46
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result deleteRoleById(Long id) {
+    public Json deleteRoleById(Long id) {
         LambdaQueryWrapper<UserRole> userRoleLambdaQueryWrapper = new LambdaQueryWrapper<>();
         userRoleLambdaQueryWrapper.eq(UserRole::getRoleId, id);
         userRoleLambdaQueryWrapper.last("limit 1");
         UserRole userRole = userRoleMapper.selectOne(userRoleLambdaQueryWrapper);
         if (userRole != null) {
-            return ResultCode.COMMON.getResult("角色已和用户绑定!");
+            throw new ApplicationException(RoleResponseCode.ALREADY_BIND_USER);
         }
         roleMapper.deleteById(id);
         LambdaQueryWrapper<RoleMenu> roleMenuLambdaQueryWrapper = new LambdaQueryWrapper<>();
         roleMenuLambdaQueryWrapper.eq(RoleMenu::getRoleId, id);
         roleMenuMapper.delete(roleMenuLambdaQueryWrapper);
-        return Result.ok();
+        return Json.success();
     }
 
     /**
@@ -141,7 +139,7 @@ public class RoleService {
      * @date: 2021-07-23 17:47
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Result permissionRoleMenus(RoleMenuReq roleMenuReq, Long inputUserId) {
+    public Json permissionRoleMenus(RoleMenuReq roleMenuReq, Long inputUserId) {
         roleMenuMapper.delete(new LambdaQueryWrapper<RoleMenu>().eq(RoleMenu::getRoleId, roleMenuReq.getRoleId()));
         roleMenuReq.getMenus().forEach(r -> {
             RoleMenu roleMenu = new RoleMenu();
@@ -155,7 +153,7 @@ public class RoleService {
         role.setId(roleMenuReq.getRoleId());
         role.setCheckedMenuIds(roleMenuReq.getCheckedMenuIds());
         roleMapper.updateById(role);
-        return Result.ok();
+        return Json.success();
     }
 
     /**
