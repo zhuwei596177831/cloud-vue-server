@@ -19,6 +19,7 @@ public class ShiroReisCacheManager implements CacheManager {
     }
 
     @Override
+    @SuppressWarnings({"unchecked"})
     public <K, V> Cache<K, V> getCache(String s) throws CacheException {
         return (Cache<K, V>) shiroReisCache;
     }
