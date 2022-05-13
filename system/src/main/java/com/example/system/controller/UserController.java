@@ -45,6 +45,7 @@ public class UserController extends BaseController {
      * @author: 朱伟伟
      * @date: 2021-07-25 18:20
      **/
+    @ApiOperation(value = "用户分页数据")
     @PostMapping("/userPageList")
     public Json userPageList(UserReq userReq) {
         PageInfo pageInfo = getPageInfo();
