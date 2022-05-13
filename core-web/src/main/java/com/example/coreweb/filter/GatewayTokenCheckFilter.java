@@ -1,23 +1,22 @@
 package com.example.coreweb.filter;
 
-import com.alibaba.fastjson.JSONObject;
-import com.example.core.enums.GatewayWhiteUrl;
-import com.example.core.util.ConstantsHolder;
-import com.example.coreweb.exception.ApplicationResponseCode;
+import com.example.core.entity.Json;
+import com.example.core.enums.GatewayTokenCheckWhiteUrl;
+import com.example.core.responsecode.ApplicationResponseCode;
+import com.example.core.util.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.filter.OrderedFilter;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
@@ -30,10 +29,8 @@ import java.util.Arrays;
 public class GatewayTokenCheckFilter implements Filter, OrderedFilter {
 
     private final Logger logger = LogManager.getLogger(getClass());
-    private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -47,29 +44,36 @@ public class GatewayTokenCheckFilter implements Filter, OrderedFilter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-        String GATEWAY_SIGN_KEY;
-        try {
-            GATEWAY_SIGN_KEY = stringRedisTemplate.boundValueOps(ConstantsHolder.GATEWAY_SIGN_KEY).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("get gateway-signKey token error", e);
-            servletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            servletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
-            servletResponse.getWriter().write(getTokenErrorData());
+        String GATEWAY_TIME = request.getHeader(Constants.GATEWAY_TIME);
+        String GATEWAY_NONCE = request.getHeader(Constants.GATEWAY_NONCE);
+        String GATEWAY_TOKEN = request.getHeader(Constants.GATEWAY_TOKEN);
+        if (StringUtils.isEmpty(GATEWAY_TIME) || StringUtils.isEmpty(GATEWAY_NONCE) || StringUtils.isEmpty(GATEWAY_TOKEN)) {
+            writeJson(ApplicationResponseCode.GATEWAY_CHECK_FAIL.getJson(), servletResponse);
             return;
         }
-        String GATEWAY_TIME = request.getHeader(ConstantsHolder.GATEWAY_TIME);
-        String GATEWAY_NONCE = request.getHeader(ConstantsHolder.GATEWAY_NONCE);
-        String GATEWAY_TOKEN = request.getHeader(ConstantsHolder.GATEWAY_TOKEN);
-        if (GATEWAY_TIME == null || GATEWAY_SIGN_KEY == null || GATEWAY_NONCE == null ||
-                !(DigestUtils.md5DigestAsHex((GATEWAY_TIME + GATEWAY_SIGN_KEY + GATEWAY_NONCE).intern().getBytes())).equals(GATEWAY_TOKEN)
-        ) {
-            servletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            servletResponse.setCharacterEncoding(StandardCharsets.UTF_8.displayName());
-            servletResponse.getWriter().write(ApplicationResponseCode.GATEWAY_CHECK_FAIL.getJson().toString());
+        String sign = DigestUtils.md5DigestAsHex((GATEWAY_TIME + Constants.GATEWAY_SIGN_KEY + GATEWAY_NONCE).getBytes());
+        if (!sign.equals(GATEWAY_TOKEN)) {
+            writeJson(ApplicationResponseCode.GATEWAY_CHECK_FAIL.getJson(), servletResponse);
             return;
         }
         filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    /**
+     * 回写json数据
+     *
+     * @param json:
+     * @param response:
+     * @author: 朱伟伟
+     * @date: 2022-05-13 14:42
+     **/
+    private void writeJson(Json json, ServletResponse response) throws IOException {
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding(StandardCharsets.UTF_8.displayName());
+        PrintWriter writer = response.getWriter();
+        writer.write(json.toString());
+        writer.flush();
+        writer.close();
     }
 
     /**
@@ -79,14 +83,7 @@ public class GatewayTokenCheckFilter implements Filter, OrderedFilter {
      * @description: 过滤feign rest调用
      **/
     private boolean isWhitelistUrl(String servletPath) {
-        return Arrays.stream(GatewayWhiteUrl.values()).anyMatch(i -> antPathMatcher.match(i.getUrl(), servletPath));
-    }
-
-    public String getTokenErrorData() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        jsonObject.put("msg", "get gateway-signKey token error");
-        return jsonObject.toJSONString();
+        return Arrays.stream(GatewayTokenCheckWhiteUrl.values()).anyMatch(i -> antPathMatcher.match(i.getUrl(), servletPath));
     }
 
     @Override

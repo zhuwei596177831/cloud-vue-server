@@ -1,6 +1,4 @@
-package com.example.coreweb.exception;
-
-import com.example.core.entity.Json;
+package com.example.core.responsecode;
 
 /**
  * @author 朱伟伟
@@ -9,10 +7,11 @@ import com.example.core.entity.Json;
  */
 public enum ApplicationResponseCode implements ResponseCode {
 
+    GATEWAY_CHECK_FAIL("9999", "网关校验失败"),
+    UNAUTHORIZED("401", "认证失败,请重新登录"),
     RECORD_NOT_EXIST("record_not_exist", "记录不存在"),
     UNKNOWN_ERROR("unknown_error", "未知异常"),
-    GATEWAY_CHECK_FAIL("9999", "网关校验失败"),
-    UNAUTHORIZED("401", "认证失败,请登录");;
+    ;
 
     private final String code;
     private final String msg;
@@ -32,7 +31,4 @@ public enum ApplicationResponseCode implements ResponseCode {
         return msg;
     }
 
-    public Json getJson() {
-        return new Json(this.code, this.msg, false);
-    }
 }

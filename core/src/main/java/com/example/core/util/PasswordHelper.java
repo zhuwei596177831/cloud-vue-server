@@ -10,6 +10,14 @@ import org.apache.shiro.crypto.hash.SimpleHash;
  */
 public class PasswordHelper {
 
+    /**
+     * md5加密，方式：md5(用户名+密码)
+     *
+     * @param username:
+     * @param password:
+     * @author: 朱伟伟
+     * @date: 2022-05-13 15:53
+     **/
     public static String md5(String username, String password) {
         return new SimpleHash(Md5Hash.ALGORITHM_NAME, password, username).toHex();
     }

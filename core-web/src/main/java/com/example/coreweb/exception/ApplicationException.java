@@ -1,5 +1,7 @@
 package com.example.coreweb.exception;
 
+import com.example.core.responsecode.ResponseCode;
+
 /**
  * @author 朱伟伟
  * @date 2022-05-07 17:54:45

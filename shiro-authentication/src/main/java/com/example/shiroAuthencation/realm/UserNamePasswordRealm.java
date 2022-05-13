@@ -1,6 +1,6 @@
 package com.example.shiroAuthencation.realm;
 
-import com.example.core.util.ConstantsHolder;
+import com.example.core.util.Constants;
 import com.example.core.vo.system.MenuVo;
 import com.example.core.vo.system.RoleVo;
 import com.example.core.vo.system.UserVo;
@@ -45,7 +45,7 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
         if (cm != null) {
             if (!cm.doCredentialsMatch(token, info)) {
                 //not successful - throw an exception to indicate this:
-                throw new IncorrectCredentialsException(ConstantsHolder.USER_LOGIN_ERROR);
+                throw new IncorrectCredentialsException(Constants.USER_LOGIN_ERROR);
             }
         } else {
             throw new AuthenticationException("A CredentialsMatcher must be configured in order to verify " +
@@ -60,7 +60,7 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
         String username = usernamePasswordToken.getUsername();
         UserVo userVo = userFeign.getUserByLoginName(username);
         if (userVo == null || userVo.getId() == null) {
-            throw new AuthenticationException(ConstantsHolder.USER_LOGIN_ERROR);
+            throw new AuthenticationException(Constants.USER_LOGIN_ERROR);
         }
         return new SimpleAuthenticationInfo(userVo, userVo.getPassword(), ByteSource.Util.bytes(username), getName());
     }

@@ -30,7 +30,7 @@ public class BusinessService {
         UserVo userVo = new UserVo();
         userVo.setName("顾柳霞");
         Json result = accountFeignClient.saveAccount("aaa", "朱伟伟", userVo);
-        if (result.isNotSuccess()) {
+        if (!result.isSuccess()) {
             throw new RuntimeException(result.getMsg());
         }
         //result = orderFeignClient.saveOrder();

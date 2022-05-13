@@ -1,6 +1,5 @@
 package com.example.shiroAuthencation.sessioncache;
 
-import com.alibaba.fastjson.JSON;
 import com.example.core.enums.RedisKey;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.Cache;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * @author 朱伟伟
  * @date 2021-05-24 10:47:14
- * @description 自定义cache 实现session持久化 多个服务共享shiro session
+ * @description 自定义cache 实现session持久化，用来多个服务共享shiro session
  */
 @Slf4j
 public class ShiroReisCache implements Cache<Serializable, Session> {

@@ -2,7 +2,7 @@
 package com.example.system.swagger;
 
 import com.example.core.entity.SwaggerContact;
-import com.example.core.util.ConstantsHolder;
+import com.example.core.util.Constants;
 import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +43,7 @@ public class SystemSwaggerConfig {
         return new ApiInfoBuilder()
                 .title("系统")
                 .description("<div style='font-size:14px;color:red;'>系统</div>")
-                .termsOfServiceUrl(ConstantsHolder.TERMS_OF_SERVICE_URL)
+                .termsOfServiceUrl(Constants.TERMS_OF_SERVICE_URL)
                 .contact(SwaggerContact.getInstance())
                 .version("1.0")
                 .build();

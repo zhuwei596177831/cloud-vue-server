@@ -1,6 +1,6 @@
 package com.example.core.vo.system;
 
-import com.example.core.util.ConstantsHolder;
+import com.example.core.util.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -35,7 +35,7 @@ public class BaseVo implements Serializable {
      * 录入时间
      */
     @ApiModelProperty(value = "录入时间")
-    @JsonFormat(pattern = ConstantsHolder.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = Constants.DATE_TIME_FORMAT)
     protected LocalDateTime inputTime;
 
     /**
@@ -48,7 +48,7 @@ public class BaseVo implements Serializable {
      * 修改时间
      */
     @ApiModelProperty(value = "修改时间")
-    @JsonFormat(pattern = ConstantsHolder.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = Constants.DATE_TIME_FORMAT)
     protected LocalDateTime updateTime;
 
 }

@@ -27,7 +27,7 @@ public class OrderService {
         order.setName("测试订单");
         orderMapper.insert(order);
         Json result = storageFeignClient.saveStorage();
-        if (result.isNotSuccess()) {
+        if (!result.isSuccess()) {
             throw new RuntimeException(result.getMsg());
         }
         return Json.success();

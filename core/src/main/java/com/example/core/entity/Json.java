@@ -2,6 +2,7 @@ package com.example.core.entity;
 
 
 import com.alibaba.fastjson.JSON;
+import com.example.core.util.Constants;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -45,14 +46,14 @@ public class Json extends BaseEntity {
 
     public static Json ok(Object data) {
         if (data instanceof Page) {
-            return new Json("0000", "success", true, new PageData((Page) data));
+            return new Json(Constants.SUCCESS_CODE_STRING, Constants.SUCCESS_MSG_STRING, true, new PageData((Page) data));
         } else if (data instanceof com.baomidou.mybatisplus.extension.plugins.pagination.Page) {
-            Json result = new Json("0000", "success", true);
+            Json result = new Json(Constants.SUCCESS_CODE_STRING, Constants.SUCCESS_MSG_STRING, true);
             com.baomidou.mybatisplus.extension.plugins.pagination.Page page = (com.baomidou.mybatisplus.extension.plugins.pagination.Page) data;
             result.setData(new PageData(page));
             return result;
         } else {
-            return new Json("0000", "success", true, data);
+            return new Json(Constants.SUCCESS_CODE_STRING, Constants.SUCCESS_MSG_STRING, true, data);
         }
     }
 
@@ -65,7 +66,7 @@ public class Json extends BaseEntity {
     }
 
     public static Json success() {
-        return new Json("成功", true);
+        return new Json(Constants.SUCCESS_MSG_STRING, true);
     }
 
     public static Json success(String msg) {
@@ -74,10 +75,6 @@ public class Json extends BaseEntity {
 
     public boolean isSuccess() {
         return success;
-    }
-
-    public boolean isNotSuccess() {
-        return !isSuccess();
     }
 
     @Override

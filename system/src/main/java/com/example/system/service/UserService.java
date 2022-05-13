@@ -3,7 +3,7 @@ package com.example.system.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
-import com.example.core.util.ConstantsHolder;
+import com.example.core.util.Constants;
 import com.example.core.util.PasswordHelper;
 import com.example.coreweb.exception.ApplicationException;
 import com.example.system.entity.Role;
@@ -88,7 +88,7 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public Json addUser(User user) {
         validate(user);
-        user.setPassword(PasswordHelper.md5(user.getLoginName(), ConstantsHolder.DEFAULT_PASSWORD));
+        user.setPassword(PasswordHelper.md5(user.getLoginName(), Constants.DEFAULT_PASSWORD));
         userMapper.insert(user);
         addUserRole(user.getRoleIds(), user.getId(), user.getInputUserId());
         return Json.success();
@@ -162,7 +162,7 @@ public class UserService {
         }
         User user = new User();
         user.setId(userId);
-        user.setPassword(PasswordHelper.md5(exist.getLoginName(), ConstantsHolder.DEFAULT_PASSWORD));
+        user.setPassword(PasswordHelper.md5(exist.getLoginName(), Constants.DEFAULT_PASSWORD));
         userMapper.updateById(user);
         return Json.success();
     }

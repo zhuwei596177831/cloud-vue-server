@@ -3,7 +3,7 @@ package com.example.system.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.core.entity.BaseEntity;
-import com.example.core.util.ConstantsHolder;
+import com.example.core.util.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -85,7 +85,7 @@ public class User extends BaseEntity {
      * 录入时间
      */
     @ApiModelProperty(value = "录入时间")
-    @JsonFormat(pattern = ConstantsHolder.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = Constants.DATE_TIME_FORMAT)
     private LocalDateTime inputTime;
 
     /**
@@ -98,7 +98,7 @@ public class User extends BaseEntity {
      * 修改时间
      */
     @ApiModelProperty(value = "修改时间")
-    @JsonFormat(pattern = ConstantsHolder.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = Constants.DATE_TIME_FORMAT)
     private LocalDateTime updateTime;
 
     /**

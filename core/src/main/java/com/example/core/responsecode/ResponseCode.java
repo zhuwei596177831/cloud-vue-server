@@ -1,4 +1,6 @@
-package com.example.coreweb.exception;
+package com.example.core.responsecode;
+
+import com.example.core.entity.Json;
 
 /**
  * @author 朱伟伟
@@ -10,5 +12,9 @@ public interface ResponseCode {
     String getCode();
 
     String getMsg();
+
+    default Json getJson() {
+        return new Json(getCode(), getMsg(), false);
+    }
 
 }
