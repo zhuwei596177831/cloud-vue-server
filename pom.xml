@@ -28,15 +28,14 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.boot-version>2.3.2.RELEASE</spring.boot-version>
-        <spring.cloud-version>Hoxton.SR8</spring.cloud-version>
-        <spring.cloud.alibaba-version>2.2.5.RELEASE</spring.cloud.alibaba-version>
-        <mybatis.boot.starter.version>2.1.2</mybatis.boot.starter.version>
-        <pagehelper.boot.starter.version>1.2.12</pagehelper.boot.starter.version>
-        <mybatis.plus.boot.starter.version>3.3.1</mybatis.plus.boot.starter.version>
+        <spring-boot-version>2.3.2.RELEASE</spring-boot-version>
+        <spring-cloud-version>Hoxton.SR8</spring-cloud-version>
+        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
+        <mybatis-boot.version>2.1.2</mybatis-boot.version>
+        <pagehelper-boot.version>1.2.12</pagehelper-boot.version>
+        <mybatis-plus-boot.version>3.3.1</mybatis-plus-boot.version>
         <fastjson.version>1.2.33</fastjson.version>
-        <druid.boot.version>1.2.4</druid.boot.version>
-        <mybatis.plus.extension.version>3.3.1</mybatis.plus.extension.version>
+        <druid-boot.version>1.2.4</druid-boot.version>
         <pagehelper.version>5.1.10</pagehelper.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <mysql.version>8.0.19</mysql.version>
@@ -44,6 +43,9 @@
         <knife4j.version>2.0.8</knife4j.version>
         <swagger-annotations.version>1.5.22</swagger-annotations.version>
         <springfox-spi.version>2.10.5</springfox-spi.version>
+        <seata-boot.version>1.4.1</seata-boot.version>
+        <seata-alibaba.version>2.2.1.RELEASE</seata-alibaba.version>
+        <servlet-api.version>3.1.0</servlet-api.version>
         <caffeine.version>2.9.2</caffeine.version>
     </properties>
 
@@ -52,54 +54,38 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot-version}</version>
+                <version>${spring-boot-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud-version}</version>
+                <version>${spring-cloud-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring.cloud.alibaba-version}</version>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.boot.version}</version>
+                <version>${druid-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper.boot.starter.version}</version>
+                <version>${pagehelper-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis.plus.boot.starter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper</artifactId>
-                <version>${pagehelper.version}</version>
+                <version>${mybatis-plus-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -112,10 +98,9 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>3.1.0</version>
-                <scope>provided</scope>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.shiro</groupId>
@@ -162,18 +147,35 @@
             <dependency>
                 <groupId>io.seata</groupId>
                 <artifactId>seata-spring-boot-starter</artifactId>
-                <version>1.4.1</version>
+                <version>${seata-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-                <version>2.2.1.RELEASE</version>
+                <version>${seata-alibaba.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>io.seata</groupId>
                         <artifactId>seata-spring-boot-starter</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
             <!--caffeine缓存-->
             <dependency>
@@ -192,11 +194,19 @@
                 <nacos.address>127.0.0.1:8848</nacos.address>
                 <nacos.userName>nacos</nacos.userName>
                 <nacos.passWord>nacos</nacos.passWord>
-                <nginx.address>127.0.0.1:8089</nginx.address>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profile.active>test</profile.active>
+                <nacos.address>127.0.0.1:8848</nacos.address>
+                <nacos.userName>nacos</nacos.userName>
+                <nacos.passWord>zhuweiwei</nacos.passWord>
+            </properties>
         </profile>
         <profile>
             <id>prod</id>
@@ -205,7 +215,6 @@
                 <nacos.address>127.0.0.1:8848</nacos.address>
                 <nacos.userName>nacos</nacos.userName>
                 <nacos.passWord>zhuweiwei</nacos.passWord>
-                <nginx.address>127.0.0.1:8089</nginx.address>
             </properties>
         </profile>
     </profiles>
@@ -216,7 +225,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>2.3.2.RELEASE</version>
+                    <version>${spring-boot-version}</version>
                     <executions>
                         <execution>
                             <goals>
