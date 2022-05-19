@@ -1,5 +1,6 @@
 package com.example.shiroAuthencation.openfeign;
 
+import com.example.core.util.Constants;
 import com.example.core.vo.system.RoleVo;
 import com.example.shiroAuthencation.openfeign.fallback.RoleFeignFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -14,7 +15,7 @@ import java.util.Set;
  * @description role feign
  */
 @FeignClient(
-        value = "system",
+        value = Constants.APPLICATION_NAME_SYSTEM,
         path = "/system/openFeign/role",
         contextId = "RoleFeign",
         fallbackFactory = RoleFeignFallBack.class

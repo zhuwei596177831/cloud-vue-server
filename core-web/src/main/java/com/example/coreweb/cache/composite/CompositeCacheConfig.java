@@ -35,11 +35,8 @@ public class CompositeCacheConfig {
     }
 
     @Bean(name = CacheUtil.multiCacheManagerName)
-    public CompositeCacheManager multiCacheManager(CacheProperties cacheProperties,
-                                                   JacksonRedisTemplate jacksonRedisTemplate,
-                                                   ObjectProvider<RedisConnectionFactory> redisConnectionFactory) {
+    public CompositeCacheManager multiCacheManager(CacheProperties cacheProperties, RedisCacheManager redisCacheManager) {
         CaffeineCacheManager caffeineCacheManager = createCaffeineCacheManager(cacheProperties);
-        RedisCacheManager redisCacheManager = createRedisCacheManager(cacheProperties, jacksonRedisTemplate, redisConnectionFactory);
         return new CompositeCacheManager(caffeineCacheManager, redisCacheManager);
     }
 
@@ -75,9 +72,10 @@ public class CompositeCacheConfig {
      * @author: 朱伟伟
      * @date: 2022-02-17 20:46
      **/
-    private RedisCacheManager createRedisCacheManager(CacheProperties cacheProperties,
-                                                      JacksonRedisTemplate jacksonRedisTemplate,
-                                                      ObjectProvider<RedisConnectionFactory> redisConnectionFactory) {
+    @Bean(name = CacheUtil.redisCacheManagerName)
+    public RedisCacheManager createRedisCacheManager(CacheProperties cacheProperties,
+                                                     JacksonRedisTemplate jacksonRedisTemplate,
+                                                     ObjectProvider<RedisConnectionFactory> redisConnectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = createRedisCacheConfiguration(cacheProperties, jacksonRedisTemplate);
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.builder(redisConnectionFactory.getObject())
                 .cacheDefaults(redisCacheConfiguration);
@@ -116,6 +114,5 @@ public class CompositeCacheConfig {
         }
         return config;
     }
-
 
 }

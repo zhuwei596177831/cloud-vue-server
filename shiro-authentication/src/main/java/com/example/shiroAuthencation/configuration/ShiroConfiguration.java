@@ -5,9 +5,11 @@ import com.example.core.util.Constants;
 import com.example.shiroAuthencation.filter.CustomAccessFilter;
 import com.example.shiroAuthencation.listener.ShiroSessionListener;
 import com.example.shiroAuthencation.realm.UserNamePasswordRealm;
+import com.example.shiroAuthencation.sessioncache.RedisSessionTemplate;
 import com.example.shiroAuthencation.sessioncache.ShiroReisCache;
 import com.example.shiroAuthencation.sessioncache.ShiroReisCacheManager;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -22,6 +24,7 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 import javax.servlet.Filter;
 import java.util.ArrayList;
@@ -51,14 +54,26 @@ public class ShiroConfiguration {
     }
 
     /**
+     * 配置RedisSessionTemplate实现Session的持久化
+     *
+     * @param redisConnectionFactory:
+     * @author: 朱伟伟
+     * @date: 2022-05-16 16:14
+     **/
+    @Bean
+    public RedisSessionTemplate redisSessionTemplate(RedisConnectionFactory redisConnectionFactory) {
+        return new RedisSessionTemplate(redisConnectionFactory);
+    }
+
+    /**
      * 配置自定义cache 实现session持久化
      *
      * @author: 朱伟伟
      * @date: 2022-05-13 15:33
      **/
     @Bean
-    public ShiroReisCache shiroReisCache() {
-        return new ShiroReisCache();
+    public ShiroReisCache shiroReisCache(RedisSessionTemplate redisSessionTemplate) {
+        return new ShiroReisCache(redisSessionTemplate);
     }
 
     /**
@@ -74,19 +89,11 @@ public class ShiroConfiguration {
     }
 
     /**
-     * 配置自定义EnterpriseCacheSessionDAO 实现session持久化
+     * 配置定制化的SessionManager
      *
-     * @param shiroReisCacheManager:
      * @author: 朱伟伟
-     * @date: 2022-05-13 15:34
+     * @date: 2022-05-16 16:50
      **/
-    @Bean
-    public EnterpriseCacheSessionDAO enterpriseCacheSessionDAO(ShiroReisCacheManager shiroReisCacheManager) {
-        EnterpriseCacheSessionDAO enterpriseCacheSessionDAO = new EnterpriseCacheSessionDAO();
-        enterpriseCacheSessionDAO.setCacheManager(shiroReisCacheManager);
-        return enterpriseCacheSessionDAO;
-    }
-
 //    @Bean
 //    public CustomSessionManager customSessionManager(EnterpriseCacheSessionDAO enterpriseCacheSessionDAO) {
 //        CustomSessionManager customSessionManager = new CustomSessionManager(ConstantsHolder.SHIRO_COOKIE_NAME);
@@ -101,26 +108,32 @@ public class ShiroConfiguration {
 //    }
 
     /**
-     * 配置session相关的DefaultWebSessionManager
+     * 配置支持Session分布式缓存功能的DefaultWebSessionManager
      *
-     * @param enterpriseCacheSessionDAO:
      * @author: 朱伟伟
      * @date: 2022-05-13 15:18
+     * Session是否失效的检测:
      * @see org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler
+     * 由Servlet容器管理HttpSession的SessionManager:
+     * @see org.apache.shiro.web.session.mgt.ServletContainerSessionManager
      **/
     @Bean
-    public DefaultWebSessionManager defaultWebSessionManager(EnterpriseCacheSessionDAO enterpriseCacheSessionDAO) {
+    public DefaultWebSessionManager defaultWebSessionManager(CacheManager cacheManager) {
         DefaultWebSessionManager defaultWebSessionManager = new DefaultWebSessionManager();
         SimpleCookie shiroSessionIdCookie = new SimpleCookie(Constants.SHIRO_COOKIE_NAME);
-        //各个模块共享cookie
+        //1、手动设置Path使各个模块共享cookie，即请求别的模块的接口时，cookie会自动带上
+        //如果配置了contextPath后，则Path取contextPath，没有配置，则是/，默认情况下，浏览器关闭，cookie就失效
         shiroSessionIdCookie.setPath("/");
         defaultWebSessionManager.setSessionIdCookie(shiroSessionIdCookie);
         defaultWebSessionManager.setSessionValidationSchedulerEnabled(true);
-        //每3分钟进行一次Session是否失效的检测
-        defaultWebSessionManager.setSessionValidationInterval(3 * 60 * 1000);
+        //2、设置每10分钟进行一次Session是否失效的检测（默认60分钟一次）
+        defaultWebSessionManager.setSessionValidationInterval(10 * 60 * 1000);
         defaultWebSessionManager.setSessionListeners(Collections.singleton(new ShiroSessionListener()));
-        //session有效期为30分钟
+        //3、设置session有效期为30分钟（默认也是30分钟）
         defaultWebSessionManager.setGlobalSessionTimeout(30 * 60 * 1000);
+        //4、设置持久化Session的SessionDAO
+        EnterpriseCacheSessionDAO enterpriseCacheSessionDAO = new EnterpriseCacheSessionDAO();
+        enterpriseCacheSessionDAO.setCacheManager(cacheManager);
         defaultWebSessionManager.setSessionDAO(enterpriseCacheSessionDAO);
         return defaultWebSessionManager;
     }

@@ -26,7 +26,7 @@ public class SingleRedisConfiguration {
     }
 
     /**
-     * 自定义RedisCacheConfiguration用于缓存注解方式 缓存数据的序列化
+     * 自定义RedisCacheConfiguration使用JacksonRedisTemplate做缓存数据的序列化
      *
      * @param cacheProperties:
      * @param jacksonRedisTemplate:

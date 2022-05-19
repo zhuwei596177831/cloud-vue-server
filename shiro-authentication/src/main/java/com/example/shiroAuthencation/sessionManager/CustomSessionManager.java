@@ -18,7 +18,9 @@ import java.io.Serializable;
 /**
  * @author 朱伟伟
  * @date 2021-05-28 15:22:50
- * @description
+ * @description 自定义DefaultSessionManager实现，登录后，不往浏览器写Cookie，
+ * 然后在登陆接口将生成的SessionId返回，前端每次请求将此SessionId以cookie方式带入
+ * 用于测试前端Vue的导航守卫
  */
 public class CustomSessionManager extends DefaultSessionManager {
 

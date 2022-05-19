@@ -1,6 +1,7 @@
 package com.example.system.controller;
 
 import com.example.core.entity.Json;
+import com.example.core.util.Constants;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.example.system.service.MenuService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -10,7 +11,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.subject.Subject;
@@ -57,7 +60,13 @@ public class LoginController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(usernamePasswordToken);
-        } catch (AuthenticationException e) {
+        } catch (IncorrectCredentialsException | UnknownAccountException e) {
+            e.printStackTrace();
+            return Json.fail(Constants.USER_LOGIN_ERROR);
+        } catch (LockedAccountException e) {
+            e.printStackTrace();
+            return Json.fail(Constants.USER_ACCOUNT_LOCKED);
+        } catch (Exception e) {
             e.printStackTrace();
             return Json.fail(e.getMessage());
         }

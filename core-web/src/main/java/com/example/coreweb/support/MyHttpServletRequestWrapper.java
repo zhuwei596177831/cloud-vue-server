@@ -2,7 +2,6 @@ package com.example.coreweb.support;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
@@ -39,13 +38,18 @@ public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
     public MyHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
-        if (isFormPost()) {
-            this.body = URLDecoder.decode(getPostParameterValue(), getCharacterEncoding());
-        } else {
+        if (isApplicationJson()) {
             this.body = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
+        } else {
+            this.body = URLDecoder.decode(getPostParameterValue(), getCharacterEncoding());
         }
         Logger logger = LogManager.getLogger(getClass());
         logger.info("MyHttpServletRequestWrapper body:\n{}", body);
+    }
+
+    private boolean isApplicationJson() {
+        String contentType = getContentType();
+        return StringUtils.startsWithIgnoreCase(contentType, MediaType.APPLICATION_JSON_VALUE);
     }
 
 

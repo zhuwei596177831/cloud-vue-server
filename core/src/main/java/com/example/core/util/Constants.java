@@ -14,6 +14,7 @@ public class Constants {
     public static final String GATEWAY_NONCE = "gateway_nonce";
     public static final String TERMS_OF_SERVICE_URL = "http://127.0.0.1:8090";
     public static final String USER_LOGIN_ERROR = "用户名或密码错误";
+    public static final String USER_ACCOUNT_LOCKED = "账户已锁定";
     public static final String USER_TIME = "user_time";
     public static final String USER_SIGN = "user_sign";
     public static final String USER_NONCE = "user_nonce";
@@ -21,6 +22,15 @@ public class Constants {
     public static final String DEFAULT_PASSWORD = "000000";
     public static final String SUCCESS_CODE_STRING = "0000";
     public static final String SUCCESS_MSG_STRING = "成功";
+
+    /**
+     * 各个服务的application name
+     */
+    public static final String APPLICATION_NAME_SYSTEM = "system";
+    public static final String APPLICATION_NAME_ACCOUNT = "account";
+    public static final String APPLICATION_NAME_BUSINESS = "business";
+    public static final String APPLICATION_NAME_ORDER = "order";
+    public static final String APPLICATION_NAME_STORAGE = "storage";
 
     /**
      * 日期相关format

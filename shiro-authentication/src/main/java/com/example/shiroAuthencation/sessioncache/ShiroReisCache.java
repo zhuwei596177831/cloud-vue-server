@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.session.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -23,10 +22,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ShiroReisCache implements Cache<Serializable, Session> {
 
+    /**
+     * 缓存session，加快访问
+     */
     private final ConcurrentMap<Serializable, Session> sessions = new ConcurrentHashMap<>();
 
-    @Autowired
-    private RedisSessionTemplate redisSessionTemplate;
+
+    private final RedisSessionTemplate redisSessionTemplate;
+
+    public ShiroReisCache(RedisSessionTemplate redisSessionTemplate) {
+        this.redisSessionTemplate = redisSessionTemplate;
+    }
 
     @Override
     public Session get(Serializable sessionId) throws CacheException {

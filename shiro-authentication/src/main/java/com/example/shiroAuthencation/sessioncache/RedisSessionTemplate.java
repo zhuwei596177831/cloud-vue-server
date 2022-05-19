@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author 朱伟伟
  * @date 2021-05-24 11:40:53
- * @description 自定义 RedisSessionTemplate
+ * @description 自定义RedisTemplate实现Session的持久化
  */
 public class RedisSessionTemplate extends RedisTemplate<Serializable, Session> {
 
