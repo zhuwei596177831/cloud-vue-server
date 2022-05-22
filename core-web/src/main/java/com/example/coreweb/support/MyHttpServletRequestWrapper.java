@@ -25,7 +25,8 @@ import java.util.Map;
 /**
  * @author 朱伟伟
  * @date 2020-12-23 16:05:48
- * @description HttpRequest body可重复读的HttpServletRequestWrapper
+ * @description 重写HttpServletRequestWrapper 使body中数据可以重复读取
+ * @see org.springframework.web.bind.annotation.RequestBody
  */
 public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private final String body;

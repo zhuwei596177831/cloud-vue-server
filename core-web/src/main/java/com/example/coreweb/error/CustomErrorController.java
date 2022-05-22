@@ -2,6 +2,7 @@ package com.example.coreweb.error;
 
 
 import com.example.core.entity.Json;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("${server.error.path:${error.path:/error}}")
-public class CustomErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
+public class CustomErrorController implements ErrorController {
 
     @RequestMapping
     public Json error(HttpServletRequest request) {

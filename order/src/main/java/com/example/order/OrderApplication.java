@@ -1,5 +1,6 @@
 package com.example.order;
 
+import org.apache.shiro.spring.boot.autoconfigure.ShiroAnnotationProcessorAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -9,7 +10,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @date 2021-11-30 10:11:56
  * @description 订单服务
  */
-@SpringBootApplication(scanBasePackages = {"com.example"})
+@SpringBootApplication(
+        scanBasePackages = {"com.example"},
+        exclude = {ShiroAnnotationProcessorAutoConfiguration.class}
+)
 @EnableFeignClients(basePackages = {"com.example"})
 public class OrderApplication {
 

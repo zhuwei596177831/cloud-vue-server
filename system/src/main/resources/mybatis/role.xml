@@ -4,15 +4,6 @@
 <mapper namespace="com.example.system.mapper.RoleMapper">
 
     <resultMap id="baseResultMap" type="com.example.system.entity.Role">
-        <id property="id" column="id"/>
-        <result property="code" column="code"/>
-        <result property="name" column="name"/>
-        <result property="inputTime" column="inputTime"/>
-        <result property="inputUserId" column="inputUserId"/>
-        <result property="inputUserName" column="inputUserName"/>
-        <result property="updateTime" column="updateTime"/>
-        <result property="updateUserId" column="updateUserId"/>
-        <result property="updateUserName" column="updateUserName"/>
         <result property="checkedMenuIds" column="checkedMenuIds" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
     </resultMap>
 

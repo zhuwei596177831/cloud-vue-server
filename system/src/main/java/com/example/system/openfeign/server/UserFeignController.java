@@ -28,9 +28,9 @@ public class UserFeignController {
      * @date: 2021-05-22 18:48
      * @description: 根据用户名查询用户
      **/
-    @PostMapping("/getUserByLoginName")
-    public UserVo getUserByLoginName(@RequestParam String username) {
-        User user = userService.getUserByLoginName(username);
+    @PostMapping("/findByLoginName")
+    public UserVo findByLoginName(@RequestParam String username) {
+        User user = userService.findByLoginName(username);
         if (user == null) {
             return null;
         }

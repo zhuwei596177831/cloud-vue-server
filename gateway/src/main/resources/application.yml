@@ -34,25 +34,11 @@ spring:
             - Path=/api/account/**
           filters:
             - StripPrefix=1
-        #business路由配置
-        - id: business
-          uri: lb://business
-          predicates:
-            - Path=/api/business/**
-          filters:
-            - StripPrefix=1
         #order路由配置
         - id: order
           uri: lb://order
           predicates:
             - Path=/api/order/**
-          filters:
-            - StripPrefix=1
-        #storage路由配置
-        - id: storage
-          uri: lb://storage
-          predicates:
-            - Path=/api/storage/**
           filters:
             - StripPrefix=1
   jackson:

@@ -45,7 +45,7 @@ public class UserService {
      * @date: 2021-05-22 18:38
      * @description: 根据用户名查询用户
      **/
-    public User getUserByLoginName(String username) {
+    public User findByLoginName(String username) {
         LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
         userLambdaQueryWrapper.eq(User::getLoginName, username);
         return userMapper.selectOne(userLambdaQueryWrapper);
