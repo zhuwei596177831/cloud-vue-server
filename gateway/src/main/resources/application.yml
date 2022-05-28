@@ -44,3 +44,7 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-d HH:mm:ss
+  #redis配置
+  redis:
+    url: @redis.url@
+    database: 0

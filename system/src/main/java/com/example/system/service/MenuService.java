@@ -41,6 +41,18 @@ public class MenuService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    public List<Menu> menuTableList(MenuReq menuReq) {
+        return reconstructMenuList(this.menuList(menuReq, null));
+    }
+
+    private List<Menu> reconstructMenuList(List<Menu> all) {
+        List<Menu> moduleMenus = all.stream().filter(m -> MenuType.MENU_MODEL.getValue().equals(m.getType())).collect(Collectors.toList());
+        if (!CollectionUtils.isEmpty(moduleMenus)) {
+            recursionChildren(moduleMenus, all);
+        }
+        return moduleMenus;
+    }
+
     /**
      * @param menuReq:
      * @param pageInfo:
@@ -161,7 +173,7 @@ public class MenuService {
             if (!CollectionUtils.isEmpty(childrenSet)) {
                 recursionChildren(childrenSet, all);
             }
-            m.setChildMenus(new ArrayList<>(childrenSet));
+            m.setChildren(new ArrayList<>(childrenSet));
         });
     }
 
@@ -198,7 +210,6 @@ public class MenuService {
     public List<MenuTree> getMenuTrees() {
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = new LambdaQueryWrapper<>();
         menuLambdaQueryWrapper.eq(Menu::getType, MenuType.MENU_MODEL.getValue());
-        menuLambdaQueryWrapper.orderByAsc(Menu::getSort);
         List<MenuTree> menuTrees = menuMapper.selectList(menuLambdaQueryWrapper).stream().map(menu -> {
             MenuTree menuTree = new MenuTree();
             menuTree.setId(menu.getId());
@@ -214,7 +225,6 @@ public class MenuService {
         menuTrees.forEach(treeItem -> {
             LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = new LambdaQueryWrapper<>();
             menuLambdaQueryWrapper.eq(Menu::getParentId, treeItem.getId());
-            menuLambdaQueryWrapper.orderByAsc(Menu::getSort);
             List<MenuTree> menuTreeList = menuMapper.selectList(menuLambdaQueryWrapper).stream().map(menu -> {
                 MenuTree menuTree = new MenuTree();
                 menuTree.setId(menu.getId());

@@ -15,7 +15,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author 朱伟伟
  * @date 2022-03-09 14:46:07
- * @description
+ * @description redis 分布式锁工具类
+ * 只适用于redis单机模式！
  */
 @Component
 public class SingletonDistributedLockRedis {

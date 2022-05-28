@@ -1,6 +1,7 @@
 package com.example.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.example.core.entity.BaseEntity;
@@ -35,6 +36,7 @@ public class Role extends BaseEntity {
      */
     @ApiModelProperty(value = "角色主键")
     @NotNull(message = "角色主键不能为空", groups = {Update.class})
+    @TableId
     private Long id;
 
     @NotEmpty(message = "角色编码不能为空", groups = {Add.class, Update.class})

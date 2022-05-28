@@ -57,6 +57,10 @@ spring:
   jackson:
     date-format: yyyy-MM-d HH:mm:ss
     time-zone: GMT+8
+  #redis配置
+  redis:
+    url: @redis.url@
+    database: 0
   cloud:
     #nacos配置
     nacos:
@@ -84,9 +88,6 @@ mybatis-plus:
       id-type: assign_id
 knife4j:
   enable: true
-logging:
-  level:
-    org.apache.shiro.web.servlet: debug
 #Seata client端 nacos 配置
 seata:
   enabled: true

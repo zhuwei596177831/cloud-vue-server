@@ -14,6 +14,7 @@ spring:
     multipart:
       max-file-size: -1
       max-request-size: 100MB
+  #数据库连接池配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -57,6 +58,10 @@ spring:
   jackson:
     date-format: yyyy-MM-d HH:mm:ss
     time-zone: GMT+8
+  #redis配置
+  redis:
+    url: @redis.url@
+    database: 0
   cloud:
     #nacos配置
     nacos:
@@ -84,14 +89,6 @@ mybatis-plus:
       id-type: assign_id
 knife4j:
   enable: true
-logging:
-  group:
-    debug_level: org.apache.shiro.web.servlet,com.example.system.openfeign.client
-  level:
-    debug_level: debug
-#  level:
-#    org.apache.shiro.web.servlet: debug
-#    com.example.system.openfeign.client: debug
 #Seata client端 nacos 配置
 seata:
   enabled: true

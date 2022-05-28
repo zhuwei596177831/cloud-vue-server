@@ -1,4 +1,4 @@
-package com.example.coreweb.cache.composite;
+package com.example.coreweb.cache.multi;
 
 import org.springframework.cache.Cache;
 import org.springframework.cache.caffeine.CaffeineCache;
@@ -12,12 +12,12 @@ import java.util.concurrent.Callable;
  * @date 2022-02-17 17:26:01
  * @description 多级缓存
  */
-public class CompositeCache implements Cache {
+public class MultiCache implements Cache {
 
     private final CaffeineCache caffeineCache;
     private final RedisCache redisCache;
 
-    public CompositeCache(CaffeineCache caffeineCache, RedisCache redisCache) {
+    public MultiCache(CaffeineCache caffeineCache, RedisCache redisCache) {
         this.caffeineCache = caffeineCache;
         this.redisCache = redisCache;
     }

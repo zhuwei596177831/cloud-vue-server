@@ -252,6 +252,8 @@
                 <nacos.address>127.0.0.1:8848</nacos.address>
                 <nacos.userName>nacos</nacos.userName>
                 <nacos.passWord>nacos</nacos.passWord>
+                <!--格式：redis://user:password@example.com:6379-->
+                <redis.url>redis://127.0.0.1:6379</redis.url>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -263,7 +265,8 @@
                 <profile.active>test</profile.active>
                 <nacos.address>127.0.0.1:8848</nacos.address>
                 <nacos.userName>nacos</nacos.userName>
-                <nacos.passWord>zhuweiwei</nacos.passWord>
+                <nacos.passWord>nacos</nacos.passWord>
+                <redis.url>redis://127.0.0.1:6379</redis.url>
             </properties>
         </profile>
         <profile>
@@ -272,7 +275,8 @@
                 <profile.active>prod</profile.active>
                 <nacos.address>127.0.0.1:8848</nacos.address>
                 <nacos.userName>nacos</nacos.userName>
-                <nacos.passWord>zhuweiwei</nacos.passWord>
+                <nacos.passWord>nacos</nacos.passWord>
+                <redis.url>redis://127.0.0.1:6379</redis.url>
             </properties>
         </profile>
     </profiles>

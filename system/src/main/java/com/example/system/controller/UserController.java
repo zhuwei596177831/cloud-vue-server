@@ -2,6 +2,7 @@ package com.example.system.controller;
 
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
+import com.example.core.vo.system.UserInfoVo;
 import com.example.core.vo.system.UserVo;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.example.system.entity.User;
@@ -13,7 +14,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -114,14 +114,15 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息 用于前端vuex存储
      *
      * @author: 朱伟伟
      * @date: 2021-07-28 16:29
      **/
-    @ApiOperation(value = "获取用户信息")
-    @PostMapping("/findUser")
-    public Json findUser() {
-        return Json.ok(SecurityUtils.getSubject().getPrincipal());
+    @ApiOperation(value = "获取用户信息 用于前端vuex存储")
+    @PostMapping("/findUserInfo")
+    public Json findUserInfo() {
+        UserInfoVo userInfoVo = userService.findUserInfo(getUser());
+        return Json.ok(userInfoVo);
     }
 }

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @author 朱伟伟
  * @date 2021-05-16 17:07:12
@@ -17,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel(value = "分页查询参数")
-public class PageInfo extends BaseEntity {
+public class PageInfo implements Serializable {
     private static final long serialVersionUID = 7670486731975501401L;
     /**
      * 当前页

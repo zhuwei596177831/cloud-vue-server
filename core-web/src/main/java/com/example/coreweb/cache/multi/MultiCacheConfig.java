@@ -1,6 +1,6 @@
-package com.example.coreweb.cache.composite;
+package com.example.coreweb.cache.multi;
 
-import com.example.coreweb.cache.CacheUtil;
+import com.example.core.util.Constants;
 import com.example.coreweb.cache.redis.JacksonRedisTemplate;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.beans.factory.ObjectProvider;
@@ -27,17 +27,17 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(CacheProperties.class)
-public class CompositeCacheConfig {
+public class MultiCacheConfig {
 
     @Bean
     public JacksonRedisTemplate jacksonRedisTemplate(ObjectProvider<RedisConnectionFactory> redisConnectionFactory) {
         return new JacksonRedisTemplate(redisConnectionFactory.getObject());
     }
 
-    @Bean(name = CacheUtil.multiCacheManagerName)
-    public CompositeCacheManager multiCacheManager(CacheProperties cacheProperties, RedisCacheManager redisCacheManager) {
+    @Bean(name = Constants.multiCacheManagerName)
+    public MultiCacheManager multiCacheManager(CacheProperties cacheProperties, RedisCacheManager redisCacheManager) {
         CaffeineCacheManager caffeineCacheManager = createCaffeineCacheManager(cacheProperties);
-        return new CompositeCacheManager(caffeineCacheManager, redisCacheManager);
+        return new MultiCacheManager(caffeineCacheManager, redisCacheManager);
     }
 
     private CaffeineCacheManager createCaffeineCacheManager(CacheProperties cacheProperties) {
@@ -72,7 +72,7 @@ public class CompositeCacheConfig {
      * @author: 朱伟伟
      * @date: 2022-02-17 20:46
      **/
-    @Bean(name = CacheUtil.redisCacheManagerName)
+    @Bean(name = Constants.redisCacheManagerName)
     public RedisCacheManager createRedisCacheManager(CacheProperties cacheProperties,
                                                      JacksonRedisTemplate jacksonRedisTemplate,
                                                      ObjectProvider<RedisConnectionFactory> redisConnectionFactory) {

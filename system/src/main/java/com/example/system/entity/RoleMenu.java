@@ -1,5 +1,6 @@
 package com.example.system.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.core.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
@@ -26,6 +27,7 @@ public class RoleMenu extends BaseEntity {
      * 主键
      */
     @ApiModelProperty(value = "主键")
+    @TableId
     private Long id;
 
     /**

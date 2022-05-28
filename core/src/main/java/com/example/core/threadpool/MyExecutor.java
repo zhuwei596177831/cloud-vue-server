@@ -7,12 +7,12 @@ import java.util.concurrent.*;
 /**
  * @author 朱伟伟
  * @date 2022-03-01 21:43:08
- * @description
+ * @description 自定义线程池
  */
 public abstract class MyExecutor {
 
     private static final ExecutorService delegate =
-            new ThreadPoolExecutor(10, 100, 60L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(50));
+            new ThreadPoolExecutor(10, 100, 60L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100));
 
     public static <T> Future<T> submit(Callable<T> task) {
         return delegate.submit(task);

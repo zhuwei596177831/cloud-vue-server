@@ -1,6 +1,7 @@
 package com.example.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.core.entity.BaseEntity;
 import com.example.core.util.Constants;
@@ -33,6 +34,7 @@ public class User extends BaseEntity {
      */
     @ApiModelProperty(value = "用户主键")
     @NotNull(message = "用户主键不能为空", groups = {Update.class})
+    @TableId
     private Long id;
 
     /**

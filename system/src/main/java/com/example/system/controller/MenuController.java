@@ -2,7 +2,6 @@ package com.example.system.controller;
 
 import com.example.core.entity.Cascader;
 import com.example.core.entity.Json;
-import com.example.core.entity.PageInfo;
 import com.example.core.enums.MenuType;
 import com.example.core.vo.system.UserVo;
 import com.example.shiroAuthencation.controller.BaseController;
@@ -42,13 +41,12 @@ public class MenuController extends BaseController {
      * @param menuReq:
      * @author: 朱伟伟
      * @date: 2021-06-14 16:54
-     * @description: 菜单分页数据
+     * @description: 菜单数据
      **/
-    @ApiOperation(value = "菜单分页数据")
-    @PostMapping("/menuPageList")
-    public Json menuPageList(MenuReq menuReq) {
-        PageInfo pageInfo = getPageInfo();
-        List<Menu> menuList = menuService.menuList(menuReq, pageInfo);
+    @ApiOperation(value = "菜单数据")
+    @PostMapping("/menuTableList")
+    public Json menuTableList(MenuReq menuReq) {
+        List<Menu> menuList = menuService.menuTableList(menuReq);
         return Json.ok(menuList);
     }
 

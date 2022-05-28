@@ -5,6 +5,8 @@
 
     <resultMap id="baseResultMap" type="com.example.system.entity.Role">
         <result property="checkedMenuIds" column="checkedMenuIds" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="inputUserName" column="inputUserName"/>
+        <result property="updateUserName" column="updateUserName"/>
     </resultMap>
 
     <select id="roleList" resultMap="baseResultMap">

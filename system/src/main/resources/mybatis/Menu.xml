@@ -5,7 +5,7 @@
 
     <select id="menuList" resultType="com.example.system.entity.Menu">
         select t.id,t.type,t.name,t.code,t.parentId,t.path,t.iconClass,t.inputTime,t.inputUserId,
-        t.updateTime,t.updateUserId,t.sort,p.name as parentName
+        t.updateTime,t.updateUserId,p.name as parentName
         from `system`.t_menu t
         left join `system`.t_menu p on p.id = t.parentId
         <where>
@@ -25,7 +25,7 @@
                 and t.parentId = #{parentId}
             </if>
         </where>
-        order by t.sort
+        order by t.inputTime
     </select>
 
     <select id="findMenusByUserId" resultType="com.example.system.entity.Menu">

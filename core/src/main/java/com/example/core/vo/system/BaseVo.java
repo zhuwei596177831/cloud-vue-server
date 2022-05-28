@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 /**
  * @author 朱伟伟
  * @date 2021-11-28 23:28:19
- * @description
+ * @description 基础vo类
  */
 @Getter
 @Setter

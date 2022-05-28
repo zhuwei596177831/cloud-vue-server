@@ -3,18 +3,24 @@ package com.example.system.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
+import com.example.core.enums.MenuType;
 import com.example.core.util.Constants;
-import com.example.core.util.PasswordHelper;
+import com.example.core.util.PasswordUtils;
+import com.example.core.vo.system.UserInfoVo;
+import com.example.core.vo.system.UserVo;
 import com.example.coreweb.exception.ApplicationException;
+import com.example.system.entity.Menu;
 import com.example.system.entity.Role;
 import com.example.system.entity.User;
 import com.example.system.entity.UserRole;
 import com.example.system.entity.req.UserReq;
+import com.example.system.mapper.MenuMapper;
 import com.example.system.mapper.RoleMapper;
 import com.example.system.mapper.UserMapper;
 import com.example.system.mapper.UserRoleMapper;
 import com.example.system.responsecode.UserResponseCode;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +28,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +45,8 @@ public class UserService {
     private UserRoleMapper userRoleMapper;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private MenuMapper menuMapper;
 
     /**
      * @param username:
@@ -88,7 +97,7 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public Json addUser(User user) {
         validate(user);
-        user.setPassword(PasswordHelper.md5(user.getLoginName(), Constants.DEFAULT_PASSWORD));
+        user.setPassword(PasswordUtils.md5(user.getLoginName(), Constants.DEFAULT_PASSWORD));
         userMapper.insert(user);
         addUserRole(user.getRoleIds(), user.getId(), user.getInputUserId());
         return Json.success();
@@ -162,8 +171,31 @@ public class UserService {
         }
         User user = new User();
         user.setId(userId);
-        user.setPassword(PasswordHelper.md5(exist.getLoginName(), Constants.DEFAULT_PASSWORD));
+        user.setPassword(PasswordUtils.md5(exist.getLoginName(), Constants.DEFAULT_PASSWORD));
         userMapper.updateById(user);
         return Json.success();
+    }
+
+    /**
+     * 获取用户信息 用于前端vuex存储
+     *
+     * @param userVo:
+     * @author: 朱伟伟
+     * @date: 2022-05-24 09:41
+     **/
+    public UserInfoVo findUserInfo(UserVo userVo) {
+        UserInfoVo userInfoVo = new UserInfoVo();
+        BeanUtils.copyProperties(userVo, userInfoVo);
+        Set<Role> roles = roleMapper.findRolesByUserId(userVo.getId());
+        List<String> roleCodes = roles.stream().map(Role::getCode).collect(Collectors.toList());
+        userInfoVo.setRoleCodes(roleCodes);
+        Set<Menu> menus = menuMapper.findMenusByUserId(userVo.getId());
+        List<String> menuCodes = menus.stream().filter(menu -> MenuType.MENU_BUTTON.getValue().equals(menu.getType())).map(Menu::getCode).collect(Collectors.toList());
+        userInfoVo.setMenuCodes(menuCodes);
+        List<String> menuPaths = menus.stream().map(Menu::getPath).filter(StringUtils::hasText).collect(Collectors.toList());
+        userInfoVo.setMenuPaths(menuPaths);
+        List<String> roleNameList = roles.stream().map(Role::getName).collect(Collectors.toList());
+        userInfoVo.setRoleNames(StringUtils.collectionToCommaDelimitedString(roleNameList));
+        return userInfoVo;
     }
 }

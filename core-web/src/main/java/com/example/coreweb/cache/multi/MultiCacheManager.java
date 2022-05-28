@@ -1,4 +1,4 @@
-package com.example.coreweb.cache.composite;
+package com.example.coreweb.cache.multi;
 
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -17,14 +17,14 @@ import java.util.concurrent.ConcurrentMap;
  * @date 2022-02-17 17:23:24
  * @description
  */
-public class CompositeCacheManager implements CacheManager {
+public class MultiCacheManager implements CacheManager {
 
     private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
 
     private final CaffeineCacheManager caffeineCacheManager;
     private final RedisCacheManager redisCacheManager;
 
-    public CompositeCacheManager(CaffeineCacheManager caffeineCacheManager, RedisCacheManager redisCacheManager) {
+    public MultiCacheManager(CaffeineCacheManager caffeineCacheManager, RedisCacheManager redisCacheManager) {
         this.caffeineCacheManager = caffeineCacheManager;
         this.redisCacheManager = redisCacheManager;
     }
@@ -55,7 +55,7 @@ public class CompositeCacheManager implements CacheManager {
         if (redisC != null) {
             redisCache = (RedisCache) redisC;
         }
-        return new CompositeCache(caffeineCache, redisCache);
+        return new MultiCache(caffeineCache, redisCache);
     }
 
     @Override

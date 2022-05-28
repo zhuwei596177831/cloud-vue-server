@@ -2,6 +2,7 @@ package com.example.system.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.core.entity.BaseEntity;
 import com.example.core.enums.MenuType;
@@ -35,6 +36,7 @@ public class Menu extends BaseEntity {
      */
     @ApiModelProperty(value = "主键")
     @NotEmpty(message = "主键不能为空", groups = {Update.class})
+    @TableId
     private Long id;
 
     /**
@@ -114,14 +116,11 @@ public class Menu extends BaseEntity {
     @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String iconClass;
 
-    @ApiModelProperty(value = "序号")
-    private Integer sort;
-
     /**
      * 子级菜单
      */
     @TableField(exist = false)
-    private List<Menu> childMenus;
+    private List<Menu> children;
 
     public void setType(Integer type) {
         this.type = type;

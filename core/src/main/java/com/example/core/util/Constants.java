@@ -15,13 +15,29 @@ public class Constants {
     public static final String TERMS_OF_SERVICE_URL = "http://127.0.0.1:8090";
     public static final String USER_LOGIN_ERROR = "用户名或密码错误";
     public static final String USER_ACCOUNT_LOCKED = "账户已锁定";
-    public static final String USER_TIME = "user_time";
-    public static final String USER_SIGN = "user_sign";
-    public static final String USER_NONCE = "user_nonce";
-    public static final String SHIRO_COOKIE_NAME = "customSessionIdCookie";
     public static final String DEFAULT_PASSWORD = "000000";
     public static final String SUCCESS_CODE_STRING = "0000";
     public static final String SUCCESS_MSG_STRING = "成功";
+    public static final String X_TOKEN_NAME = "X-Token";
+
+    /**
+     * 是否为系统默认（是）
+     */
+    public static final String YES = "Y";
+
+    /**
+     * 校验返回结果码
+     */
+    public final static String UNIQUE = "0";
+    public final static String NOT_UNIQUE = "1";
+
+    /**
+     * Spring Cache Manager 名称
+     */
+    public static final String ehCacheCacheManagerName = "ehCacheCacheManager";
+    public static final String redisCacheManagerName = "redisCacheManager";
+    public static final String caffeineCacheManagerName = "caffeineCacheManager";
+    public static final String multiCacheManagerName = "multiCacheManager";
 
     /**
      * 各个服务的application name

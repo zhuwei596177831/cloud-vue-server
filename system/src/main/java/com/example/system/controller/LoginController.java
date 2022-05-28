@@ -1,9 +1,11 @@
 package com.example.system.controller;
 
 import com.example.core.entity.Json;
+import com.example.core.responsecode.ApplicationResponseCode;
 import com.example.core.util.Constants;
+import com.example.core.vo.system.TokenVo;
+import com.example.coreweb.exception.ApplicationException;
 import com.example.shiroAuthencation.controller.BaseController;
-import com.example.system.service.MenuService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,14 +17,13 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * @author 朱伟伟
@@ -34,12 +35,6 @@ import javax.validation.constraints.NotEmpty;
 @RestController
 @Slf4j
 public class LoginController extends BaseController {
-
-    @Autowired
-    private DefaultSessionManager defaultSessionManager;
-    @Autowired
-    private MenuService menuService;
-
 
     /**
      * @param username:
@@ -70,13 +65,13 @@ public class LoginController extends BaseController {
             e.printStackTrace();
             return Json.fail(e.getMessage());
         }
-//        long globalSessionTimeout = defaultSessionManager.getGlobalSessionTimeout();
-//        Serializable sessionId = subject.getSession(false).getId();
-//        Map<String, Object> map = new HashMap<>();
-//        map.put(ConstantsHolder.SHIRO_COOKIE_NAME, sessionId);
-//        map.put("tokenExpireTime", globalSessionTimeout / 1000);
-//        return Result.ok(map);
-        return Json.ok(getUser().getName());
+        Serializable sessionId = subject.getSession(false).getId();
+        if (sessionId == null) {
+            throw new ApplicationException(ApplicationResponseCode.TOKEN_GENERATE_ERROR);
+        }
+        TokenVo tokenVo = new TokenVo();
+        tokenVo.setToken(sessionId);
+        return Json.ok(tokenVo);
     }
 
     /**

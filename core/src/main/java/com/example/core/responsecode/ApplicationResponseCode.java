@@ -11,6 +11,7 @@ public enum ApplicationResponseCode implements ResponseCode {
     UNAUTHORIZED("401", "认证失败,请重新登录"),
     RECORD_NOT_EXIST("record_not_exist", "记录不存在"),
     UNKNOWN_ERROR("unknown_error", "未知异常"),
+    TOKEN_GENERATE_ERROR("token_generate_error", "生成token异常"),
     ;
 
     private final String code;

@@ -6,9 +6,9 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 /**
  * @author 朱伟伟
  * @date 2021-05-10 17:06:09
- * @description
+ * @description shiro用户 密码加密
  */
-public class PasswordHelper {
+public class PasswordUtils {
 
     /**
      * md5加密，方式：md5(用户名+密码)

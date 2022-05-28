@@ -1,4 +1,4 @@
-package com.example.coreweb.cache.composite;
+package com.example.coreweb.cache.multi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -17,7 +17,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
  */
 @EnableCaching(proxyTargetClass = true)
 @Configuration(proxyBeanMethods = false)
-public class CompositeCacheConfigurer extends CachingConfigurerSupport {
+public class MultiCacheConfigurer extends CachingConfigurerSupport {
 
     @Autowired
     private RedisCacheManager redisCacheManager;

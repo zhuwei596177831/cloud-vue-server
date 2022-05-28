@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class ShiroReisCache implements Cache<Serializable, Session> {
 
     /**
-     * 缓存session，加快访问
+     * 缓存session
      */
     private final ConcurrentMap<Serializable, Session> sessions = new ConcurrentHashMap<>();
 
