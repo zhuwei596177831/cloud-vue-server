@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,7 @@ public class SysDictDataController extends BaseController {
     @PostMapping
     public Json add(@Validated @RequestBody SysDictData dict) {
         dict.setCreateBy(getUser().getName());
+        dict.setCreateTime(LocalDateTime.now());
         return Json.ok(dictDataService.insertDictData(dict));
     }
 

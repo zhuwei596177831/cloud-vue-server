@@ -60,7 +60,6 @@ public class SysDictDataService {
      */
     public void deleteDictDataByIds(Long[] dictCodes) {
         for (Long dictCode : dictCodes) {
-            SysDictData data = selectDictDataById(dictCode);
             dictDataMapper.deleteDictDataById(dictCode);
         }
     }
@@ -82,10 +81,6 @@ public class SysDictDataService {
      * @return 结果
      */
     public int updateDictData(SysDictData data) {
-        int row = dictDataMapper.updateDictData(data);
-        if (row > 0) {
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
-        }
-        return row;
+        return dictDataMapper.updateDictData(data);
     }
 }

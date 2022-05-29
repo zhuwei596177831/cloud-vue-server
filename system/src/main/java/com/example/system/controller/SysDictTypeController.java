@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -45,6 +46,7 @@ public class SysDictTypeController extends BaseController {
             return Json.fail("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         dict.setCreateBy(getUser().getName());
+        dict.setCreateTime(LocalDateTime.now());
         return Json.ok(dictTypeService.insertDictType(dict));
     }
 
