@@ -11,3 +11,12 @@ spring:
         password: @nacos.passWord@
 server:
   port: 8082
+#配置暴露所有监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

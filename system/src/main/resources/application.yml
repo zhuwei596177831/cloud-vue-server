@@ -68,8 +68,12 @@ spring:
       discovery:
         server-addr: @nacos.address@
         service: ${spring.application.name}
-        username: @nacos.userName@
-        password: @nacos.passWord@
+        #配置了context-path时 必须配置如下代码将context-path加入Springboot Admin 监控地址
+        metadata:
+          management:
+            context-path: ${server.servlet.context-path}/actuator
+      username: @nacos.userName@
+      password: @nacos.passWord@
 pagehelper:
   params: pageNum=pageNum;pageSize=pageSize;count=countSql;
   #支持通过 Mapper 接口参数来传递分页参数，默认值false，分页插件会从查询方法的参数值中，自动根据上面 params 配置的字段中取值
@@ -113,3 +117,12 @@ seata:
       password: @nacos.passWord@
       #与 seata server 配置的application一致
       application: seata-server
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

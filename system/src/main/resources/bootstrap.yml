@@ -11,6 +11,8 @@ feign:
         readTimeout: 3000
         #Log the headers, body, and metadata for both requests and responses.
         loggerLevel: FULL
+  httpclient:
+    enabled: true
 #openfeign中启用hystrix时, hystrix的默认超时时间是 1000 milliseconds.
 #会使上面feign的connectTimeout和readTimeout配置失效 添加如下配置
 #1、关闭hystrix超时功能 或者 2、延长hystrix默认的超时时间

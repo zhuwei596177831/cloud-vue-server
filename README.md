@@ -1,8 +1,9 @@
 # gateway:9091
 # system:9092
 # file:9093
-# account:9094
-# order:9095
+# monitor:9094
+# job-admin:8081
+# job-executor:8082
 
 #需要额外启动的服务
 1、nacos

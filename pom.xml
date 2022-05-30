@@ -15,11 +15,10 @@
         <module>gateway</module>
         <module>shiro-auth</module>
         <module>system</module>
-        <module>order</module>
-        <module>account</module>
         <module>job-admin</module>
         <module>job-executor</module>
         <module>file</module>
+        <module>monitor</module>
     </modules>
 
     <properties>
@@ -51,6 +50,7 @@
         <log4j.version>2.17.2</log4j.version>
         <fastdfs.version>1.27.2</fastdfs.version>
         <minio.version>8.2.2</minio.version>
+        <spring-boot-admin.version>2.2.3</spring-boot-admin.version>
     </properties>
 
     <dependencyManagement>
@@ -260,6 +260,11 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
