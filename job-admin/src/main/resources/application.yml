@@ -1,0 +1,50 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /job-admin
+spring:
+  application:
+    name: job-admin
+  profiles:
+    active: @profile.active@
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
+  freemarker:
+    templateLoaderPath: classpath:/templates/
+    suffix: .ftl
+    charset: UTF-8
+    request-context-attribute: request
+    settings:
+      number_format: 0.##########
+    #数据库连接池配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      #配置初始化大小、最小、最大
+      initial-size: 5
+      min-idle: 10
+      max-active: 20
+      #配置获取连接等待超时的时间
+      max-wait: 6000
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 20000
+      #配置一个连接在池中最小、最大生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 600000
+      max-evictable-idle-time-millis: 900000
+      validation-query: "select 1"
+      test-while-idle: false
+      test-on-borrow: false
+      test-on-return: false
+      keep-alive: true
+      async-init: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: @nacos.address@
+      username: @nacos.userName@
+      password: @nacos.passWord@
+mybatis:
+  mapper-locations: classpath:/mybatis-mapper/*.xml

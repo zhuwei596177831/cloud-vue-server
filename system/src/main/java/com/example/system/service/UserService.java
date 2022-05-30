@@ -18,7 +18,7 @@ import com.example.system.mapper.MenuMapper;
 import com.example.system.mapper.RoleMapper;
 import com.example.system.mapper.UserMapper;
 import com.example.system.mapper.UserRoleMapper;
-import com.example.system.responsecode.UserResponseCode;
+import com.example.system.responseCode.UserResponseCode;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: job-executor
+  profiles:
+    active: @profile.active@
+  cloud:
+    nacos:
+      discovery:
+        server-addr: @nacos.address@
+        username: @nacos.userName@
+        password: @nacos.passWord@
+server:
+  port: 8082

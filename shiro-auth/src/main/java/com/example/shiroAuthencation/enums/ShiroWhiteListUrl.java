@@ -11,10 +11,7 @@ import lombok.Getter;
 @Getter
 public enum ShiroWhiteListUrl {
     LOGIN("/login", "登录接口"),
-    testFilter("/testFilter/**", "测试"),
-    USER_BY_LOGIN_NAME("/openFeign/user/findByLoginName", "根据用户名查询用户"),
-    ROLES_BY_USER_ID("/openFeign/role/findRolesByUserId", "根据用户id查询角色集合"),
-    MENUS_BY_USER_ID("/openFeign/menu/findMenusByUserId", "根据用户id查询菜单集合"),
+    OPENFEIGN_CALL("/openFeign/**", "使用openfeign调用不拦截"),
     SWAGGER_API_DOC("/v2/api-docs/**", "swagger文档"),
     ;
 

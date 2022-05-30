@@ -1,0 +1,32 @@
+server:
+  port: 9093
+  servlet:
+    context-path: /file
+    encoding:
+      force-request: true
+      force-response: true
+spring:
+  application:
+    name: file
+  profiles:
+    active: @profile.active@
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: 100MB
+  jackson:
+    date-format: yyyy-MM-d HH:mm:ss
+    time-zone: GMT+8
+  redis:
+    url: @redis.url@
+    database: 0
+  cloud:
+    #nacos配置
+    nacos:
+      discovery:
+        server-addr: @nacos.address@
+        service: ${spring.application.name}
+        username: @nacos.userName@
+        password: @nacos.passWord@
+knife4j:
+  enable: true

@@ -14,7 +14,7 @@ import com.example.system.entity.RoleMenu;
 import com.example.system.entity.req.MenuReq;
 import com.example.system.mapper.MenuMapper;
 import com.example.system.mapper.RoleMenuMapper;
-import com.example.system.responsecode.MenuResponseCode;
+import com.example.system.responseCode.MenuResponseCode;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

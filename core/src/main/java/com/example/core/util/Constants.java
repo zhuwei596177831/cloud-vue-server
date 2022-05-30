@@ -12,7 +12,7 @@ public class Constants {
     public static final String GATEWAY_SIGN_KEY = "gateway_sign_key";
     public static final String GATEWAY_TIME = "gateway_time";
     public static final String GATEWAY_NONCE = "gateway_nonce";
-    public static final String TERMS_OF_SERVICE_URL = "http://127.0.0.1:8090";
+    public static final String TERMS_OF_SERVICE_URL = "http://127.0.0.1:9000";
     public static final String USER_LOGIN_ERROR = "用户名或密码错误";
     public static final String USER_ACCOUNT_LOCKED = "账户已锁定";
     public static final String DEFAULT_PASSWORD = "000000";
@@ -53,6 +53,16 @@ public class Constants {
      */
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String TIME_FORMAT = "HH:mm:ss";
+
+    /**
+     * http请求
+     */
+    public static final String HTTP = "http://";
+
+    /**
+     * https请求
+     */
+    public static final String HTTPS = "https://";
 
     private Constants() {
 

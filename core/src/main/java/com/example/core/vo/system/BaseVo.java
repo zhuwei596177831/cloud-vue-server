@@ -1,5 +1,6 @@
 package com.example.core.vo.system;
 
+import com.alibaba.fastjson.JSON;
 import com.example.core.util.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
@@ -51,4 +52,8 @@ public class BaseVo implements Serializable {
     @JsonFormat(pattern = Constants.DATE_TIME_FORMAT)
     protected LocalDateTime updateTime;
 
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 }

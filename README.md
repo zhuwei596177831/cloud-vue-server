@@ -1,7 +1,8 @@
-# gateway:9000
-# system:9001
-# account:9002
-# order:9003
+# gateway:9091
+# system:9092
+# file:9093
+# account:9094
+# order:9095
 
 #需要额外启动的服务
 1、nacos

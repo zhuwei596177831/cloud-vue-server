@@ -1,5 +1,5 @@
 server:
-  port: 9002
+  port: 9094
   servlet:
     context-path: /account
     encoding:
