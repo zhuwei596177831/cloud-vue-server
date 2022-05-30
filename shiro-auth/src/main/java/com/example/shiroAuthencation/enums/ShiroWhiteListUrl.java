@@ -12,7 +12,7 @@ import lombok.Getter;
 public enum ShiroWhiteListUrl {
     LOGIN("/login", "登录接口"),
     OPENFEIGN_CALL("/openFeign/**", "使用openfeign调用不拦截"),
-    //ACTUATOR_MONITOR("/actuator/**", "monitor监控不校验"),
+    ACTUATOR_MONITOR("/actuator/**", "monitor监控不校验"),
     SWAGGER_API_DOC("/v2/api-docs/**", "swagger文档"),
     ;
 
