@@ -12,8 +12,8 @@
     <modules>
         <module>core</module>
         <module>core-web</module>
-        <module>gateway</module>
         <module>shiro-auth</module>
+        <module>gateway</module>
         <module>system</module>
         <module>job-admin</module>
         <module>job-executor</module>
