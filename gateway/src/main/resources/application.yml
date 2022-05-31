@@ -34,27 +34,13 @@ spring:
             - Path=/api/file/**
           filters:
             - StripPrefix=1
-        #account路由配置
-        - id: account
-          uri: lb://account
-          predicates:
-            - Path=/api/account/**
-          filters:
-            - StripPrefix=1
-        #order路由配置
-        - id: order
-          uri: lb://order
-          predicates:
-            - Path=/api/order/**
-          filters:
-            - StripPrefix=1
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-d HH:mm:ss
   #redis配置
   redis:
     url: @redis.url@
-    database: 0
+    database: @redis.database@
 #配置暴露所有监控端点
 management:
   endpoints:

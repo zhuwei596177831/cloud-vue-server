@@ -82,4 +82,20 @@ public class UserInfoVo implements Serializable {
     @ApiModelProperty(value = "菜单编码")
     private List<String> menuCodes;
 
+    /**
+     * 系统监控新开窗口地址 job
+     */
+    @ApiModelProperty(value = "系统监控新开窗口地址 job")
+    private String jobAddress;
+    /**
+     * 系统监控新开窗口地址 nacos
+     */
+    @ApiModelProperty(value = "系统监控新开窗口地址 nacos")
+    private String nacosAddress;
+    /**
+     * 系统监控新开窗口地址 monitor
+     */
+    @ApiModelProperty(value = "系统监控新开窗口地址 monitor")
+    private String monitorAddress;
+
 }

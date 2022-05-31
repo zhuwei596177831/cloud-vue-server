@@ -19,7 +19,7 @@ spring:
     time-zone: GMT+8
   redis:
     url: @redis.url@
-    database: 0
+    database: @redis.database@
   cloud:
     #nacos配置
     nacos:
@@ -43,3 +43,15 @@ management:
   endpoint:
     health:
       show-details: always
+#minio文件存储
+minio:
+  url: @minio.url@
+  # 账号
+  access-key: @minio.access-key@
+  # 密码
+  secret-key: @minio.secret-key@
+  #桶名称
+  bucket-name: @minio.bucket-name@
+#fastdfs文件存储
+fdfs:
+  domain: http://fvdfvd

@@ -9,6 +9,7 @@ import com.example.core.util.PasswordUtils;
 import com.example.core.vo.system.UserInfoVo;
 import com.example.core.vo.system.UserVo;
 import com.example.coreweb.exception.ApplicationException;
+import com.example.system.config.SysMonitorConfig;
 import com.example.system.entity.Menu;
 import com.example.system.entity.Role;
 import com.example.system.entity.User;
@@ -47,6 +48,8 @@ public class UserService {
     private RoleMapper roleMapper;
     @Autowired
     private MenuMapper menuMapper;
+    @Autowired
+    private SysMonitorConfig sysMonitorConfig;
 
     /**
      * @param username:
@@ -196,6 +199,9 @@ public class UserService {
         userInfoVo.setMenuPaths(menuPaths);
         List<String> roleNameList = roles.stream().map(Role::getName).collect(Collectors.toList());
         userInfoVo.setRoleNames(StringUtils.collectionToCommaDelimitedString(roleNameList));
+        userInfoVo.setJobAddress(sysMonitorConfig.getJob());
+        userInfoVo.setNacosAddress(sysMonitorConfig.getNacos());
+        userInfoVo.setMonitorAddress(sysMonitorConfig.getMonitor());
         return userInfoVo;
     }
 }

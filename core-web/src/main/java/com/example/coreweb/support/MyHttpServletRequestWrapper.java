@@ -29,6 +29,7 @@ import java.util.Map;
  * @see org.springframework.web.bind.annotation.RequestBody
  */
 public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
+    private final Logger logger = LogManager.getLogger(getClass());
     private final String body;
 
     /**
@@ -42,10 +43,11 @@ public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (isApplicationJson()) {
             this.body = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
         } else {
-            this.body = URLDecoder.decode(getPostParameterValue(), getCharacterEncoding());
+            this.body = URLDecoder.decode(getParameterValue(), getCharacterEncoding());
         }
-        Logger logger = LogManager.getLogger(getClass());
-        logger.info("MyHttpServletRequestWrapper body:\n{}", body);
+        if (StringUtils.hasText(body)) {
+            logger.info("MyHttpServletRequestWrapper body:\n{}", body);
+        }
     }
 
     private boolean isApplicationJson() {
@@ -68,26 +70,28 @@ public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
         return characterEncoding == null ? StandardCharsets.UTF_8.displayName() : characterEncoding;
     }
 
-    private String getPostParameterValue() {
+    private String getParameterValue() {
         StringBuilder stringBuilder;
         stringBuilder = new StringBuilder();
         Map<String, String[]> form = super.getParameterMap();
-        for (Iterator<String> nameIterator = form.keySet().iterator(); nameIterator.hasNext(); ) {
-            String name = nameIterator.next();
-            List<String> values = Arrays.asList(form.get(name));
-            for (Iterator<String> valueIterator = values.iterator(); valueIterator.hasNext(); ) {
-                String value = valueIterator.next();
-                stringBuilder.append(name);
-                if (value != null) {
-                    stringBuilder.append('=');
-                    stringBuilder.append(value);
-                    if (valueIterator.hasNext()) {
-                        stringBuilder.append('&');
+        if (form != null && !form.isEmpty()) {
+            for (Iterator<String> nameIterator = form.keySet().iterator(); nameIterator.hasNext(); ) {
+                String name = nameIterator.next();
+                List<String> values = Arrays.asList(form.get(name));
+                for (Iterator<String> valueIterator = values.iterator(); valueIterator.hasNext(); ) {
+                    String value = valueIterator.next();
+                    stringBuilder.append(name);
+                    if (value != null) {
+                        stringBuilder.append('=');
+                        stringBuilder.append(value);
+                        if (valueIterator.hasNext()) {
+                            stringBuilder.append('&');
+                        }
                     }
                 }
-            }
-            if (nameIterator.hasNext()) {
-                stringBuilder.append('&');
+                if (nameIterator.hasNext()) {
+                    stringBuilder.append('&');
+                }
             }
         }
         return stringBuilder.toString();

@@ -99,11 +99,11 @@ public class MenuService {
                 throw new ApplicationException(MenuResponseCode.PARENT_ID_IS_NULL);
             }
         }
-        if (MenuType.MENU_MODEL.getValue().equals(menu.getType())) {
-            if (!StringUtils.hasText(menu.getIconClass())) {
-                throw new ApplicationException(MenuResponseCode.ICON_IS_NULL);
-            }
-        }
+        //if (MenuType.MENU_MODEL.getValue().equals(menu.getType())) {
+        //    if (!StringUtils.hasText(menu.getIconClass())) {
+        //        throw new ApplicationException(MenuResponseCode.ICON_IS_NULL);
+        //    }
+        //}
         if (MenuType.MENU_NAVIGATION.getValue().equals(menu.getType())) {
             if (!StringUtils.hasText(menu.getPath())) {
                 throw new ApplicationException(MenuResponseCode.PATH_IS_NULL);

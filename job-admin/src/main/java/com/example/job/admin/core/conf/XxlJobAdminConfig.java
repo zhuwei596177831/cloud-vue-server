@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * @author xuxueli 2017-04-28
  */
 @Configuration
-@PropertySource(value = {"classpath:job-config.properties"})
+@PropertySource(value = {"classpath:job-admin-config.properties"})
 public class XxlJobAdminConfig implements InitializingBean {
     private static XxlJobAdminConfig adminConfig = null;
 

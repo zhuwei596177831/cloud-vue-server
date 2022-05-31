@@ -27,4 +27,9 @@ public class FileVo implements Serializable {
      */
     private long size;
 
+    /**
+     * 文件类型
+     */
+    private String type;
+
 }

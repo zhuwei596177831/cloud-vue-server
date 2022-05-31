@@ -61,7 +61,7 @@ spring:
   #redis配置
   redis:
     url: @redis.url@
-    database: 0
+    database: @redis.database@
   cloud:
     #nacos配置
     nacos:

@@ -80,6 +80,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--添加监控登录认证-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

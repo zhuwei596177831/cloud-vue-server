@@ -44,6 +44,9 @@ public class FileController {
         String url = fileService.uploadFile(file);
         FileVo fileVo = new FileVo();
         fileVo.setName(file.getOriginalFilename());
+        if (file.getOriginalFilename() != null) {
+            fileVo.setType(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
+        }
         fileVo.setUrl(url);
         fileVo.setSize(file.getSize());
         return Json.ok(fileVo);

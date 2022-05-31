@@ -7,6 +7,14 @@ spring:
     name: monitor
   profiles:
     active: @profile.active@
+  security:
+    user:
+      name: @monitor.login.username@
+      password: @monitor.login.password@
+  boot:
+    admin:
+      ui:
+        title: @monitor.login.title@
   cloud:
     #nacos配置
     nacos:

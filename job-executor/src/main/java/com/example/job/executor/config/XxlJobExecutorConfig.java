@@ -16,9 +16,9 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @ComponentScan(basePackages = "com.example.job.executor.jobHandler")
-@PropertySource(value = {"classpath:job-config.properties"})
-public class XxlJobConfig {
-    private Logger logger = LoggerFactory.getLogger(XxlJobConfig.class);
+@PropertySource(value = {"classpath:job-executor-config.properties"})
+public class XxlJobExecutorConfig {
+    private Logger logger = LoggerFactory.getLogger(XxlJobExecutorConfig.class);
 
     @Value("${xxl.job.admin.addresses}")
     private String adminAddresses;

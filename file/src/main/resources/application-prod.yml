@@ -4,15 +4,3 @@ knife4j:
     enable: true
     username: swagger
     password: swagger
-#minio文件存储
-minio:
-  url: http://127.0.0.1:9000
-  # 账号
-  access-key: minioadmin
-  # 密码
-  secret-key: minioadmin
-  #桶名称
-  bucket-name: test
-#fastdfs文件存储
-fdfs:
-  domain: http://fvdfvd
