@@ -1,4 +1,5 @@
 -- for AT mode you must to init this sql for you business database. the seata server not need it.
+-- 每个业务库都需要创建此表
 CREATE TABLE IF NOT EXISTS `undo_log`
 (
     `branch_id`     BIGINT(20)   NOT NULL COMMENT 'branch transaction id',
