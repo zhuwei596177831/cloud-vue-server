@@ -1,4 +1,4 @@
-package com.example.file;
+package com.example.gen;
 
 import org.apache.shiro.spring.boot.autoconfigure.ShiroAnnotationProcessorAutoConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author 朱伟伟
- * @date 2022-05-30 14:36:50
+ * @date 2022-06-01 11:02:45
  * @description
  */
 @SpringBootApplication(
@@ -15,10 +15,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         //(也可以在yml文件配置shiro.annotations.enabled=false)
         exclude = {ShiroAnnotationProcessorAutoConfiguration.class}
 )
-public class FileApplication {
+public class GenApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FileApplication.class, args);
+        SpringApplication.run(GenApplication.class, args);
     }
 
 }

@@ -42,15 +42,19 @@ public class MenuService {
     private StringRedisTemplate stringRedisTemplate;
 
     public List<Menu> menuTableList(MenuReq menuReq) {
-        return reconstructMenuList(this.menuList(menuReq, null));
+        return reconstructMenuList(this.menuList(menuReq, null), menuReq.getType());
     }
 
-    private List<Menu> reconstructMenuList(List<Menu> all) {
-        List<Menu> moduleMenus = all.stream().filter(m -> MenuType.MENU_MODEL.getValue().equals(m.getType())).collect(Collectors.toList());
-        if (!CollectionUtils.isEmpty(moduleMenus)) {
-            recursionChildren(moduleMenus, all);
+    private List<Menu> reconstructMenuList(List<Menu> all, Integer type) {
+        if (type == null) {
+            List<Menu> moduleMenus = all.stream().filter(m -> MenuType.MENU_MODEL.getValue().equals(m.getType())).collect(Collectors.toList());
+            if (!CollectionUtils.isEmpty(moduleMenus)) {
+                recursionChildren(moduleMenus, all);
+            }
+            return moduleMenus;
+        } else {
+            return all;
         }
-        return moduleMenus;
     }
 
     /**

@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://127.0.0.1:3306/system?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: cloud-vue
+      password: cloud-vue
+knife4j:
+  #prod swagger文档登录保护
+  basic:
+    enable: true
+    username: swagger
+    password: swagger

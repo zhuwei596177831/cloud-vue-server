@@ -19,6 +19,7 @@
         <module>job-executor</module>
         <module>file</module>
         <module>monitor</module>
+        <module>gen</module>
     </modules>
 
     <properties>
@@ -51,6 +52,7 @@
         <fastdfs.version>1.27.2</fastdfs.version>
         <minio.version>8.2.2</minio.version>
         <spring-boot-admin.version>2.2.3</spring-boot-admin.version>
+        <velocity-engine.version>2.3</velocity-engine.version>
     </properties>
 
     <dependencyManagement>
@@ -265,6 +267,11 @@
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-server</artifactId>
                 <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity-engine.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
