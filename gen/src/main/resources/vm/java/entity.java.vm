@@ -1,0 +1,54 @@
+package ${packageName}.entity;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import com.example.core.entity.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+/**
+ * @author ${author}
+ * @date ${datetime}
+ * @description ${functionName}Entity
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
+@TableName(value = "${tableName}")
+@ApiModel(value = "${functionName}")
+public class ${ClassName} extends BaseEntity{
+
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+    /**
+     * $column.columnComment
+     */
+    #if($column.javaType == 'LocalDateTime')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    #end
+    #if($column.javaType == 'LocalTime')
+    @JsonFormat(pattern = "HH:mm:ss")
+    #end
+    @ApiModelProperty(value = "$column.columnComment")
+    #if($column.pk)
+    @TableId
+    #end
+    private $column.javaType $column.javaField;
+
+#end
+#if($table.sub)
+    /**
+     * $table.subTable.functionName信息
+     */
+    private List<${subClassName}> ${subclassName}List;
+
+#end
+}

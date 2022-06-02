@@ -1,44 +1,75 @@
 import request from '@/utils/request'
 
-// 查询${functionName}列表
-export function list${BusinessName}(query) {
+/**
+ * ${functionName}分页列表数据
+ * */
+export function ${businessName}Page(query) {
   return request({
-    url: '/${moduleName}/${businessName}/list',
-    method: 'get',
+    url: '/${moduleName}/${businessName}/page',
+    method: 'post',
     params: query
   })
 }
 
-// 查询${functionName}详细
-export function get${BusinessName}(${pkColumn.javaField}) {
+/**
+ * ${functionName}列表数据
+ * */
+export function ${businessName}List(query) {
   return request({
-    url: '/${moduleName}/${businessName}/' + ${pkColumn.javaField},
-    method: 'get'
+    url: '/${moduleName}/${businessName}/list',
+    method: 'post',
+    params: query
   })
 }
 
-// 新增${functionName}
-export function add${BusinessName}(data) {
+/**
+ * 根据主键id查询${functionName}
+ */
+export function select${BusinessName}ById(${pkColumn.javaField}) {
   return request({
-    url: '/${moduleName}/${businessName}',
+    url: '/${moduleName}/${businessName}/selectById/' + ${pkColumn.javaField},
+    method: 'post'
+  })
+}
+
+/**
+ * 新增${functionName}
+ */
+export function insert${BusinessName}(data) {
+  return request({
+    url: '/${moduleName}/${businessName}/insert',
     method: 'post',
     data: data
   })
 }
 
-// 修改${functionName}
-export function update${BusinessName}(data) {
+/**
+ * 根据id修改${functionName}
+ */
+export function update${BusinessName}ById(data) {
   return request({
-    url: '/${moduleName}/${businessName}',
-    method: 'put',
+    url: '/${moduleName}/${businessName}/updateById',
+    method: 'post',
     data: data
   })
 }
 
-// 删除${functionName}
-export function del${BusinessName}(${pkColumn.javaField}) {
+/**
+ * 根据id删除${functionName}
+ */
+export function delele${BusinessName}ById(${pkColumn.javaField}) {
   return request({
-    url: '/${moduleName}/${businessName}/' + ${pkColumn.javaField},
-    method: 'delete'
+    url: '/${moduleName}/${businessName}/deleteById/' + ${pkColumn.javaField},
+    method: 'post'
+  })
+}
+
+/**
+ * 根据主键id数组批量删除
+ */
+export function delele${BusinessName}ByIds(${pkColumn.javaField}s) {
+  return request({
+    url: '/${moduleName}/${businessName}/deleteByIds/' + ${pkColumn.javaField}s,
+    method: 'post'
   })
 }

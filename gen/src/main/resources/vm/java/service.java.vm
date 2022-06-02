@@ -1,61 +1,114 @@
 package ${packageName}.service;
 
 import java.util.List;
-import ${packageName}.domain.${ClassName};
+
+import com.example.core.entity.Json;
+import com.example.core.entity.PageInfo;
+import com.github.pagehelper.PageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.example.core.responsecode.ApplicationResponseCode;
+import com.example.core.util.BeanUtils;
+import com.example.coreweb.exception.ApplicationException;
+import java.util.Arrays
+import ${packageName}.mapper.${ClassName}Mapper;
+import ${packageName}.entity.${ClassName};
 
 /**
- * ${functionName}Service接口
- * 
  * @author ${author}
  * @date ${datetime}
+ * @description ${functionName}Service
  */
-public interface I${ClassName}Service 
-{
-    /**
-     * 查询${functionName}
-     * 
-     * @param ${pkColumn.javaField} ${functionName}主键
-     * @return ${functionName}
-     */
-    public ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+@Service
+public class ${ClassName}Service {
+
+    @Autowired
+    private ${ClassName}Mapper ${className}Mapper;
 
     /**
-     * 查询${functionName}列表
-     * 
-     * @param ${className} ${functionName}
-     * @return ${functionName}集合
+     * 列表查询
+     *
+     * @param ${className}: 查询参数
+     * @author: ${author}
+     * @date: ${datetime}
      */
-    public List<${ClassName}> select${ClassName}List(${ClassName} ${className});
+    public List<${ClassName}> list(${ClassName} ${className}, PageInfo pageInfo) {
+        if (pageInfo != null) {
+            PageHelper.startPage(pageInfo.getPageNum(), pageInfo.getPageSize());
+        }
+        return ${className}Mapper.list(${className});
+    }
 
     /**
-     * 新增${functionName}
-     * 
-     * @param ${className} ${functionName}
-     * @return 结果
+     * 根据主键id查询
+     *
+     * @param ${pkColumn.javaField}: 主键
+     * @author: ${author}
+     * @date: ${datetime}
      */
-    public int insert${ClassName}(${ClassName} ${className});
+    public ${ClassName} selectById(${pkColumn.javaType} ${pkColumn.javaField}) {
+        return ${className}Mapper.selectById(${pkColumn.javaField});
+    }
 
     /**
-     * 修改${functionName}
-     * 
-     * @param ${className} ${functionName}
-     * @return 结果
+     * 新增
+     *
+     * @param ${className}: 参数
+     * @author: ${author}
+     * @date: ${datetime}
      */
-    public int update${ClassName}(${ClassName} ${className});
+    @Transactional(rollbackFor = Exception.class)
+    public Json insert(${ClassName} ${className}) {
+        ${className}Mapper.insert(${className});
+        return Json.success();
+    }
 
     /**
-     * 批量删除${functionName}
-     * 
-     * @param ${pkColumn.javaField}s 需要删除的${functionName}主键集合
-     * @return 结果
+     * 根据id修改
+     *
+     * @param ${className}: 参数
+     * @author: ${author}
+     * @date: ${datetime}
      */
-    public int delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s);
+    @Transactional(rollbackFor = Exception.class)
+    public Json updateById(${ClassName} ${className}) {
+        if (${className}.getId() == null) {
+            throw new ApplicationException(ApplicationResponseCode.PRIMARY_KEY_IS_NULL);
+        }
+        ${ClassName} exist = this.selectById(${className}.getId());
+        if(exist == null){
+            throw new ApplicationException(ApplicationResponseCode.RECORD_NOT_EXIST);
+        }
+        BeanUtils.copyPropertiesIgnoreNull(${className}, exist);
+        ${className}Mapper.updateById(exist);
+        return Json.success();
+    }
 
     /**
-     * 删除${functionName}信息
-     * 
-     * @param ${pkColumn.javaField} ${functionName}主键
-     * @return 结果
+     * 根据id删除
+     *
+     * @param ${pkColumn.javaField}: 主键id
+     * @author: ${author}
+     * @date: ${datetime}
      */
-    public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+    @Transactional(rollbackFor = Exception.class)
+    public Json deleteById(${pkColumn.javaType} ${pkColumn.javaField}) {
+        ${className}Mapper.deleteById(${pkColumn.javaField});
+        return Json.success();
+    }
+
+    /**
+    * 根据主键id数组批量删除
+    *
+    * @param ${pkColumn.javaField}s: 主键数组
+    * @author: ${author}
+    * @date: ${datetime}
+    **/
+    @Transactional(rollbackFor = Exception.class)
+    public Json deleteByIds(${pkColumn.javaType}[] ${pkColumn.javaField}s) {
+        ${className}Mapper.deleteBatchIds(Arrays.asList(${pkColumn.javaField}s));
+        return Json.success();
+    }
+
 }
