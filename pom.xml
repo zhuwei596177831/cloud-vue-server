@@ -53,6 +53,7 @@
         <minio.version>8.2.2</minio.version>
         <spring-boot-admin.version>2.2.3</spring-boot-admin.version>
         <velocity-engine.version>2.3</velocity-engine.version>
+        <hutool.version>5.8.1</hutool.version>
     </properties>
 
     <dependencyManagement>
@@ -272,6 +273,11 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity-engine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-crypto</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

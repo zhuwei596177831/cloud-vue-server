@@ -236,7 +236,7 @@ public class UserService {
         if (user == null) {
             throw new ApplicationException(ApplicationResponseCode.RECORD_NOT_EXIST);
         }
-        //更新redis session 的用户信息
+        //更新redis中存储的session的用户信息
         BeanUtils.copyPropertiesIgnoreNull(userProfile, userVo);
         Session session = shiroReisCache.get(token);
         session.setAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY,

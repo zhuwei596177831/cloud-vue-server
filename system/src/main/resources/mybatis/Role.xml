@@ -4,17 +4,17 @@
 <mapper namespace="com.example.system.mapper.RoleMapper">
 
     <resultMap id="baseResultMap" type="com.example.system.entity.Role">
-        <result property="checkedMenuIds" column="checkedMenuIds" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="checkedMenuIds" column="checked_menu_Ids" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result property="inputUserName" column="inputUserName"/>
         <result property="updateUserName" column="updateUserName"/>
     </resultMap>
 
     <select id="roleList" resultMap="baseResultMap">
-        select t.id,t.code,t.name,t.inputTime,t.inputUserId,t.updateTime,t.updateUserId,t.checkedMenuIds,
+        select t.id,t.code,t.name,t.input_time,t.input_user_id,t.update_time,t.update_user_id,t.checked_menu_Ids,
         i.name as inputUserName,u.name as updateUserName
         from `system`.t_role t
-        left join `system`.t_user i on t.inputUserId = i.id
-        left join `system`.t_user u on t.inputUserId = u.id
+        left join `system`.t_user i on t.input_user_id = i.id
+        left join `system`.t_user u on t.input_user_id = u.id
         <where>
             <if test="name != null and name != ''">
                 t.name like concat('%',trim(#{name}),'%')
@@ -28,8 +28,8 @@
         from `system`.t_role r,
              `system`.t_user u,
              `system`.t_user_role tur
-        where r.id = tur.roleId
-          and tur.userId = u.id
+        where r.id = tur.role_id
+          and tur.user_id = u.id
           and u.id = #{userId}
     </select>
 

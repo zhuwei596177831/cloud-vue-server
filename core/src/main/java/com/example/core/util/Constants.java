@@ -6,7 +6,7 @@ package com.example.core.util;
  * @date 2021-05-18 16:58:40
  * @description
  */
-public class Constants {
+public abstract class Constants {
 
     public static final String GATEWAY_TOKEN = "gateway_token";
     public static final String GATEWAY_SIGN_KEY = "gateway_sign_key";
@@ -69,7 +69,18 @@ public class Constants {
      */
     public static final String UTF8 = "UTF-8";
 
-    private Constants() {
+    /**
+     * 登录密码使用RSA加密传输的私钥
+     */
+    public static final String PWD_RSA_PRIVATE_KEY =
+            "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAII6KCj/Km4K/HrvMFrCYndSRsCK81+7+NMjHKHMe6XF4S4ifOuKDy"
+                    + "/CwjZ4qOb8i1Bzp8o2d0KBaXvfI+vTIULPBDYTPgDfs7lWxtYFKXIHj9Q7MCdNMq60iAU8ZfiNVkGb5cfjeNCz8fVjybV0XZwY4JZ2xsf24K2gOS"
+                    + "+I6mklAgMBAAECgYBJoprMu6OBP6MN3CuqVhmZQKOTAb6llkMXF9Z7woTz8lTmYkfiY1k891IbvNQ8b/ZSUmNA2tVKfKRpj33fPa2jJb5A/w"
+                    + "/WZyomXEL3PS3vYTsmlPnbODM9Jeis2GV26/Xva9NYXBgJGMv0NCFwwvdIJI5znTn5b97NmmU+ngEZDQJBAOf8CfKF640"
+                    + "/3t5WI3XLYGp2VoPMHXobENn6ZkQn7j+rAJz1alNhKmL9aRfnLiJ/npSMT0i+n5wXLXmWVHulsq8CQQCPtWKo2QoaX88RqBkx/nYX6UeN"
+                    + "+sMFcYoL8te9zZePlraDony5GqWEGpI5H9xrh/X12xByoIIYHt6rKJ7buWZrAkEAx2pQ4rlcEr"
+                    + "+kxVsmgEujReET3ZfIfv5lLfuhjVUF6JUGoeYU0DfmR9GuVW3UqrMpjmhOfynd6j/CR5KCbQey4QJAFLwnMBWgz41jYzjN6di9UVXnbSTxXqezM2Ymmsw"
+                    + "/QgiM7RFUzaB6oUT0NCnUs+86He8twFxIaRKLLkb+JNXrYQJAMmjEahfpYcgzZ/f8Wwrr5e3qQCyFtqWNHrI6pP+0a8w8XC0NEdLInWE3e0xYJ"
+                    + "+wmtar8AOOjPqrRZNlyNkqz3w==";
 
-    }
 }
