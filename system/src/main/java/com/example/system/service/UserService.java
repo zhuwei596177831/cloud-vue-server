@@ -4,11 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
 import com.example.core.enums.MenuType;
+import com.example.core.responsecode.ApplicationResponseCode;
+import com.example.core.util.BeanUtils;
 import com.example.core.util.Constants;
 import com.example.core.util.PasswordUtils;
 import com.example.core.vo.system.UserInfoVo;
+import com.example.core.vo.system.UserProfile;
 import com.example.core.vo.system.UserVo;
 import com.example.coreweb.exception.ApplicationException;
+import com.example.shiroAuthencation.realm.UserNamePasswordRealm;
+import com.example.shiroAuthencation.sessioncache.ShiroReisCache;
 import com.example.system.config.SysMonitorConfig;
 import com.example.system.entity.Menu;
 import com.example.system.entity.Role;
@@ -19,14 +24,18 @@ import com.example.system.mapper.MenuMapper;
 import com.example.system.mapper.RoleMapper;
 import com.example.system.mapper.UserMapper;
 import com.example.system.mapper.UserRoleMapper;
+import com.example.system.responseCode.PwdResponseCode;
 import com.example.system.responseCode.UserResponseCode;
 import com.github.pagehelper.PageHelper;
-import org.springframework.beans.BeanUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -50,6 +59,8 @@ public class UserService {
     private MenuMapper menuMapper;
     @Autowired
     private SysMonitorConfig sysMonitorConfig;
+    @Autowired
+    private ShiroReisCache shiroReisCache;
 
     /**
      * @param username:
@@ -203,5 +214,103 @@ public class UserService {
         userInfoVo.setNacosAddress(sysMonitorConfig.getNacos());
         userInfoVo.setMonitorAddress(sysMonitorConfig.getMonitor());
         return userInfoVo;
+    }
+
+    /**
+     * 更新基本资料
+     *
+     * @param userProfile:
+     * @author: 朱伟伟
+     * @date: 2022-06-06 09:23
+     **/
+    @Transactional(rollbackFor = Exception.class)
+    public Json updateProfile(UserProfile userProfile, UserVo userVo, HttpServletRequest request) {
+        String token = request.getHeader(Constants.X_TOKEN_NAME);
+        if (!StringUtils.hasText(token)) {
+            token = request.getParameter(Constants.X_TOKEN_NAME);
+        }
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException();
+        }
+        User user = userMapper.selectById(userVo.getId());
+        if (user == null) {
+            throw new ApplicationException(ApplicationResponseCode.RECORD_NOT_EXIST);
+        }
+        //更新redis session 的用户信息
+        BeanUtils.copyPropertiesIgnoreNull(userProfile, userVo);
+        Session session = shiroReisCache.get(token);
+        session.setAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY,
+                new SimplePrincipalCollection(userVo, UserNamePasswordRealm.REALM_NAME));
+        shiroReisCache.put(token, session);
+        //更新数据库
+        BeanUtils.copyPropertiesIgnoreNull(userProfile, user);
+        user.setUpdateUserId(userVo.getId());
+        user.setUpdateTime(LocalDateTime.now());
+        userMapper.updateById(user);
+        return Json.success();
+    }
+
+    /**
+     * 修改用户密码
+     *
+     * @param userProfile:
+     * @param userVo:
+     * @author: 朱伟伟
+     * @date: 2022-06-06 11:38
+     **/
+    @Transactional(rollbackFor = Exception.class)
+    public Json updatePwd(UserProfile userProfile, UserVo userVo) {
+        if (!userProfile.getNewPassword().equals(userProfile.getConfirmPassword())) {
+            throw new ApplicationException(PwdResponseCode.PASSWORD_OLD_NEW_NOT_EQUALS);
+        }
+        String oldPassword = PasswordUtils.md5(userVo.getLoginName(), userProfile.getOldPassword());
+        if (!oldPassword.equals(userVo.getPassword())) {
+            throw new ApplicationException(PwdResponseCode.PASSWORD_NOT_CORRECT);
+        }
+        String newPassword = PasswordUtils.md5(userVo.getLoginName(), userProfile.getNewPassword());
+        if (newPassword.equals(userVo.getPassword())) {
+            throw new ApplicationException(PwdResponseCode.NOT_USE_OLD_PASSWORD);
+        }
+        User user = userMapper.selectById(userVo.getId());
+        user.setPassword(newPassword);
+        userMapper.updateById(user);
+        return Json.success();
+    }
+
+    /**
+     * 用户密码重置
+     *
+     * @param userVo:
+     * @author: 朱伟伟
+     * @date: 2022-06-06 14:47
+     **/
+    @Transactional(rollbackFor = Exception.class)
+    public Json resetPwd(UserVo userVo) {
+        if (userVo.getId() == null) {
+            throw new ApplicationException(UserResponseCode.USER_ID_NOT_NULL);
+        }
+        if (!StringUtils.hasText(userVo.getPassword())) {
+            throw new ApplicationException(UserResponseCode.USER_PASSWORD_NOT_NULL);
+        }
+        User user = userMapper.selectById(userVo.getId());
+        user.setPassword(PasswordUtils.md5(user.getLoginName(), userVo.getPassword()));
+        userMapper.updateById(user);
+        return Json.success();
+    }
+
+    /**
+     * 更新用户头像
+     *
+     * @param url:
+     * @param userVo:
+     * @author: 朱伟伟
+     * @date: 2022-06-06 15:56
+     **/
+    @Transactional(rollbackFor = Exception.class)
+    public Json updateHeadImageUrl(String url, UserVo userVo) {
+        User user = userMapper.selectById(userVo.getId());
+        user.setHeadImageUrl(url);
+        userMapper.updateById(user);
+        return Json.success();
     }
 }

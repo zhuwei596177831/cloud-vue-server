@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
  */
 public class UserNamePasswordRealm extends AuthorizingRealm {
 
+    public static final String REALM_NAME = "UserNamePasswordRealm";
+
     @Autowired(required = false)
     private UserFeign userFeign;
     @Autowired(required = false)
@@ -34,6 +36,11 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof UsernamePasswordToken;
+    }
+
+    @Override
+    public String getName() {
+        return REALM_NAME;
     }
 
     @Override

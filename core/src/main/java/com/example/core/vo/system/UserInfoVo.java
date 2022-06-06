@@ -55,6 +55,12 @@ public class UserInfoVo implements Serializable {
     private String loginName;
 
     /**
+     * 用户头像
+     */
+    @ApiModelProperty(value = "用户头像")
+    private String headImageUrl;
+
+    /**
      * 所属角色
      */
     @ApiModelProperty(value = "所属角色")

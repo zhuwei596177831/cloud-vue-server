@@ -1,5 +1,6 @@
 package com.example.system.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -62,12 +63,14 @@ public class User extends BaseEntity {
      * 邮箱
      */
     @ApiModelProperty(value = "邮箱")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String email;
 
     /**
      * 住址
      */
     @ApiModelProperty(value = "住址")
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String address;
 
     /**
@@ -108,6 +111,12 @@ public class User extends BaseEntity {
      */
     @ApiModelProperty(value = "修改用户")
     private Long updateUserId;
+
+    /**
+     * 用户头像
+     */
+    @ApiModelProperty(value = "用户头像")
+    private String headImageUrl;
 
     /**
      * 角色Ids

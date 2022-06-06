@@ -125,4 +125,30 @@ public class UserController extends BaseController {
         UserInfoVo userInfoVo = userService.findUserInfo(getUser());
         return Json.ok(userInfoVo);
     }
+
+    /**
+     * 用户密码重置
+     *
+     * @author: 朱伟伟
+     * @date: 2022-06-06 14:46
+     **/
+    @ApiOperation(value = "用户密码重置")
+    @PostMapping("/resetPwd")
+    public Json resetPwd(@RequestBody UserVo userVo) {
+        return userService.resetPwd(userVo);
+    }
+
+    /**
+     * 更新用户头像
+     *
+     * @param url: 上传后的图片地址
+     * @author: 朱伟伟
+     * @date: 2022-06-06 15:55
+     **/
+    @ApiOperation(value = "更新用户头像")
+    @PostMapping("/updateHeadImageUrl")
+    public Json updateHeadImageUrl(@RequestParam String url) {
+        return userService.updateHeadImageUrl(url, getUser());
+    }
+
 }

@@ -23,7 +23,7 @@ public class PasswordUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(md5("admin", "000000"));
+        System.out.println(md5("admin", Constants.DEFAULT_PASSWORD));
     }
 
 }

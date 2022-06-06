@@ -15,7 +15,7 @@ public class Constants {
     public static final String TERMS_OF_SERVICE_URL = "http://127.0.0.1:9000";
     public static final String USER_LOGIN_ERROR = "用户名或密码错误";
     public static final String USER_ACCOUNT_LOCKED = "账户已锁定";
-    public static final String DEFAULT_PASSWORD = "000000";
+    public static final String DEFAULT_PASSWORD = "123456";
     public static final String SUCCESS_CODE_STRING = "0000";
     public static final String SUCCESS_MSG_STRING = "成功";
     public static final String X_TOKEN_NAME = "X-Token";

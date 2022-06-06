@@ -61,6 +61,12 @@ public class UserVo extends BaseVo {
     private String password;
 
     /**
+     * 用户头像
+     */
+    @ApiModelProperty(value = "用户头像")
+    private String headImageUrl;
+
+    /**
      * 角色Ids
      */
     @ApiModelProperty(value = "角色Ids")
