@@ -27,7 +27,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@TableName(value = "t_menu")
+@TableName(value = "sys_menu")
 @ApiModel(value = "菜单信息")
 public class Menu extends BaseEntity {
     private static final long serialVersionUID = 4983128835801319830L;

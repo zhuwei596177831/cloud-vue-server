@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@TableName(value = "t_role_menu")
+@TableName(value = "sys_role_menu")
 @ApiModel(value = "角色菜单关联关系")
 public class RoleMenu extends BaseEntity {
     private static final long serialVersionUID = 1476268484180090896L;

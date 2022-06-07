@@ -12,9 +12,9 @@
     <select id="roleList" resultMap="baseResultMap">
         select t.id,t.code,t.name,t.input_time,t.input_user_id,t.update_time,t.update_user_id,t.checked_menu_Ids,
         i.name as inputUserName,u.name as updateUserName
-        from `system`.t_role t
-        left join `system`.t_user i on t.input_user_id = i.id
-        left join `system`.t_user u on t.input_user_id = u.id
+        from `system`.sys_role t
+        left join `system`.sys_user i on t.input_user_id = i.id
+        left join `system`.sys_user u on t.input_user_id = u.id
         <where>
             <if test="name != null and name != ''">
                 t.name like concat('%',trim(#{name}),'%')
@@ -25,9 +25,9 @@
 
     <select id="findRolesByUserId" resultType="com.example.system.entity.Role">
         select r.id, r.code, r.name
-        from `system`.t_role r,
-             `system`.t_user u,
-             `system`.t_user_role tur
+        from `system`.sys_role r,
+             `system`.sys_user u,
+             `system`.sys_user_role tur
         where r.id = tur.role_id
           and tur.user_id = u.id
           and u.id = #{userId}

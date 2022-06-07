@@ -26,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@TableName(value = "t_user")
+@TableName(value = "sys_user")
 @ApiModel(value = "用户信息")
 public class User extends BaseEntity {
     private static final long serialVersionUID = -4212581425475592954L;

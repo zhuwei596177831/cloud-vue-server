@@ -6,8 +6,8 @@
     <select id="menuList" resultType="com.example.system.entity.Menu">
         select t.id,t.type,t.name,t.code,t.parent_id,t.path,t.icon_class,t.input_time,t.input_user_id,
         t.update_time,t.update_user_id,p.name as parentName
-        from `system`.t_menu t
-        left join `system`.t_menu p on p.id = t.parent_id
+        from `system`.sys_menu t
+        left join `system`.sys_menu p on p.id = t.parent_id
         <where>
             <if test="name != null and name != ''">
                 t.name like concat('%',trim(#{name}),'%')
@@ -30,10 +30,10 @@
 
     <select id="findMenusByUserId" resultType="com.example.system.entity.Menu">
         select distinct m.id, m.code, m.name, m.type, m.parent_id, m.icon_class, m.path
-        from `system`.t_user u,
-             `system`.t_user_role tur,
-             `system`.t_role_menu trm,
-             `system`.t_menu m
+        from `system`.sys_user u,
+             `system`.sys_user_role tur,
+             `system`.sys_role_menu trm,
+             `system`.sys_menu m
         where u.id = tur.user_id
           and tur.role_id = trm.role_id
           and trm.menu_id = m.id

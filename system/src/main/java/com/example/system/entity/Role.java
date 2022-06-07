@@ -27,7 +27,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "t_role", autoResultMap = true)
+@TableName(value = "sys_role", autoResultMap = true)
 @ApiModel(value = "角色")
 public class Role extends BaseEntity {
     private static final long serialVersionUID = -926347559894265222L;

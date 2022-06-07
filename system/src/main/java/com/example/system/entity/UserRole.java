@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "t_user_role")
+@TableName(value = "sys_user_role")
 @ApiModel(value = "用户角色关联关系")
 public class UserRole extends BaseEntity {
     private static final long serialVersionUID = -2518081174239317756L;
