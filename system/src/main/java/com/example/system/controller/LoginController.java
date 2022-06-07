@@ -6,6 +6,8 @@ import com.example.core.entity.Json;
 import com.example.core.responsecode.ApplicationResponseCode;
 import com.example.core.util.Constants;
 import com.example.core.vo.system.TokenVo;
+import com.example.coreweb.annotation.Log;
+import com.example.coreweb.enums.LogType;
 import com.example.coreweb.exception.ApplicationException;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -45,6 +47,7 @@ public class LoginController extends BaseController {
      * @date: 2021-05-22 18:55
      * @description: 登录
      **/
+    @Log(title = Constants.APPLICATION_NAME_SYSTEM_LOG, type = LogType.LOGIN)
     @ApiOperation(value = "登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = true),

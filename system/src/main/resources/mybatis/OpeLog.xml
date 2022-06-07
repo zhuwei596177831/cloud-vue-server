@@ -1,0 +1,74 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.system.mapper.OpeLogMapper">
+
+    <resultMap type="com.example.system.entity.OpeLog" id="OpeLogResult">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="businessType" column="business_type"/>
+        <result property="method" column="method"/>
+        <result property="requestMethod" column="request_method"/>
+        <result property="operatorType" column="operator_type"/>
+        <result property="opeName" column="ope_name"/>
+        <result property="opeUrl" column="ope_url"/>
+        <result property="opeIp" column="ope_ip"/>
+        <result property="opeLocation" column="ope_location"/>
+        <result property="opeParam" column="ope_param"/>
+        <result property="jsonResult" column="json_result"/>
+        <result property="status" column="status"/>
+        <result property="errorMsg" column="error_msg"/>
+        <result property="opeTime" column="ope_time"/>
+    </resultMap>
+
+    <select id="list" resultType="com.example.system.entity.OpeLog">
+        select id, title, business_type, method, request_method, operator_type, ope_name,
+        ope_url, ope_ip, ope_location, ope_param, json_result, status, error_msg, ope_time
+        from `system`.sys_ope_log
+        <where>
+            <if test="title != null  and title != ''">
+                and title = #{title}
+            </if>
+            <if test="businessType != null ">
+                and business_type = #{businessType}
+            </if>
+            <if test="method != null  and method != ''">
+                and method = #{method}
+            </if>
+            <if test="requestMethod != null  and requestMethod != ''">
+                and request_method = #{requestMethod}
+            </if>
+            <if test="operatorType != null ">
+                and operator_type = #{operatorType}
+            </if>
+            <if test="opeName != null  and opeName != ''">
+                and ope_name like concat('%', #{opeName}, '%')
+            </if>
+            <if test="opeUrl != null  and opeUrl != ''">
+                and ope_url = #{opeUrl}
+            </if>
+            <if test="opeIp != null  and opeIp != ''">
+                and ope_ip = #{opeIp}
+            </if>
+            <if test="opeLocation != null  and opeLocation != ''">
+                and ope_location = #{opeLocation}
+            </if>
+            <if test="opeParam != null  and opeParam != ''">
+                and ope_param = #{opeParam}
+            </if>
+            <if test="jsonResult != null  and jsonResult != ''">
+                and json_result = #{jsonResult}
+            </if>
+            <if test="status != null ">
+                and status = #{status}
+            </if>
+            <if test="errorMsg != null  and errorMsg != ''">
+                and error_msg = #{errorMsg}
+            </if>
+            <if test="opeTimeSearchDate != null and opeTimeSearchDate != ''">
+                and date_format(ope_time,'%Y-%m-%d') = #{opeTimeSearchDate}
+            </if>
+        </where>
+    </select>
+
+</mapper>

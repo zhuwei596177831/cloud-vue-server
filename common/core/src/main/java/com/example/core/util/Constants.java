@@ -18,6 +18,7 @@ public abstract class Constants {
     public static final String DEFAULT_PASSWORD = "123456";
     public static final String SUCCESS_CODE_STRING = "0000";
     public static final String SUCCESS_MSG_STRING = "成功";
+    public static final String SUCCESS_MSG_LOGIN = "登录成功";
     public static final String X_TOKEN_NAME = "X-Token";
 
     /**
@@ -42,6 +43,7 @@ public abstract class Constants {
      * 各个服务的application name
      */
     public static final String APPLICATION_NAME_SYSTEM = "system";
+    public static final String APPLICATION_NAME_SYSTEM_LOG = "系统";
 
     /**
      * 各个服务的context-path
@@ -94,5 +96,20 @@ public abstract class Constants {
      * open feign接口 前缀
      */
     public static final String OPENFEIGN_CALL_PREFIX = "/openFeign";
+
+    /**
+     * 登录成功状态
+     */
+    public static final String LOGIN_SUCCESS_STATUS = "0";
+
+    /**
+     * 登录失败状态
+     */
+    public static final String LOGIN_FAIL_STATUS = "1";
+
+    /**
+     * 登录成功
+     */
+    public static final String LOGIN_SUCCESS = "Success";
 
 }

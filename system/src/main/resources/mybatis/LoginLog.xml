@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.system.mapper.LoginLogMapper">
+
+    <resultMap type="com.example.system.entity.LoginLog" id="LoginLogResult">
+        <id property="id" column="id"/>
+        <result property="loginName" column="login_name"/>
+        <result property="ipAddr" column="ip_addr"/>
+        <result property="status" column="status"/>
+        <result property="msg" column="msg"/>
+        <result property="accessTime" column="access_time"/>
+    </resultMap>
+
+    <select id="list" resultType="com.example.system.entity.LoginLog">
+        select id, login_name, ip_addr, status, msg, access_time from `system`.sys_login_log
+        <where>
+            <if test="loginName != null  and loginName != ''">
+                and login_name like concat('%', #{loginName}, '%')
+            </if>
+            <if test="ipAddr != null  and ipAddr != ''">
+                and ip_addr = #{ipAddr}
+            </if>
+            <if test="status != null  and status != ''">
+                and status = #{status}
+            </if>
+            <if test="msg != null  and msg != ''">
+                and msg = #{msg}
+            </if>
+            <if test="accessTimeSearchDate != null and accessTimeSearchDate != ''">
+                and date_format(access_time,'%Y-%m-%d') = #{accessTimeSearchDate}
+            </if>
+        </where>
+    </select>
+
+</mapper>

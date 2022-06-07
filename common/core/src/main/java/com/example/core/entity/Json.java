@@ -77,6 +77,10 @@ public class Json extends BaseEntity {
         return success;
     }
 
+    public boolean notSuccess() {
+        return !isSuccess();
+    }
+
     @Override
     public String toString() {
         return JSON.toJSONString(this);

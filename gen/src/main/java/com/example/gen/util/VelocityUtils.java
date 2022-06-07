@@ -162,10 +162,10 @@ public class VelocityUtils {
         String vuePath = "vue";
 
         if (template.contains("entity.java.vm")) {
-            fileName = StringUtils.format("{}/domain/{}.java" , javaPath, className);
+            fileName = StringUtils.format("{}/entity/{}.java" , javaPath, className);
         }
         if (template.contains("sub-entity.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
-            fileName = StringUtils.format("{}/domain/{}.java" , javaPath, genTable.getSubTable().getClassName());
+            fileName = StringUtils.format("{}/entity/{}.java" , javaPath, genTable.getSubTable().getClassName());
         } else if (template.contains("mapper.java.vm")) {
             fileName = StringUtils.format("{}/mapper/{}Mapper.java" , javaPath, className);
         } else if (template.contains("service.java.vm")) {

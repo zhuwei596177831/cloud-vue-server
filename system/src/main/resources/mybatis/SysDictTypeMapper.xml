@@ -4,7 +4,7 @@
 <mapper namespace="com.example.system.mapper.SysDictTypeMapper">
 
     <sql id="selectDictTypeVo">
-        select dictId, dictName, dictType, status, createBy, createTime, remark
+        select dict_id, dict_name, dict_type, status, create_by, create_time, remark
         from `system`.sys_dict_type
     </sql>
 
@@ -12,13 +12,13 @@
         <include refid="selectDictTypeVo"/>
         <where>
             <if test="dictName != null and dictName != ''">
-                AND dictName like concat('%', #{dictName}, '%')
+                AND dict_name like concat('%', #{dictName}, '%')
             </if>
             <if test="status != null and status != ''">
                 AND status = #{status}
             </if>
             <if test="dictType != null and dictType != ''">
-                AND dictType like concat('%', #{dictType}, '%')
+                AND dict_type like concat('%', #{dictType}, '%')
             </if>
             <!--            <if test="params.beginTime != null and params.beginTime != ''">&lt;!&ndash; 开始时间检索 &ndash;&gt;-->
             <!--                and date_format(createTime,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')-->
@@ -35,27 +35,27 @@
 
     <select id="selectDictTypeById" parameterType="Long" resultType="com.example.system.entity.SysDictType">
         <include refid="selectDictTypeVo"/>
-        where dictId = #{dictId}
+        where dict_id = #{dictId}
     </select>
 
     <select id="selectDictTypeByType" parameterType="String" resultType="com.example.system.entity.SysDictType">
         <include refid="selectDictTypeVo"/>
-        where dictType = #{dictType}
+        where dict_type = #{dictType}
     </select>
 
     <select id="checkDictTypeUnique" parameterType="String" resultType="com.example.system.entity.SysDictType">
         <include refid="selectDictTypeVo"/>
-        where dictType = #{dictType} limit 1
+        where dict_type = #{dictType} limit 1
     </select>
 
     <delete id="deleteDictTypeById" parameterType="Long">
         delete
         from `system`.sys_dict_type
-        where dictId = #{dictId}
+        where dict_id = #{dictId}
     </delete>
 
     <delete id="deleteDictTypeByIds" parameterType="Long">
-        delete from `system`.sys_dict_type where dictId in
+        delete from `system`.sys_dict_type where dict_id in
         <foreach collection="array" item="dictId" open="(" separator="," close=")">
             #{dictId}
         </foreach>
@@ -64,14 +64,14 @@
     <update id="updateDictType">
         update `system`.sys_dict_type
         <set>
-            <if test="dictName != null and dictName != ''">dictName = #{dictName},</if>
-            <if test="dictType != null and dictType != ''">dictType = #{dictType},</if>
+            <if test="dictName != null and dictName != ''">dict_name = #{dictName},</if>
+            <if test="dictType != null and dictType != ''">dict_type = #{dictType},</if>
             <if test="status != null">status = #{status},</if>
             <if test="remark != null">remark = #{remark},</if>
-            <if test="updateBy != null and updateBy != ''">updateBy = #{updateBy},</if>
-            updateTime = sysdate()
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
         </set>
-        where dictId = #{dictId}
+        where dict_id = #{dictId}
     </update>
 
 </mapper>

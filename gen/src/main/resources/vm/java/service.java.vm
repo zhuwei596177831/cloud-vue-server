@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.core.responsecode.ApplicationResponseCode;
 import com.example.core.util.BeanUtils;
 import com.example.coreweb.exception.ApplicationException;
-import java.util.Arrays
+import java.util.Arrays;
 import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.entity.${ClassName};
 

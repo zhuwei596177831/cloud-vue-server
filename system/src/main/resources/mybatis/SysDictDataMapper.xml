@@ -4,17 +4,17 @@
 <mapper namespace="com.example.system.mapper.SysDictDataMapper">
 
     <sql id="selectDictDataVo">
-        select dictCode,
-               dictSort,
-               dictLabel,
-               dictValue,
-               dictType,
-               cssClass,
-               listClass,
-               isDefault,
+        select dict_code,
+               dict_sort,
+               dict_label,
+               dict_value,
+               dict_type,
+               css_class,
+               list_class,
+               is_default,
                status,
-               createBy,
-               createTime,
+               create_by,
+               create_time,
                remark
         from `system`.sys_dict_data
     </sql>
@@ -23,49 +23,49 @@
         <include refid="selectDictDataVo"/>
         <where>
             <if test="dictType != null and dictType != ''">
-                AND dictType = #{dictType}
+                AND dict_type = #{dictType}
             </if>
             <if test="dictLabel != null and dictLabel != ''">
-                AND dictLabel like concat('%', #{dictLabel}, '%')
+                AND dict_label like concat('%', #{dictLabel}, '%')
             </if>
             <if test="status != null and status != ''">
                 AND status = #{status}
             </if>
         </where>
-        order by dictSort asc
+        order by dict_sort asc
     </select>
 
     <select id="selectDictDataByType" resultType="com.example.system.entity.SysDictData">
         <include refid="selectDictDataVo"/>
-        where status = '0' and dictType = #{dictType} order by dictSort asc
+        where status = '0' and dict_type = #{dictType} order by dict_sort asc
     </select>
 
     <select id="selectDictLabel" resultType="String">
-        select dictLabel
+        select dict_label
         from `system`.sys_dict_data
-        where dictType = #{dictType}
-          and dictValue = #{dictValue}
+        where dict_type = #{dictType}
+          and dict_value = #{dictValue}
     </select>
 
     <select id="selectDictDataById" parameterType="Long" resultType="com.example.system.entity.SysDictData">
         <include refid="selectDictDataVo"/>
-        where dictCode = #{dictCode}
+        where dict_code = #{dictCode}
     </select>
 
     <select id="countDictDataByType" resultType="Integer">
         select count(1)
         from `system`.sys_dict_data
-        where dictType = #{dictType}
+        where dict_type = #{dictType}
     </select>
 
     <delete id="deleteDictDataById" parameterType="Long">
         delete
         from `system`.sys_dict_data
-        where dictCode = #{dictCode}
+        where dict_code = #{dictCode}
     </delete>
 
     <delete id="deleteDictDataByIds" parameterType="Long">
-        delete from `system`.sys_dict_data where dictCode in
+        delete from `system`.sys_dict_data where dict_code in
         <foreach collection="array" item="dictCode" open="(" separator="," close=")">
             #{dictCode}
         </foreach>
@@ -74,25 +74,25 @@
     <update id="updateDictData">
         update `system`.sys_dict_data
         <set>
-            <if test="dictSort != null">dictSort = #{dictSort},</if>
-            <if test="dictLabel != null and dictLabel != ''">dictLabel = #{dictLabel},</if>
-            <if test="dictValue != null and dictValue != ''">dictValue = #{dictValue},</if>
-            <if test="dictType != null and dictType != ''">dictType = #{dictType},</if>
-            <if test="cssClass != null">cssClass = #{cssClass},</if>
-            <if test="listClass != null">listClass = #{listClass},</if>
-            <if test="isDefault != null and isDefault != ''">isDefault = #{isDefault},</if>
+            <if test="dictSort != null">dict_sort = #{dictSort},</if>
+            <if test="dictLabel != null and dictLabel != ''">dict_label = #{dictLabel},</if>
+            <if test="dictValue != null and dictValue != ''">dict_value = #{dictValue},</if>
+            <if test="dictType != null and dictType != ''">dict_type = #{dictType},</if>
+            <if test="cssClass != null">css_class = #{cssClass},</if>
+            <if test="listClass != null">list_class = #{listClass},</if>
+            <if test="isDefault != null and isDefault != ''">is_default = #{isDefault},</if>
             <if test="status != null">status = #{status},</if>
             <if test="remark != null">remark = #{remark},</if>
-            <if test="updateBy != null and updateBy != ''">updateBy = #{updateBy},</if>
-            updateTime = sysdate()
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
         </set>
-        where dictCode = #{dictCode}
+        where dict_code = #{dictCode}
     </update>
 
     <update id="updateDictDataType" parameterType="String">
         update `system`.sys_dict_data
-        set dictType = #{newDictType}
-        where dictType = #{oldDictType}
+        set dict_type = #{newDictType}
+        where dict_type = #{oldDictType}
     </update>
 
 </mapper>

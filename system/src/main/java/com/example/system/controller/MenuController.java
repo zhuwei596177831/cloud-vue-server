@@ -3,7 +3,10 @@ package com.example.system.controller;
 import com.example.core.entity.Cascader;
 import com.example.core.entity.Json;
 import com.example.core.enums.MenuType;
+import com.example.core.util.Constants;
 import com.example.core.vo.system.UserVo;
+import com.example.coreweb.annotation.Log;
+import com.example.coreweb.enums.BusinessType;
 import com.example.shiroAuthencation.controller.BaseController;
 import com.example.system.entity.Menu;
 import com.example.system.entity.req.MenuReq;
@@ -56,6 +59,7 @@ public class MenuController extends BaseController {
      * @date: 2021-06-14 17:12
      * @description: 添加菜单
      **/
+    @Log(title = Constants.APPLICATION_NAME_SYSTEM_LOG, businessType = BusinessType.INSERT)
     @ApiOperation(value = "添加菜单")
     @PostMapping("/addMenu")
     public Json addMenu(@RequestBody @Validated({Menu.Add.class}) Menu menu) {

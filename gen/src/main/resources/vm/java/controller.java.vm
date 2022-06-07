@@ -1,11 +1,6 @@
 package ${packageName}.controller;
 
 import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-
-import com.example.core.entity.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -89,7 +84,7 @@ public class ${ClassName}Controller extends BaseController {
     @ApiOperation(value = "新增")
     @PostMapping("/insert")
     public Json insert(@RequestBody @Validated ${ClassName} ${className}) {
-        return ${className}Service.insert(${className})
+        return ${className}Service.insert(${className});
     }
 
     /**
@@ -102,7 +97,7 @@ public class ${ClassName}Controller extends BaseController {
     @ApiOperation(value = "根据id修改")
     @PostMapping("/updateById")
     public Json updateById(@RequestBody @Validated ${ClassName} ${className}) {
-        return ${className}Service.updateById(${className})
+        return ${className}Service.updateById(${className});
     }
 
     /**
@@ -115,7 +110,7 @@ public class ${ClassName}Controller extends BaseController {
     @ApiOperation(value = "根据id删除")
     @PostMapping("/deleteById/{${pkColumn.javaField}}")
     public Json deleteById(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
-        return ${className}Service.deleteById(${pkColumn.javaField})
+        return ${className}Service.deleteById(${pkColumn.javaField});
     }
 
     /**
@@ -128,6 +123,6 @@ public class ${ClassName}Controller extends BaseController {
     @ApiOperation(value = "根据主键id数组批量删除")
     @PostMapping("/deleteByIds/{${pkColumn.javaField}s}")
     public Json deleteByIds(@PathVariable("${pkColumn.javaField}s") ${pkColumn.javaType}[] ${pkColumn.javaField}s) {
-        return ${className}Service.deleteByIds(${pkColumn.javaField}s)
+        return ${className}Service.deleteByIds(${pkColumn.javaField}s);
     }
 }
