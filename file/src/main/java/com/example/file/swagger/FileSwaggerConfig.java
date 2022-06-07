@@ -44,8 +44,8 @@ public class FileSwaggerConfig {
 
     private ApiInfo groupApiInfo() {
         return new ApiInfoBuilder()
-                .title("文件")
-                .description("<div style='font-size:14px;color:red;'>文件</div>")
+                .title("文件服务")
+                .description("<div style='font-size:14px;color:red;'>文件服务</div>")
                 .termsOfServiceUrl(Constants.TERMS_OF_SERVICE_URL)
                 .contact(SwaggerContact.getInstance())
                 .version("1.0")

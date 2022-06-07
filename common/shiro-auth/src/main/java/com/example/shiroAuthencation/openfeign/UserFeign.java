@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(
         name = Constants.APPLICATION_NAME_SYSTEM,
-        path = "/system/openFeign/user",
+        path = Constants.CONTEXT_PATH_SYSTEM + Constants.OPENFEIGN_CALL_PREFIX + "/user",
         //相同的name或者url  不的path、configuration时 使用contextId加以区分
         contextId = "UserFeign",
         fallbackFactory = UserFeignFallBack.class

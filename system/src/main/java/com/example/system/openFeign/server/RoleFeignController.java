@@ -1,5 +1,6 @@
 package com.example.system.openFeign.server;
 
+import com.example.core.util.Constants;
 import com.example.core.vo.system.RoleVo;
 import com.example.system.service.RoleService;
 import org.springframework.beans.BeanUtils;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  * @date: 2021-07-25 16:24
  **/
 @RestController
-@RequestMapping("/openFeign/role")
+@RequestMapping(Constants.OPENFEIGN_CALL_PREFIX + "/role")
 public class RoleFeignController {
 
     @Autowired

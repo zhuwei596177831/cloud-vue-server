@@ -10,16 +10,13 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>core</module>
-        <module>core-web</module>
-        <module>shiro-auth</module>
+        <module>common</module>
         <module>gateway</module>
         <module>system</module>
-        <module>job-admin</module>
-        <module>job-executor</module>
         <module>file</module>
         <module>monitor</module>
         <module>gen</module>
+        <module>xxl-job</module>
     </modules>
 
     <properties>

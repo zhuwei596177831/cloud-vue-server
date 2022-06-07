@@ -52,9 +52,8 @@ public class LoginController extends BaseController {
     })
     @PostMapping("/login")
     public Json login(@RequestParam @NotEmpty(message = "用户名不能为空") String username,
-                      @RequestParam @NotEmpty(message = "密码不能为空") String password,
-                      @RequestParam @NotEmpty(message = "密钥不能为空") String publicKey) {
-        password = SecureUtil.rsa(Constants.PWD_RSA_PRIVATE_KEY, publicKey).decryptStr(password, KeyType.PrivateKey);
+                      @RequestParam @NotEmpty(message = "密码不能为空") String password) {
+        password = SecureUtil.rsa(Constants.PWD_RSA_PRIVATE_KEY, Constants.PWD_RSA_PUBLIC_KEY).decryptStr(password, KeyType.PrivateKey);
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password.toCharArray());
         Subject subject = SecurityUtils.getSubject();
         try {

@@ -34,7 +34,6 @@ public abstract class Constants {
     /**
      * Spring Cache Manager 名称
      */
-    public static final String ehCacheCacheManagerName = "ehCacheCacheManager";
     public static final String redisCacheManagerName = "redisCacheManager";
     public static final String caffeineCacheManagerName = "caffeineCacheManager";
     public static final String multiCacheManagerName = "multiCacheManager";
@@ -43,10 +42,12 @@ public abstract class Constants {
      * 各个服务的application name
      */
     public static final String APPLICATION_NAME_SYSTEM = "system";
-    public static final String APPLICATION_NAME_ACCOUNT = "account";
-    public static final String APPLICATION_NAME_BUSINESS = "business";
-    public static final String APPLICATION_NAME_ORDER = "order";
-    public static final String APPLICATION_NAME_STORAGE = "storage";
+
+    /**
+     * 各个服务的context-path
+     */
+    public static final String CONTEXT_PATH_SYSTEM = "/system";
+
 
     /**
      * 日期相关format
@@ -70,6 +71,12 @@ public abstract class Constants {
     public static final String UTF8 = "UTF-8";
 
     /**
+     * 登录密码使用RSA加密传输的公钥
+     */
+    public static final String PWD_RSA_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCCOigo/ypuCvx67zBawmJ3UkbAivNfu/jTIxyhzHulxeEuInzrig8vwsI2eKjm"
+            + "/ItQc6fKNndCgWl73yPr0yFCzwQ2Ez4A37O5VsbWBSlyB4/UOzAnTTKutIgFPGX4jVZBm+XH43jQs/H1Y8m1dF2cGOCWdsbH9uCtoDkviOppJQIDAQAB";
+
+    /**
      * 登录密码使用RSA加密传输的私钥
      */
     public static final String PWD_RSA_PRIVATE_KEY =
@@ -82,5 +89,10 @@ public abstract class Constants {
                     + "+kxVsmgEujReET3ZfIfv5lLfuhjVUF6JUGoeYU0DfmR9GuVW3UqrMpjmhOfynd6j/CR5KCbQey4QJAFLwnMBWgz41jYzjN6di9UVXnbSTxXqezM2Ymmsw"
                     + "/QgiM7RFUzaB6oUT0NCnUs+86He8twFxIaRKLLkb+JNXrYQJAMmjEahfpYcgzZ/f8Wwrr5e3qQCyFtqWNHrI6pP+0a8w8XC0NEdLInWE3e0xYJ"
                     + "+wmtar8AOOjPqrRZNlyNkqz3w==";
+
+    /**
+     * open feign接口 前缀
+     */
+    public static final String OPENFEIGN_CALL_PREFIX = "/openFeign";
 
 }

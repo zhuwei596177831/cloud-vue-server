@@ -1,5 +1,6 @@
 package com.example.system.openFeign.server;
 
+import com.example.core.util.Constants;
 import com.example.core.vo.system.MenuVo;
 import com.example.system.entity.Menu;
 import com.example.system.service.MenuService;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * @date: 2021-07-25 16:24
  **/
 @RestController
-@RequestMapping("/openFeign/menu")
+@RequestMapping(Constants.OPENFEIGN_CALL_PREFIX + "/menu")
 public class MenuFeignController {
 
     @Autowired

@@ -1,5 +1,6 @@
 package com.example.system.openFeign.server;
 
+import com.example.core.util.Constants;
 import com.example.core.vo.system.UserVo;
 import com.example.system.entity.User;
 import com.example.system.service.UserService;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description User Feign controller
  */
 @RestController
-@RequestMapping("/openFeign/user")
+@RequestMapping(Constants.OPENFEIGN_CALL_PREFIX + "/user")
 public class UserFeignController {
 
     @Autowired
