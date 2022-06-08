@@ -335,7 +335,6 @@ export default {
     handleUpdate(row) {
       this.$resetForm(this.form);
       const ${pkColumn.javaField} = row.${pkColumn.javaField} || this.ids
-      this.form = response.data;
       this.open = true;
       this.title = "修改${functionName}";
         #foreach ($column in $columns)

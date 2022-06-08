@@ -10,7 +10,6 @@ import lombok.Getter;
 @Getter
 public enum RedisKey {
     SHIRO_SESSION_CACHE("shiro_session", "shiro session key"),
-    USER_MENUS("user_menus", "用户权限菜单"),
     MENU_TREES("menu_trees", "菜单tree"),
     ;
     private final String key;

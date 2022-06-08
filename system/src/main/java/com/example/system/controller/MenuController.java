@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -104,31 +102,6 @@ public class MenuController extends BaseController {
     }
 
     /**
-     * 用户权限菜单
-     *
-     * @author: 朱伟伟
-     * @date: 2021-06-26 23:25
-     **/
-    @ApiOperation(value = "用户权限菜单")
-    @PostMapping("/userMenus")
-    public Json userMenus() {
-        UserVo user = getUser();
-        return Json.ok(menuService.userMenus(user.getId()));
-    }
-
-    /**
-     * 菜单列表：菜单树
-     *
-     * @author: 朱伟伟
-     * @date: 2021-06-27 19:51
-     **/
-    @ApiOperation(value = "菜单列表：菜单树")
-    @PostMapping("/menuTrees")
-    public Json menuTrees() {
-        return Json.ok(menuService.menuTrees());
-    }
-
-    /**
      * 菜单类型
      *
      * @author: 朱伟伟
@@ -155,40 +128,15 @@ public class MenuController extends BaseController {
     }
 
     /**
-     * 根据菜单类型查询 上级菜单列表下拉数据
-     *
-     * @param type:
-     * @author: 朱伟伟
-     * @date: 2021-07-22 17:52
-     **/
-    @ApiOperation(value = "根据菜单类型查询 上级菜单列表下拉数据")
-    @PostMapping("/parentMenus")
-    public Json parentMenus(@RequestParam Integer type) {
-        if (MenuType.MENU_MODEL.getValue().equals(type)) {
-            return Json.ok(Collections.emptyList());
-        }
-        MenuReq menuReq = new MenuReq();
-        if (MenuType.MENU_NAVIGATION.getValue().equals(type)) {
-            menuReq.setTypes(Arrays.asList(MenuType.MENU_MODEL.getValue(), MenuType.MENU_NAVIGATION.getValue()));
-        } else if (MenuType.MENU_BUTTON.getValue().equals(type)) {
-            menuReq.setType(MenuType.MENU_NAVIGATION.getValue());
-        } else {
-            return Json.ok(Collections.emptyList());
-        }
-        List<Menu> menuList = menuService.menuList(menuReq, null);
-        return Json.ok(menuList);
-    }
-
-    /**
      * 权限分配：菜单树
      *
      * @author: 朱伟伟
      * @date: 2021-06-27 19:51
      **/
     @ApiOperation(value = "权限分配：菜单树")
-    @PostMapping("/getMenuTrees")
+    @PostMapping("/menuTrees")
     public Json getMenuTrees() {
-        return Json.ok(menuService.getMenuTrees());
+        return Json.ok(menuService.menuTrees());
     }
 
 

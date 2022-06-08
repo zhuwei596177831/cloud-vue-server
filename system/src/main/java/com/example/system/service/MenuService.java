@@ -1,6 +1,5 @@
 package com.example.system.service;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.core.entity.Cascader;
 import com.example.core.entity.Json;
@@ -8,6 +7,7 @@ import com.example.core.entity.MenuTree;
 import com.example.core.entity.PageInfo;
 import com.example.core.enums.MenuType;
 import com.example.core.enums.RedisKey;
+import com.example.coreweb.cache.util.RedisUtil;
 import com.example.coreweb.exception.ApplicationException;
 import com.example.system.entity.Menu;
 import com.example.system.entity.RoleMenu;
@@ -17,7 +17,6 @@ import com.example.system.mapper.RoleMenuMapper;
 import com.example.system.responseCode.MenuResponseCode;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -39,7 +38,7 @@ public class MenuService {
     @Autowired
     private RoleMenuMapper roleMenuMapper;
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RedisUtil redisUtil;
 
     public List<Menu> menuTableList(MenuReq menuReq) {
         return reconstructMenuList(this.menuList(menuReq, null), menuReq.getType());
@@ -155,22 +154,6 @@ public class MenuService {
         return Json.success();
     }
 
-    /**
-     * 查询用户所有的权限菜单
-     *
-     * @param userId:
-     * @author: 朱伟伟
-     * @date: 2021-06-26 22:34
-     **/
-    public List<Menu> userMenus(Long userId) {
-        Set<Menu> all = this.findMenusByUserId(userId).stream().filter(m -> !MenuType.MENU_BUTTON.getValue().equals(m.getType())).collect(Collectors.toSet());
-        Set<Menu> moduleMenus = all.stream().filter(m -> MenuType.MENU_MODEL.getValue().equals(m.getType())).collect(Collectors.toSet());
-        if (!CollectionUtils.isEmpty(moduleMenus)) {
-            recursionChildren(moduleMenus, all);
-        }
-        return new ArrayList<>(moduleMenus);
-    }
-
     private void recursionChildren(Collection<Menu> moduleMenus, Collection<Menu> all) {
         moduleMenus.forEach(m -> {
             Set<Menu> childrenSet = all.stream().filter(a -> m.getId().equals(a.getParentId())).collect(Collectors.toSet());
@@ -190,7 +173,7 @@ public class MenuService {
     public List<MenuTree> menuTrees() {
         List<MenuTree> menuTrees = null;
         try {
-            menuTrees = JSON.parseArray(stringRedisTemplate.opsForValue().get(RedisKey.MENU_TREES.getKey()), MenuTree.class);
+            menuTrees = redisUtil.getList(RedisKey.MENU_TREES.getKey(), MenuTree.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -202,16 +185,11 @@ public class MenuService {
 
     public List<MenuTree> refreshRedisMenuTrees() {
         List<MenuTree> menuTrees = getMenuTrees();
-        MenuTree all = new MenuTree();
-        all.setId(0L);
-        all.setLabel("全部");
-        all.setType(MenuType.MENU_MODEL.getValue());
-        all.setChildren(menuTrees);
-        stringRedisTemplate.opsForValue().set(RedisKey.MENU_TREES.getKey(), JSON.toJSONString(Collections.singletonList(all)));
+        redisUtil.set(RedisKey.MENU_TREES.getKey(), menuTrees);
         return menuTrees;
     }
 
-    public List<MenuTree> getMenuTrees() {
+    private List<MenuTree> getMenuTrees() {
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = new LambdaQueryWrapper<>();
         menuLambdaQueryWrapper.eq(Menu::getType, MenuType.MENU_MODEL.getValue());
         List<MenuTree> menuTrees = menuMapper.selectList(menuLambdaQueryWrapper).stream().map(menu -> {

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.validation.annotation.Validated
 import ${packageName}.entity.${ClassName};
 import ${packageName}.service.${ClassName}Service;
 import com.example.shiroAuthencation.controller.BaseController;
@@ -83,7 +82,7 @@ public class ${ClassName}Controller extends BaseController {
      **/
     @ApiOperation(value = "新增")
     @PostMapping("/insert")
-    public Json insert(@RequestBody @Validated ${ClassName} ${className}) {
+    public Json insert(@RequestBody ${ClassName} ${className}) {
         return ${className}Service.insert(${className});
     }
 
@@ -96,7 +95,7 @@ public class ${ClassName}Controller extends BaseController {
      **/
     @ApiOperation(value = "根据id修改")
     @PostMapping("/updateById")
-    public Json updateById(@RequestBody @Validated ${ClassName} ${className}) {
+    public Json updateById(@RequestBody ${ClassName} ${className}) {
         return ${className}Service.updateById(${className});
     }
 

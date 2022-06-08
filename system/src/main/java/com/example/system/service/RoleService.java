@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
 import com.example.coreweb.exception.ApplicationException;
-import com.example.system.entity.Menu;
 import com.example.system.entity.Role;
 import com.example.system.entity.RoleMenu;
 import com.example.system.entity.UserRole;
@@ -24,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author 朱伟伟
@@ -55,18 +53,7 @@ public class RoleService {
         if (pageInfo != null) {
             PageHelper.startPage(pageInfo.getPageNum(), pageInfo.getPageSize());
         }
-        List<Role> roles = roleMapper.roleList(roleReq);
-        if (pageInfo != null) {
-            roles.forEach(r -> {
-                List<RoleMenu> roleMenus = roleMenuMapper.selectList(new LambdaQueryWrapper<RoleMenu>().eq(RoleMenu::getRoleId, r.getId()));
-                if (!roleMenus.isEmpty()) {
-                    List<Long> menuIds = roleMenus.stream().map(RoleMenu::getMenuId).collect(Collectors.toList());
-                    List<Menu> menus = menuMapper.selectList(new LambdaQueryWrapper<Menu>().in(Menu::getId, menuIds));
-                    r.setMenus(menus);
-                }
-            });
-        }
-        return roles;
+        return roleMapper.roleList(roleReq);
     }
 
     /**
