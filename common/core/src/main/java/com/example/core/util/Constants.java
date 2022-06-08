@@ -112,4 +112,9 @@ public abstract class Constants {
      */
     public static final String LOGIN_SUCCESS = "Success";
 
+    /**
+     * redis scan命令 获取指定前缀的一系列key 的size
+     */
+    public static final int REDIS_SCAN_SIZE = 50000;
+
 }

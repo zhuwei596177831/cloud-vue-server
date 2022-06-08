@@ -38,6 +38,12 @@ public class LoginLogVo implements Serializable {
     private String ipAddr;
 
     /**
+     * IP归属地
+     */
+    @ApiModelProperty(value = "IP归属地")
+    private String ipLocation;
+
+    /**
      * 登录状态（0成功 1失败）
      */
     @ApiModelProperty(value = "登录状态（0成功 1失败）")

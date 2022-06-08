@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.core.entity.Json;
 import com.example.core.util.Constants;
 import com.example.core.util.StringUtils;
+import com.example.core.vo.system.IpAddressVo;
 import com.example.core.vo.system.LoginLogVo;
 import com.example.core.vo.system.OpeLogVo;
 import com.example.core.vo.system.UserVo;
@@ -11,6 +12,7 @@ import com.example.coreweb.annotation.Log;
 import com.example.coreweb.enums.BusinessStatus;
 import com.example.coreweb.enums.LogType;
 import com.example.coreweb.openfeign.LogFeign;
+import com.example.coreweb.util.AddressUtils;
 import com.example.coreweb.util.IpUtils;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
@@ -104,7 +106,14 @@ public class LogAspect {
         try {
             LoginLogVo loginLogVo = new LoginLogVo();
             loginLogVo.setAccessTime(LocalDateTime.now());
-            loginLogVo.setIpAddr(IpUtils.getIpAddr(request));
+            String ipAddr = IpUtils.getIpAddr(request);
+            loginLogVo.setIpAddr(ipAddr);
+            if (StringUtils.isNotEmpty(ipAddr)) {
+                IpAddressVo ipAddressVo = AddressUtils.getIpAddressVo(ipAddr);
+                if (ipAddressVo != null) {
+                    loginLogVo.setIpLocation(ipAddressVo.getProvince() + ipAddressVo.getCity());
+                }
+            }
             loginLogVo.setLoginName(request.getParameter("username"));
             loginLogVo.setStatus(Constants.LOGIN_SUCCESS_STATUS);
             loginLogVo.setMsg(Constants.SUCCESS_MSG_LOGIN);
@@ -144,7 +153,14 @@ public class LogAspect {
             OpeLogVo opeLogVo = new OpeLogVo();
             opeLogVo.setStatus(BusinessStatus.SUCCESS.ordinal());
             opeLogVo.setErrorMsg(Constants.SUCCESS_MSG_STRING);
-            opeLogVo.setOpeIp(IpUtils.getIpAddr(request));
+            String ipAddr = IpUtils.getIpAddr(request);
+            opeLogVo.setOpeIp(ipAddr);
+            if (StringUtils.isNotEmpty(ipAddr)) {
+                IpAddressVo ipAddressVo = AddressUtils.getIpAddressVo(ipAddr);
+                if (ipAddressVo != null) {
+                    opeLogVo.setOpeLocation(ipAddressVo.getProvince() + ipAddressVo.getCity());
+                }
+            }
             opeLogVo.setOpeUrl(request.getRequestURI());
             opeLogVo.setOpeTime(LocalDateTime.now());
             Object principal = SecurityUtils.getSubject().getPrincipal();

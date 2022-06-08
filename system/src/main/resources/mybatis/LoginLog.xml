@@ -13,7 +13,8 @@
     </resultMap>
 
     <select id="list" resultType="com.example.system.entity.LoginLog">
-        select id, login_name, ip_addr, status, msg, access_time from `system`.sys_login_log
+        select id, login_name, ip_addr, status, msg, access_time,ip_location
+        from `system`.sys_login_log
         <where>
             <if test="loginName != null  and loginName != ''">
                 and login_name like concat('%', #{loginName}, '%')

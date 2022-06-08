@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName(value = "sys_login_log")
 @ApiModel(value = "登录日志记录")
-public class LoginLog extends BaseEntity{
+public class LoginLog extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,6 +43,12 @@ public class LoginLog extends BaseEntity{
      */
     @ApiModelProperty(value = "登录IP地址")
     private String ipAddr;
+
+    /**
+     * IP归属地
+     */
+    @ApiModelProperty(value = "IP归属地")
+    private String ipLocation;
 
     /**
      * 登录状态（0成功 1失败）

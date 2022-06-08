@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>cloud-vue-demo</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -51,6 +51,7 @@
         <spring-boot-admin.version>2.2.3</spring-boot-admin.version>
         <velocity-engine.version>2.3</velocity-engine.version>
         <hutool.version>5.8.1</hutool.version>
+        <ip2region.version>1.7.2</ip2region.version>
     </properties>
 
     <dependencyManagement>
@@ -275,6 +276,11 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-crypto</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
