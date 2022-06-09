@@ -1,7 +1,7 @@
 package com.example.system.service;
 
 import com.example.core.entity.PageInfo;
-import com.example.system.entity.SysDictData;
+import com.example.api.system.entity.SysDictData;
 import com.example.system.mapper.SysDictDataMapper;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;

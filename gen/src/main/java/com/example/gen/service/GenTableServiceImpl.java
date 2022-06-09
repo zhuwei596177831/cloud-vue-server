@@ -2,12 +2,12 @@ package com.example.gen.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.core.entity.ShiroUser;
 import com.example.core.exception.ServiceException;
 import com.example.core.text.CharsetKit;
 import com.example.core.util.Constants;
 import com.example.core.util.GenConstants;
 import com.example.core.util.StringUtils;
-import com.example.core.vo.system.UserVo;
 import com.example.gen.entity.GenTable;
 import com.example.gen.entity.GenTableColumn;
 import com.example.gen.mapper.GenTableColumnMapper;
@@ -148,8 +148,8 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importGenTable(List<GenTable> tableList, String databaseName, UserVo userVo) {
-        String operName = userVo.getName();
+    public void importGenTable(List<GenTable> tableList, String databaseName, ShiroUser shiroUser) {
+        String operName = shiroUser.getName();
         try {
             for (GenTable table : tableList) {
                 String tableName = table.getTableName();
@@ -237,7 +237,7 @@ public class GenTableServiceImpl implements IGenTableService {
         // 获取模板列表
         List<String> templates = VelocityUtils.getTemplateList(table.getTplCategory());
         for (String template : templates) {
-            if (!StringUtils.containsAny(template, "api.js.vm" , "index.vue.vm")) {
+            if (!StringUtils.containsAny(template, "api.js.vm", "index.vue.vm")) {
                 // 渲染模板
                 StringWriter sw = new StringWriter();
                 Template tpl = Velocity.getTemplate(template, Constants.UTF8);

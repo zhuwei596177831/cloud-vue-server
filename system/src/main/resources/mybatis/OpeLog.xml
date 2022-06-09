@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.system.mapper.OpeLogMapper">
 
-    <resultMap type="com.example.system.entity.OpeLog" id="OpeLogResult">
+    <resultMap type="com.example.api.system.entity.OpeLog" id="OpeLogResult">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="businessType" column="business_type"/>
@@ -21,7 +21,7 @@
         <result property="opeTime" column="ope_time"/>
     </resultMap>
 
-    <select id="list" resultType="com.example.system.entity.OpeLog">
+    <select id="list" resultType="com.example.api.system.entity.OpeLog">
         select id, title, business_type, method, request_method, operator_type, ope_name,
         ope_url, ope_ip, ope_location, ope_param, json_result, status, error_msg, ope_time
         from `system`.sys_ope_log
@@ -69,6 +69,7 @@
                 and date_format(ope_time,'%Y-%m-%d') = #{opeTimeSearchDate}
             </if>
         </where>
+        ORDER BY id desc
     </select>
 
 </mapper>

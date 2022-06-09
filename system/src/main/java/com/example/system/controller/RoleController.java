@@ -1,12 +1,12 @@
 package com.example.system.controller;
 
+import com.example.api.system.entity.Role;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
-import com.example.core.vo.system.UserVo;
+import com.example.core.entity.ShiroUser;
 import com.example.shiroAuthencation.controller.BaseController;
-import com.example.system.entity.Role;
-import com.example.system.entity.req.RoleMenuReq;
-import com.example.system.entity.req.RoleReq;
+import com.example.system.req.RoleMenuReq;
+import com.example.system.req.RoleReq;
 import com.example.system.service.RoleService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
@@ -57,9 +57,9 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "添加角色")
     @PostMapping("/addRole")
     public Json addRole(@RequestBody @Validated({Role.Add.class}) Role role) {
-        UserVo user = getUser();
+        ShiroUser shiroUser = getUser();
         role.setInputTime(LocalDateTime.now());
-        role.setInputUserId(user.getId());
+        role.setInputUserId(shiroUser.getId());
         return roleService.addRole(role);
     }
 
@@ -73,9 +73,9 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "修改角色")
     @PutMapping("/updateRole")
     public Json updateRole(@RequestBody @Validated({Role.Update.class}) Role role) {
-        UserVo user = getUser();
+        ShiroUser shiroUser = getUser();
         role.setUpdateTime(LocalDateTime.now());
-        role.setUpdateUserId(user.getId());
+        role.setUpdateUserId(shiroUser.getId());
         return roleService.updateRole(role);
     }
 

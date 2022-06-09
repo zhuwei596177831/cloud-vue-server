@@ -1,7 +1,6 @@
 package com.example.core.entity;
 
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,9 +47,10 @@ public class PageData<T> extends BaseEntity {
     @ApiModelProperty(value = "总数")
     private long total;
 
-
+    /**
+     * page helper分页方式
+     */
     public PageData(Page<T> page) {
-        PageInfo<T> pageInfo = new PageInfo<>(page);
         this.data = page.getResult();
         this.pageNum = page.getPageNum();
         this.pageSize = page.getPageSize();
@@ -59,6 +59,9 @@ public class PageData<T> extends BaseEntity {
         this.total = page.getTotal();
     }
 
+    /**
+     * mybatis plus自带分页方式
+     */
     public PageData(com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> page) {
         this.data = page.getRecords();
         this.pageNum = page.getCurrent();

@@ -1,7 +1,7 @@
 package com.example.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.system.entity.OpeLog;
+import com.example.api.system.entity.OpeLog;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

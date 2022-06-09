@@ -2,7 +2,7 @@ package com.example.system.controller;
 
 import com.example.core.entity.Json;
 import com.example.shiroAuthencation.controller.BaseController;
-import com.example.system.entity.LoginLog;
+import com.example.api.system.entity.LoginLog;
 import com.example.system.service.LoginLogService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;

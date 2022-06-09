@@ -1,6 +1,6 @@
 package com.example.gen.service;
 
-import com.example.core.vo.system.UserVo;
+import com.example.core.entity.ShiroUser;
 import com.example.gen.entity.GenTable;
 
 import java.util.List;
@@ -72,7 +72,7 @@ public interface IGenTableService {
      *
      * @param tableList 导入表列表
      */
-    void importGenTable(List<GenTable> tableList, String databaseName, UserVo userVo);
+    void importGenTable(List<GenTable> tableList, String databaseName, ShiroUser shiroUser);
 
     /**
      * 预览代码

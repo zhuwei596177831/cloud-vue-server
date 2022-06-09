@@ -3,7 +3,7 @@ package com.example.system.service;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
 import com.example.core.vo.system.LoginLogVo;
-import com.example.system.entity.LoginLog;
+import com.example.api.system.entity.LoginLog;
 import com.example.system.mapper.LoginLogMapper;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;

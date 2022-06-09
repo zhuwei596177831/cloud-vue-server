@@ -2,12 +2,12 @@ package com.example.coreweb.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.example.core.entity.Json;
+import com.example.core.entity.ShiroUser;
 import com.example.core.util.Constants;
 import com.example.core.util.StringUtils;
 import com.example.core.vo.system.IpAddressVo;
 import com.example.core.vo.system.LoginLogVo;
 import com.example.core.vo.system.OpeLogVo;
-import com.example.core.vo.system.UserVo;
 import com.example.coreweb.annotation.Log;
 import com.example.coreweb.enums.BusinessStatus;
 import com.example.coreweb.enums.LogType;
@@ -165,8 +165,8 @@ public class LogAspect {
             opeLogVo.setOpeTime(LocalDateTime.now());
             Object principal = SecurityUtils.getSubject().getPrincipal();
             if (principal != null) {
-                UserVo userVo = (UserVo) principal;
-                opeLogVo.setOpeName(userVo.getName());
+                ShiroUser shiroUser = (ShiroUser) principal;
+                opeLogVo.setOpeName(shiroUser.getName());
             }
             if (e != null) {
                 opeLogVo.setStatus(BusinessStatus.FAIL.ordinal());

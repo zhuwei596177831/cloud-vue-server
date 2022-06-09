@@ -1,11 +1,9 @@
 package com.example.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.core.entity.Tree;
-import com.example.system.entity.Menu;
-import com.example.system.entity.req.MenuReq;
+import com.example.api.system.entity.Menu;
+import com.example.system.req.MenuReq;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Set;

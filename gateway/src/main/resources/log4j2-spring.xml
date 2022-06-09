@@ -74,7 +74,7 @@
         </root>
 
         <!--#Feign logging only responds to the DEBUG level.-->
-        <logger name="com.example.system.openFeign" level="debug" additivity="false">
+        <logger name="com.example.system.openfeign" level="debug" additivity="false">
             <appender-ref ref="RollingFileDebug"/>
             <appender-ref ref="consolePrint"/>
         </logger>

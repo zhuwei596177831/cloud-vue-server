@@ -1,15 +1,15 @@
 package com.example.system.controller;
 
+import com.example.api.system.entity.Menu;
 import com.example.core.entity.Cascader;
 import com.example.core.entity.Json;
+import com.example.core.entity.ShiroUser;
 import com.example.core.enums.MenuType;
 import com.example.core.util.Constants;
-import com.example.core.vo.system.UserVo;
 import com.example.coreweb.annotation.Log;
 import com.example.coreweb.enums.BusinessType;
 import com.example.shiroAuthencation.controller.BaseController;
-import com.example.system.entity.Menu;
-import com.example.system.entity.req.MenuReq;
+import com.example.system.req.MenuReq;
 import com.example.system.service.MenuService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
@@ -61,8 +61,8 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "添加菜单")
     @PostMapping("/addMenu")
     public Json addMenu(@RequestBody @Validated({Menu.Add.class}) Menu menu) {
-        UserVo user = getUser();
-        menu.setInputUserId(user.getId());
+        ShiroUser shiroUser = getUser();
+        menu.setInputUserId(shiroUser.getId());
         menu.setInputTime(LocalDateTime.now());
         Json json = menuService.addMenu(menu);
         menuService.refreshRedisMenuTrees();
@@ -78,8 +78,8 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "修改菜单")
     @PutMapping("/updateMenu")
     public Json updateMenu(@RequestBody @Validated({Menu.Update.class}) Menu menu) {
-        UserVo user = getUser();
-        menu.setUpdateUserId(user.getId());
+        ShiroUser shiroUser = getUser();
+        menu.setUpdateUserId(shiroUser.getId());
         menu.setUpdateTime(LocalDateTime.now());
         Json json = menuService.updateMenu(menu);
         menuService.refreshRedisMenuTrees();

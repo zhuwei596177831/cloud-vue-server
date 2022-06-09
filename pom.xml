@@ -17,6 +17,7 @@
         <module>monitor</module>
         <module>gen</module>
         <module>xxl-job</module>
+        <module>api</module>
     </modules>
 
     <properties>
@@ -36,6 +37,7 @@
         <druid-boot.version>1.2.4</druid-boot.version>
         <pagehelper.version>5.1.10</pagehelper.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
+        <mybatis.version>3.5.4</mybatis.version>
         <mysql.version>8.0.19</mysql.version>
         <shiro.version>1.5.2</shiro.version>
         <knife4j.version>2.0.8</knife4j.version>
@@ -96,6 +98,11 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>

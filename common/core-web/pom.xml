@@ -35,10 +35,6 @@
             <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
         </dependency>
@@ -88,6 +84,7 @@
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
+                    <!--根据ip获得地理位置需要的文件-->
                     <include>**/ip2region.db</include>
                 </includes>
             </resource>

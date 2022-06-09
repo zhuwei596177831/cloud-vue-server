@@ -1,12 +1,12 @@
 package com.example.system.controller;
 
+import com.example.api.system.entity.User;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
+import com.example.core.entity.ShiroUser;
 import com.example.core.vo.system.UserInfoVo;
-import com.example.core.vo.system.UserVo;
 import com.example.shiroAuthencation.controller.BaseController;
-import com.example.system.entity.User;
-import com.example.system.entity.req.UserReq;
+import com.example.system.req.UserReq;
 import com.example.system.service.UserService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
@@ -63,8 +63,8 @@ public class UserController extends BaseController {
     @ApiOperation(value = "添加用户")
     @PostMapping("/addUser")
     public Json addUser(@RequestBody @Validated({User.Add.class}) User userReq) {
-        UserVo user = getUser();
-        userReq.setInputUserId(user.getId());
+        ShiroUser shiroUser = getUser();
+        userReq.setInputUserId(shiroUser.getId());
         userReq.setInputTime(LocalDateTime.now());
         return userService.addUser(userReq);
     }
@@ -79,8 +79,8 @@ public class UserController extends BaseController {
     @ApiOperation(value = "修改用户")
     @PutMapping("/updateUser")
     public Json updateUser(@RequestBody @Validated({User.Update.class}) User userReq) {
-        UserVo user = getUser();
-        userReq.setUpdateUserId(user.getId());
+        ShiroUser shiroUser = getUser();
+        userReq.setUpdateUserId(shiroUser.getId());
         userReq.setUpdateTime(LocalDateTime.now());
         return userService.updateUser(userReq);
     }
@@ -134,8 +134,8 @@ public class UserController extends BaseController {
      **/
     @ApiOperation(value = "用户密码重置")
     @PostMapping("/resetPwd")
-    public Json resetPwd(@RequestBody UserVo userVo) {
-        return userService.resetPwd(userVo);
+    public Json resetPwd(@RequestBody ShiroUser shiroUser) {
+        return userService.resetPwd(shiroUser);
     }
 
     /**

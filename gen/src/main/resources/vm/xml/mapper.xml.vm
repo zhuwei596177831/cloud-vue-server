@@ -59,6 +59,7 @@
             #end
             #end
         </where>
+            order by id desc
     </select>
 
 </mapper>

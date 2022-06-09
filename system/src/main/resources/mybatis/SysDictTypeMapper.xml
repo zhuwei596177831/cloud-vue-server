@@ -8,7 +8,7 @@
         from `system`.sys_dict_type
     </sql>
 
-    <select id="selectDictTypeList" resultType="com.example.system.entity.SysDictType">
+    <select id="selectDictTypeList" resultType="com.example.api.system.entity.SysDictType">
         <include refid="selectDictTypeVo"/>
         <where>
             <if test="dictName != null and dictName != ''">
@@ -29,21 +29,21 @@
         </where>
     </select>
 
-    <select id="selectDictTypeAll" resultType="com.example.system.entity.SysDictType">
+    <select id="selectDictTypeAll" resultType="com.example.api.system.entity.SysDictType">
         <include refid="selectDictTypeVo"/>
     </select>
 
-    <select id="selectDictTypeById" parameterType="Long" resultType="com.example.system.entity.SysDictType">
+    <select id="selectDictTypeById" parameterType="Long" resultType="com.example.api.system.entity.SysDictType">
         <include refid="selectDictTypeVo"/>
         where dict_id = #{dictId}
     </select>
 
-    <select id="selectDictTypeByType" parameterType="String" resultType="com.example.system.entity.SysDictType">
+    <select id="selectDictTypeByType" parameterType="String" resultType="com.example.api.system.entity.SysDictType">
         <include refid="selectDictTypeVo"/>
         where dict_type = #{dictType}
     </select>
 
-    <select id="checkDictTypeUnique" parameterType="String" resultType="com.example.system.entity.SysDictType">
+    <select id="checkDictTypeUnique" parameterType="String" resultType="com.example.api.system.entity.SysDictType">
         <include refid="selectDictTypeVo"/>
         where dict_type = #{dictType} limit 1
     </select>

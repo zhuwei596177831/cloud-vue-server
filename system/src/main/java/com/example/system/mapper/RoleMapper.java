@@ -1,8 +1,8 @@
 package com.example.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.system.entity.Role;
-import com.example.system.entity.req.RoleReq;
+import com.example.api.system.entity.Role;
+import com.example.system.req.RoleReq;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

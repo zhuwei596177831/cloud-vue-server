@@ -3,7 +3,7 @@ package com.example.system.service;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
 import com.example.core.vo.system.OpeLogVo;
-import com.example.system.entity.OpeLog;
+import com.example.api.system.entity.OpeLog;
 import com.example.system.mapper.OpeLogMapper;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;

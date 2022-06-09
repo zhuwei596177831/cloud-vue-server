@@ -3,7 +3,7 @@ package com.example.system.controller;
 import com.example.core.entity.Json;
 import com.example.core.util.Constants;
 import com.example.shiroAuthencation.controller.BaseController;
-import com.example.system.entity.SysDictType;
+import com.example.api.system.entity.SysDictType;
 import com.example.system.service.SysDictTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

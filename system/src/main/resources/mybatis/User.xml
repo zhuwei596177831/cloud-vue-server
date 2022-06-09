@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.system.mapper.UserMapper">
 
-    <select id="userList" resultType="com.example.system.entity.User">
+    <select id="userList" resultType="com.example.api.system.entity.User">
         select t.id,t.name,t.sex,t.phone,t.address,t.email,t.login_name,t.phone,t.input_time
         from `system`.sys_user t
         <where>
