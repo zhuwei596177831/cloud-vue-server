@@ -14,7 +14,7 @@ import com.example.core.util.BeanUtils;
 import com.example.core.util.Constants;
 import com.example.core.util.PasswordUtils;
 import com.example.core.vo.system.UserInfoVo;
-import com.example.core.vo.system.UserProfile;
+import com.example.core.vo.system.UserProfileVo;
 import com.example.coreweb.exception.ApplicationException;
 import com.example.coreweb.rescode.system.PwdResponseCode;
 import com.example.coreweb.rescode.system.UserResponseCode;
@@ -218,12 +218,12 @@ public class UserService {
     /**
      * 更新基本资料
      *
-     * @param userProfile:
+     * @param userProfileVo:
      * @author: 朱伟伟
      * @date: 2022-06-06 09:23
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Json updateProfile(UserProfile userProfile, ShiroUser shiroUser, HttpServletRequest request) {
+    public Json updateProfile(UserProfileVo userProfileVo, ShiroUser shiroUser, HttpServletRequest request) {
         String token = request.getHeader(Constants.X_TOKEN_NAME);
         if (!StringUtils.hasText(token)) {
             token = request.getParameter(Constants.X_TOKEN_NAME);
@@ -236,13 +236,13 @@ public class UserService {
             throw new ApplicationException(ApplicationResponseCode.RECORD_NOT_EXIST);
         }
         //更新redis中存储的session的用户信息
-        BeanUtils.copyPropertiesIgnoreNull(userProfile, shiroUser);
+        BeanUtils.copyPropertiesIgnoreNull(userProfileVo, shiroUser);
         Session session = shiroReisCache.get(token);
         session.setAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY,
                 new SimplePrincipalCollection(shiroUser, UserNamePasswordRealm.REALM_NAME));
         shiroReisCache.put(token, session);
         //更新数据库
-        BeanUtils.copyPropertiesIgnoreNull(userProfile, user);
+        BeanUtils.copyPropertiesIgnoreNull(userProfileVo, user);
         user.setUpdateUserId(shiroUser.getId());
         user.setUpdateTime(LocalDateTime.now());
         userMapper.updateById(user);
@@ -252,21 +252,21 @@ public class UserService {
     /**
      * 修改用户密码
      *
-     * @param userProfile:
+     * @param userProfileVo:
      * @param shiroUser:
      * @author: 朱伟伟
      * @date: 2022-06-06 11:38
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Json updatePwd(UserProfile userProfile, ShiroUser shiroUser) {
-        if (!userProfile.getNewPassword().equals(userProfile.getConfirmPassword())) {
+    public Json updatePwd(UserProfileVo userProfileVo, ShiroUser shiroUser) {
+        if (!userProfileVo.getNewPassword().equals(userProfileVo.getConfirmPassword())) {
             throw new ApplicationException(PwdResponseCode.PASSWORD_OLD_NEW_NOT_EQUALS);
         }
-        String oldPassword = PasswordUtils.md5(shiroUser.getLoginName(), userProfile.getOldPassword());
+        String oldPassword = PasswordUtils.md5(shiroUser.getLoginName(), userProfileVo.getOldPassword());
         if (!oldPassword.equals(shiroUser.getPassword())) {
             throw new ApplicationException(PwdResponseCode.PASSWORD_NOT_CORRECT);
         }
-        String newPassword = PasswordUtils.md5(shiroUser.getLoginName(), userProfile.getNewPassword());
+        String newPassword = PasswordUtils.md5(shiroUser.getLoginName(), userProfileVo.getNewPassword());
         if (newPassword.equals(shiroUser.getPassword())) {
             throw new ApplicationException(PwdResponseCode.NOT_USE_OLD_PASSWORD);
         }

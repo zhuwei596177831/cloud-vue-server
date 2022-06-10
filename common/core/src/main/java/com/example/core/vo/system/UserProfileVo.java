@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @description 个人中心 用户资料
  */
 @Data
-public class UserProfile implements Serializable {
+public class UserProfileVo implements Serializable {
     private static final long serialVersionUID = -6575748608679519624L;
 
     /**

@@ -1,13 +1,10 @@
 package com.example.core.entity;
 
 import com.example.core.vo.system.BaseVo;
-import com.example.core.vo.system.RoleVo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * @author 朱伟伟
@@ -67,22 +64,5 @@ public class ShiroUser extends BaseVo {
      */
     @ApiModelProperty(value = "用户头像")
     private String headImageUrl;
-
-    /**
-     * 角色Ids
-     */
-    @ApiModelProperty(value = "角色Ids")
-    private List<Long> roleIds;
-
-    /**
-     * 角色名称
-     */
-    private String roleNames;
-
-    /**
-     * 角色
-     */
-    @ApiModelProperty(value = "角色")
-    private List<RoleVo> roles;
 
 }
