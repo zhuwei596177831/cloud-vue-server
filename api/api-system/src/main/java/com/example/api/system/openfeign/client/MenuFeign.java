@@ -16,7 +16,7 @@ import java.util.Set;
  */
 @FeignClient(
         value = Constants.APPLICATION_NAME_SYSTEM,
-        path = Constants.CONTEXT_PATH_SYSTEM + Constants.OPENFEIGN_CALL_PREFIX + "/menu",
+        path = Constants.CONTEXT_PATH_SYSTEM + "/menu",
         contextId = "MenuFeign",
         fallbackFactory = MenuFeignFallBack.class
 )

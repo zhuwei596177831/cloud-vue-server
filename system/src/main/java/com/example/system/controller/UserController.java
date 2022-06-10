@@ -151,4 +151,15 @@ public class UserController extends BaseController {
         return userService.updateHeadImageUrl(url, getUser());
     }
 
+    /**
+     * @param username:
+     * @author: 朱伟伟
+     * @date: 2021-05-22 18:48
+     * @description: 根据用户名查询用户
+     **/
+    @PostMapping("/findByLoginName")
+    public User findByLoginName(@RequestParam String username) {
+        return userService.findByLoginName(username);
+    }
+
 }

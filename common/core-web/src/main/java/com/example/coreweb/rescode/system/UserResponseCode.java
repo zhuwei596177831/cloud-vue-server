@@ -1,6 +1,6 @@
-package com.example.system.responseCode;
+package com.example.coreweb.rescode.system;
 
-import com.example.core.responsecode.ResponseCode;
+import com.example.core.rescode.ResponseCode;
 
 /**
  * @author 朱伟伟

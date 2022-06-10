@@ -9,7 +9,6 @@ import lombok.Getter;
  */
 @Getter
 public enum GatewayCheckWhiteListUrl {
-    SYSTEM_USER_FEIGN("/openFeign/**", "使用openfeign调用不校验"),
     ACTUATOR_MONITOR("/actuator/**", "monitor监控不校验"),
     SWAGGER_API_DOC("/v2/api-docs/**", "swagger文档不校验"),
     ;

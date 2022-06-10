@@ -1,6 +1,6 @@
 package com.example.coreweb.exception;
 
-import com.example.core.responsecode.ResponseCode;
+import com.example.core.rescode.ResponseCode;
 
 /**
  * @author 朱伟伟

@@ -3,7 +3,7 @@ package com.example.system.controller;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import com.example.core.entity.Json;
-import com.example.core.responsecode.ApplicationResponseCode;
+import com.example.core.rescode.ApplicationResponseCode;
 import com.example.core.util.Constants;
 import com.example.core.vo.system.TokenVo;
 import com.example.coreweb.annotation.Log;

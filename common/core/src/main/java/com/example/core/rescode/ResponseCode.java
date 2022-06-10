@@ -1,4 +1,4 @@
-package com.example.core.responsecode;
+package com.example.core.rescode;
 
 import com.example.core.entity.Json;
 

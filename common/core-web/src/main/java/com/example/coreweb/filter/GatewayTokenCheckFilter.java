@@ -2,7 +2,7 @@ package com.example.coreweb.filter;
 
 import com.example.core.entity.Json;
 import com.example.coreweb.enums.GatewayCheckWhiteListUrl;
-import com.example.core.responsecode.ApplicationResponseCode;
+import com.example.core.rescode.ApplicationResponseCode;
 import com.example.core.util.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

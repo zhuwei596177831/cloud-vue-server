@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @FeignClient(
         value = Constants.APPLICATION_NAME_SYSTEM,
-        path = Constants.CONTEXT_PATH_SYSTEM + Constants.OPENFEIGN_CALL_PREFIX + "/log",
+        path = Constants.CONTEXT_PATH_SYSTEM + "/log",
         contextId = "LogFeign",
         fallbackFactory = LogFeignFallBack.class
 )

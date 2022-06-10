@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * @author 朱伟伟
@@ -116,5 +117,16 @@ public class RoleController extends BaseController {
     @PostMapping("/findAllRoles")
     public Json findAllRoles() {
         return Json.ok(roleService.findAllRoles());
+    }
+
+    /**
+     * @param userId:
+     * @author: 朱伟伟
+     * @date: 2021-05-22 18:48
+     * @description: 根据用户id查询角色集合
+     **/
+    @PostMapping("/findRolesByUserId")
+    public Set<Role> findRolesByUserId(@RequestParam Long userId) {
+        return roleService.findRolesByUserId(userId);
     }
 }

@@ -12,6 +12,14 @@ public abstract class Constants {
     public static final String GATEWAY_SIGN_KEY = "gateway_sign_key";
     public static final String GATEWAY_TIME = "gateway_time";
     public static final String GATEWAY_NONCE = "gateway_nonce";
+
+
+    public static final String SHIRO_ANON_TOKEN = "shiro_anon_token";
+    public static final String SHIRO_ANON_SIGN_KEY = "shiro_anon_sign_key";
+    public static final String SHIRO_ANON_TIME = "shiro_anon_time";
+    public static final String SHIRO_ANON_NONCE = "shiro_anon_nonce";
+
+
     public static final String TERMS_OF_SERVICE_URL = "http://127.0.0.1:9000";
     public static final String USER_LOGIN_ERROR = "用户名或密码错误";
     public static final String USER_ACCOUNT_LOCKED = "账户已锁定";

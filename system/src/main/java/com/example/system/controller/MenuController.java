@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 朱伟伟
@@ -137,6 +138,17 @@ public class MenuController extends BaseController {
     @PostMapping("/menuTrees")
     public Json getMenuTrees() {
         return Json.ok(menuService.menuTrees());
+    }
+
+    /**
+     * @param userId:
+     * @author: 朱伟伟
+     * @date: 2021-05-22 18:48
+     * @description: 根据用户id查询菜单集合
+     **/
+    @PostMapping("/findMenusByUserId")
+    public Set<Menu> findMenusByUserId(@RequestParam Long userId) {
+        return menuService.findMenusByUserId(userId);
     }
 
 

@@ -17,7 +17,7 @@ import java.util.Set;
  */
 @FeignClient(
         value = Constants.APPLICATION_NAME_SYSTEM,
-        path = Constants.CONTEXT_PATH_SYSTEM + Constants.OPENFEIGN_CALL_PREFIX + "/role",
+        path = Constants.CONTEXT_PATH_SYSTEM + "/role",
         contextId = "RoleFeign",
         fallbackFactory = RoleFeignFallBack.class
 )

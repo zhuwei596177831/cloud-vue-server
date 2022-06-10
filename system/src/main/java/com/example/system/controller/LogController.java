@@ -1,7 +1,6 @@
-package com.example.system.openfeign.server;
+package com.example.system.controller;
 
 import com.example.core.entity.Json;
-import com.example.core.util.Constants;
 import com.example.core.vo.system.LoginLogVo;
 import com.example.core.vo.system.OpeLogVo;
 import com.example.system.service.LoginLogService;
@@ -17,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @description 日志记录
  */
 @RestController
-@RequestMapping(Constants.OPENFEIGN_CALL_PREFIX + "/log")
-public class LogFeignController {
+@RequestMapping("/log")
+public class LogController {
 
     private final LoginLogService loginLogService;
     private final OpeLogService opeLogService;
 
-    public LogFeignController(LoginLogService loginLogService, OpeLogService opeLogService) {
+    public LogController(LoginLogService loginLogService, OpeLogService opeLogService) {
         this.loginLogService = loginLogService;
         this.opeLogService = opeLogService;
     }

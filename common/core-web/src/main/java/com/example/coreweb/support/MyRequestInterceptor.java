@@ -1,0 +1,37 @@
+package com.example.coreweb.support;
+
+import com.example.core.util.Constants;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import io.seata.core.context.RootContext;
+import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
+
+import java.time.Instant;
+import java.util.UUID;
+
+/**
+ * @author 朱伟伟
+ * @date 2021-12-04 21:54:36
+ * @description openfeign调用拦截器
+ */
+@Component
+public class MyRequestInterceptor implements RequestInterceptor {
+    @Override
+    public void apply(RequestTemplate template) {
+        // 解决seata的xid未传递
+        template.header(RootContext.KEY_XID, RootContext.getXID());
+        //传递 GatewayTokenCheckFilter 需要的头部信息
+        long time = Instant.now().toEpochMilli();
+        template.header(Constants.GATEWAY_TIME, String.valueOf(time));
+        String nonce = UUID.randomUUID().toString();
+        template.header(Constants.GATEWAY_NONCE, nonce);
+        String GATEWAY_TOKEN = DigestUtils.md5DigestAsHex((time + Constants.GATEWAY_SIGN_KEY + nonce).getBytes());
+        template.header(Constants.GATEWAY_TOKEN, GATEWAY_TOKEN);
+        //传递标记参数 绕过 CustomAccessFilter 拦截
+        template.header(Constants.SHIRO_ANON_TIME, String.valueOf(time));
+        template.header(Constants.SHIRO_ANON_NONCE, nonce);
+        String SHIRO_ANON_TOKEN = DigestUtils.md5DigestAsHex((time + Constants.SHIRO_ANON_SIGN_KEY + nonce).getBytes());
+        template.header(Constants.SHIRO_ANON_TOKEN, SHIRO_ANON_TOKEN);
+    }
+}
