@@ -1,6 +1,7 @@
 package com.example.system.controller;
 
 import com.example.api.system.entity.User;
+import com.example.core.entity.GenericJson;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
 import com.example.core.entity.ShiroUser;
@@ -157,8 +158,8 @@ public class UserController extends BaseController {
      * @description: 根据用户名查询用户
      **/
     @PostMapping("/findByLoginName")
-    public User findByLoginName(@RequestParam String username) {
-        return userService.findByLoginName(username);
+    public GenericJson<User> findByLoginName(@RequestParam String username) {
+        return GenericJson.ok(userService.findByLoginName(username));
     }
 
 }

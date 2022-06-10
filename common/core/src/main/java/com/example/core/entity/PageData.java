@@ -71,12 +71,4 @@ public class PageData<T> extends BaseEntity {
         this.total = page.getTotal();
     }
 
-    public PageData(Collection<T> data) {
-        this.data = data;
-        this.pageNum = 1;
-        this.pageSize = data.size();
-        this.pages = data.size();
-        this.total = data.size();
-    }
-
 }

@@ -2,6 +2,7 @@ package com.example.system.controller;
 
 import com.example.api.system.entity.Menu;
 import com.example.core.entity.Cascader;
+import com.example.core.entity.GenericJson;
 import com.example.core.entity.Json;
 import com.example.core.entity.ShiroUser;
 import com.example.core.enums.MenuType;
@@ -146,8 +147,8 @@ public class MenuController extends BaseController {
      * @description: 根据用户id查询菜单集合
      **/
     @PostMapping("/findMenusByUserId")
-    public Set<Menu> findMenusByUserId(@RequestParam Long userId) {
-        return menuService.findMenusByUserId(userId);
+    public GenericJson<Set<Menu>> findMenusByUserId(@RequestParam Long userId) {
+        return GenericJson.ok(menuService.findMenusByUserId(userId));
     }
 
 

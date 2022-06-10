@@ -2,6 +2,7 @@ package com.example.api.system.openfeign.client;
 
 import com.example.api.system.entity.User;
 import com.example.api.system.openfeign.fallback.UserFeignFallBack;
+import com.example.core.entity.GenericJson;
 import com.example.core.util.Constants;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,6 @@ public interface UserFeign {
      * @description: 根据用户名查询用户
      **/
     @PostMapping("/findByLoginName")
-    User findByLoginName(@RequestParam(value = "username") String loginName);
+    GenericJson<User> findByLoginName(@RequestParam(value = "username") String loginName);
 
 }

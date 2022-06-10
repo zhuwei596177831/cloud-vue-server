@@ -1,7 +1,6 @@
 package com.example.core.entity;
 
 
-import com.alibaba.fastjson.JSON;
 import com.example.core.util.Constants;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.ApiModel;
@@ -81,8 +80,4 @@ public class Json extends BaseEntity {
         return !isSuccess();
     }
 
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 }

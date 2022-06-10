@@ -2,6 +2,7 @@ package com.example.system.controller;
 
 import com.example.api.system.entity.Role;
 import com.example.api.system.entity.RoleMenu;
+import com.example.core.entity.GenericJson;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
 import com.example.core.entity.ShiroUser;
@@ -125,7 +126,7 @@ public class RoleController extends BaseController {
      * @description: 根据用户id查询角色集合
      **/
     @PostMapping("/findRolesByUserId")
-    public Set<Role> findRolesByUserId(@RequestParam Long userId) {
-        return roleService.findRolesByUserId(userId);
+    public GenericJson<Set<Role>> findRolesByUserId(@RequestParam Long userId) {
+        return GenericJson.ok(roleService.findRolesByUserId(userId));
     }
 }

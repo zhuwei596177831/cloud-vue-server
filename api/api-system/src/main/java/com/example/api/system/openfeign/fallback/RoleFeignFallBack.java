@@ -2,11 +2,11 @@ package com.example.api.system.openfeign.fallback;
 
 import com.example.api.system.entity.Role;
 import com.example.api.system.openfeign.client.RoleFeign;
+import com.example.core.entity.GenericJson;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -22,9 +22,9 @@ public class RoleFeignFallBack implements FallbackFactory<RoleFeign> {
         cause.printStackTrace();
         return new RoleFeign() {
             @Override
-            public Set<Role> findRolesByUserId(Long userId) {
+            public GenericJson<Set<Role>> findRolesByUserId(Long userId) {
                 log.error("Role Feign 根据用户id:{}查询角色集合异常:{}", userId, cause.getMessage());
-                return Collections.emptySet();
+                return GenericJson.fail(cause.getMessage());
             }
         };
     }

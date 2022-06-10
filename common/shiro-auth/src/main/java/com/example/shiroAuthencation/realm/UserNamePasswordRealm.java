@@ -6,6 +6,7 @@ import com.example.api.system.entity.User;
 import com.example.api.system.openfeign.client.MenuFeign;
 import com.example.api.system.openfeign.client.RoleFeign;
 import com.example.api.system.openfeign.client.UserFeign;
+import com.example.core.entity.GenericJson;
 import com.example.core.entity.ShiroUser;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -49,7 +50,8 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
         String username = usernamePasswordToken.getUsername();
-        User user = userFeign.findByLoginName(username);
+        GenericJson<User> genericJson = userFeign.findByLoginName(username);
+        User user = genericJson.getData();
         if (user == null || user.getId() == null) {
             return null;
         }
@@ -61,9 +63,9 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
-        Set<Role> roles = roleFeign.findRolesByUserId(shiroUser.getId());
+        Set<Role> roles = roleFeign.findRolesByUserId(shiroUser.getId()).getData();
         Set<String> roleCodes = roles.stream().map(Role::getCode).collect(Collectors.toSet());
-        Set<Menu> menus = menuFeign.findMenusByUserId(shiroUser.getId());
+        Set<Menu> menus = menuFeign.findMenusByUserId(shiroUser.getId()).getData();
         Set<String> menuCodes = menus.stream().map(Menu::getCode).collect(Collectors.toSet());
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo(roleCodes);
         simpleAuthorizationInfo.setStringPermissions(menuCodes);

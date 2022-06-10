@@ -2,6 +2,7 @@ package com.example.api.system.openfeign.fallback;
 
 import com.example.api.system.entity.User;
 import com.example.api.system.openfeign.client.UserFeign;
+import com.example.core.entity.GenericJson;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class UserFeignFallBack implements FallbackFactory<UserFeign> {
         cause.printStackTrace();
         return new UserFeign() {
             @Override
-            public User findByLoginName(String loginName) {
+            public GenericJson<User> findByLoginName(String loginName) {
                 log.error("User Feign 根据用户名:{}查询用户异常:{}", loginName, cause.getMessage());
                 return null;
             }
