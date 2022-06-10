@@ -28,7 +28,7 @@ public class MyRequestInterceptor implements RequestInterceptor {
         template.header(Constants.GATEWAY_NONCE, nonce);
         String GATEWAY_TOKEN = DigestUtils.md5DigestAsHex((time + Constants.GATEWAY_SIGN_KEY + nonce).getBytes());
         template.header(Constants.GATEWAY_TOKEN, GATEWAY_TOKEN);
-        //传递标记参数 绕过 CustomAccessFilter 拦截
+        //传递标记参数 绕过shiro认证的拦截————CustomAccessFilter
         template.header(Constants.SHIRO_ANON_TIME, String.valueOf(time));
         template.header(Constants.SHIRO_ANON_NONCE, nonce);
         String SHIRO_ANON_TOKEN = DigestUtils.md5DigestAsHex((time + Constants.SHIRO_ANON_SIGN_KEY + nonce).getBytes());

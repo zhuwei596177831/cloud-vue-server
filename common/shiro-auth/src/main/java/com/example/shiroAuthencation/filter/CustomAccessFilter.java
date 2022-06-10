@@ -40,10 +40,7 @@ public class CustomAccessFilter extends AccessControlFilter implements OrderedFi
             return false;
         }
         String sign = DigestUtils.md5DigestAsHex((SHIRO_ANON_TIME + Constants.SHIRO_ANON_SIGN_KEY + SHIRO_ANON_NONCE).getBytes());
-        if (sign.equals(SHIRO_ANON_TOKEN)) {
-            return true;
-        }
-        return false;
+        return sign.equals(SHIRO_ANON_TOKEN);
     }
 
     @Override

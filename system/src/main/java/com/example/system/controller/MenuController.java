@@ -9,7 +9,6 @@ import com.example.core.util.Constants;
 import com.example.coreweb.annotation.Log;
 import com.example.coreweb.enums.BusinessType;
 import com.example.shiroAuthencation.controller.BaseController;
-import com.example.system.req.MenuReq;
 import com.example.system.service.MenuService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
@@ -40,15 +39,15 @@ public class MenuController extends BaseController {
     private MenuService menuService;
 
     /**
-     * @param menuReq:
+     * @param menu:
      * @author: 朱伟伟
      * @date: 2021-06-14 16:54
      * @description: 菜单数据
      **/
     @ApiOperation(value = "菜单数据")
     @PostMapping("/menuTableList")
-    public Json menuTableList(MenuReq menuReq) {
-        List<Menu> menuList = menuService.menuTableList(menuReq);
+    public Json menuTableList(Menu menu) {
+        List<Menu> menuList = menuService.menuTableList(menu);
         return Json.ok(menuList);
     }
 

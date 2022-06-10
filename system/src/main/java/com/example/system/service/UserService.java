@@ -7,6 +7,7 @@ import com.example.api.system.entity.User;
 import com.example.api.system.entity.UserRole;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
+import com.example.core.entity.ShiroUser;
 import com.example.core.enums.MenuType;
 import com.example.core.rescode.ApplicationResponseCode;
 import com.example.core.util.BeanUtils;
@@ -14,8 +15,9 @@ import com.example.core.util.Constants;
 import com.example.core.util.PasswordUtils;
 import com.example.core.vo.system.UserInfoVo;
 import com.example.core.vo.system.UserProfile;
-import com.example.core.entity.ShiroUser;
 import com.example.coreweb.exception.ApplicationException;
+import com.example.coreweb.rescode.system.PwdResponseCode;
+import com.example.coreweb.rescode.system.UserResponseCode;
 import com.example.shiroAuthencation.realm.UserNamePasswordRealm;
 import com.example.shiroAuthencation.sessioncache.ShiroReisCache;
 import com.example.system.config.SysMonitorConfig;
@@ -23,9 +25,6 @@ import com.example.system.mapper.MenuMapper;
 import com.example.system.mapper.RoleMapper;
 import com.example.system.mapper.UserMapper;
 import com.example.system.mapper.UserRoleMapper;
-import com.example.system.req.UserReq;
-import com.example.coreweb.rescode.system.PwdResponseCode;
-import com.example.coreweb.rescode.system.UserResponseCode;
 import com.github.pagehelper.PageHelper;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -77,16 +76,16 @@ public class UserService {
     /**
      * 用户列表数据
      *
-     * @param userReq:
+     * @param user:
      * @param pageInfo:
      * @author: 朱伟伟
      * @date: 2021-07-25 18:20
      **/
-    public List<User> userList(UserReq userReq, PageInfo pageInfo) {
+    public List<User> userList(User user, PageInfo pageInfo) {
         if (pageInfo != null) {
             PageHelper.startPage(pageInfo.getPageNum(), pageInfo.getPageSize());
         }
-        List<User> userList = userMapper.userList(userReq);
+        List<User> userList = userMapper.userList(user);
         if (pageInfo != null) {
             userList.forEach(u -> {
                 List<UserRole> userRoles = userRoleMapper.selectList(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, u.getId()));

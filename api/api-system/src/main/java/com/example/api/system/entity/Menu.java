@@ -66,6 +66,10 @@ public class Menu extends BaseEntity {
     @TableField(exist = false)
     private String typeName;
 
+    @ApiModelProperty(value = "菜单类型 1：模块菜单 2：导航菜单 3：功能按钮")
+    @TableField(exist = false)
+    private List<Integer> types;
+
     /**
      * 上级菜单
      */

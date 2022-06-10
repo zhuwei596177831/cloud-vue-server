@@ -2,7 +2,6 @@ package com.example.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.api.system.entity.User;
-import com.example.system.req.UserReq;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,9 +17,9 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 用户列表数据
      *
-     * @param userReq:
+     * @param user:
      * @author: 朱伟伟
      * @date: 2021-07-25 18:21
      **/
-    List<User> userList(UserReq userReq);
+    List<User> userList(User user);
 }

@@ -6,7 +6,6 @@ import com.example.core.entity.PageInfo;
 import com.example.core.entity.ShiroUser;
 import com.example.core.vo.system.UserInfoVo;
 import com.example.shiroAuthencation.controller.BaseController;
-import com.example.system.req.UserReq;
 import com.example.system.service.UserService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
@@ -41,48 +40,48 @@ public class UserController extends BaseController {
     /**
      * 用户分页数据
      *
-     * @param userReq:
+     * @param user:
      * @author: 朱伟伟
      * @date: 2021-07-25 18:20
      **/
     @ApiOperation(value = "用户分页数据")
     @PostMapping("/userPageList")
-    public Json userPageList(UserReq userReq) {
+    public Json userPageList(User user) {
         PageInfo pageInfo = getPageInfo();
-        List<User> userList = userService.userList(userReq, pageInfo);
+        List<User> userList = userService.userList(user, pageInfo);
         return Json.ok(userList);
     }
 
     /**
      * 添加用户
      *
-     * @param userReq:
+     * @param user:
      * @author: 朱伟伟
      * @date: 2021-07-25 18:26
      **/
     @ApiOperation(value = "添加用户")
     @PostMapping("/addUser")
-    public Json addUser(@RequestBody @Validated({User.Add.class}) User userReq) {
+    public Json addUser(@RequestBody @Validated({User.Add.class}) User user) {
         ShiroUser shiroUser = getUser();
-        userReq.setInputUserId(shiroUser.getId());
-        userReq.setInputTime(LocalDateTime.now());
-        return userService.addUser(userReq);
+        user.setInputUserId(shiroUser.getId());
+        user.setInputTime(LocalDateTime.now());
+        return userService.addUser(user);
     }
 
     /**
      * 修改用户
      *
-     * @param userReq:
+     * @param user:
      * @author: 朱伟伟
      * @date: 2021-07-25 18:26
      **/
     @ApiOperation(value = "修改用户")
     @PutMapping("/updateUser")
-    public Json updateUser(@RequestBody @Validated({User.Update.class}) User userReq) {
+    public Json updateUser(@RequestBody @Validated({User.Update.class}) User user) {
         ShiroUser shiroUser = getUser();
-        userReq.setUpdateUserId(shiroUser.getId());
-        userReq.setUpdateTime(LocalDateTime.now());
-        return userService.updateUser(userReq);
+        user.setUpdateUserId(shiroUser.getId());
+        user.setUpdateTime(LocalDateTime.now());
+        return userService.updateUser(user);
     }
 
     /**

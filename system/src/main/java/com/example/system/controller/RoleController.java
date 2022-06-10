@@ -1,12 +1,11 @@
 package com.example.system.controller;
 
 import com.example.api.system.entity.Role;
+import com.example.api.system.entity.RoleMenu;
 import com.example.core.entity.Json;
 import com.example.core.entity.PageInfo;
 import com.example.core.entity.ShiroUser;
 import com.example.shiroAuthencation.controller.BaseController;
-import com.example.system.req.RoleMenuReq;
-import com.example.system.req.RoleReq;
 import com.example.system.service.RoleService;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
@@ -37,15 +36,15 @@ public class RoleController extends BaseController {
     /**
      * 角色分页数据
      *
-     * @param roleReq:
+     * @param role:
      * @author: 朱伟伟
      * @date: 2021-07-23 14:10
      **/
     @ApiOperation(value = "角色分页数据")
     @PostMapping("/rolePageList")
-    public Json rolePageList(RoleReq roleReq) {
+    public Json rolePageList(Role role) {
         PageInfo pageInfo = getPageInfo();
-        return Json.ok(roleService.roleList(roleReq, pageInfo));
+        return Json.ok(roleService.roleList(role, pageInfo));
     }
 
     /**
@@ -96,14 +95,14 @@ public class RoleController extends BaseController {
     /**
      * 角色分配菜单
      *
-     * @param roleMenuReq:
+     * @param roleMenu:
      * @author: 朱伟伟
      * @date: 2021-07-23 17:44
      **/
     @ApiOperation(value = "角色分配菜单")
     @PostMapping("/permissionRoleMenus")
-    public Json permissionRoleMenus(@RequestBody @Validated RoleMenuReq roleMenuReq) {
-        return roleService.permissionRoleMenus(roleMenuReq, getUser().getId());
+    public Json permissionRoleMenus(@RequestBody RoleMenu roleMenu) {
+        return roleService.permissionRoleMenus(roleMenu, getUser().getId());
     }
 
 

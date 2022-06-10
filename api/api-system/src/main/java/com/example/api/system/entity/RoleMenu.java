@@ -1,5 +1,6 @@
 package com.example.api.system.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.core.entity.BaseEntity;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author: 朱伟伟
@@ -53,6 +55,14 @@ public class RoleMenu extends BaseEntity {
      */
     @ApiModelProperty(value = "录入时间")
     private LocalDateTime inputTime;
+
+    @ApiModelProperty(value = "菜单列表")
+    @TableField(exist = false)
+    private List<Long> menus;
+
+    @ApiModelProperty(value = "勾选菜单ids")
+    @TableField(exist = false)
+    private List<Long> checkedMenuIds;
 
 }
 

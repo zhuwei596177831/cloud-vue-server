@@ -2,19 +2,17 @@ package com.example.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.core.entity.Json;
-import com.example.core.entity.PageInfo;
-import com.example.coreweb.exception.ApplicationException;
 import com.example.api.system.entity.Role;
 import com.example.api.system.entity.RoleMenu;
 import com.example.api.system.entity.UserRole;
-import com.example.system.req.RoleMenuReq;
-import com.example.system.req.RoleReq;
+import com.example.core.entity.Json;
+import com.example.core.entity.PageInfo;
+import com.example.coreweb.exception.ApplicationException;
+import com.example.coreweb.rescode.system.RoleResponseCode;
 import com.example.system.mapper.MenuMapper;
 import com.example.system.mapper.RoleMapper;
 import com.example.system.mapper.RoleMenuMapper;
 import com.example.system.mapper.UserRoleMapper;
-import com.example.coreweb.rescode.system.RoleResponseCode;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,16 +42,16 @@ public class RoleService {
     /**
      * 角色列表数据
      *
-     * @param roleReq:
+     * @param role:
      * @param pageInfo:
      * @author: 朱伟伟
      * @date: 2021-07-23 14:10
      **/
-    public List<Role> roleList(RoleReq roleReq, PageInfo pageInfo) {
+    public List<Role> roleList(Role role, PageInfo pageInfo) {
         if (pageInfo != null) {
             PageHelper.startPage(pageInfo.getPageNum(), pageInfo.getPageSize());
         }
-        return roleMapper.roleList(roleReq);
+        return roleMapper.roleList(role);
     }
 
     /**
@@ -121,24 +119,24 @@ public class RoleService {
     /**
      * 角色分配菜单
      *
-     * @param roleMenuReq:
+     * @param query:
      * @author: 朱伟伟
      * @date: 2021-07-23 17:47
      **/
     @Transactional(rollbackFor = Exception.class)
-    public Json permissionRoleMenus(RoleMenuReq roleMenuReq, Long inputUserId) {
-        roleMenuMapper.delete(new LambdaQueryWrapper<RoleMenu>().eq(RoleMenu::getRoleId, roleMenuReq.getRoleId()));
-        roleMenuReq.getMenus().forEach(r -> {
+    public Json permissionRoleMenus(RoleMenu query, Long inputUserId) {
+        roleMenuMapper.delete(new LambdaQueryWrapper<RoleMenu>().eq(RoleMenu::getRoleId, query.getRoleId()));
+        query.getMenus().forEach(r -> {
             RoleMenu roleMenu = new RoleMenu();
             roleMenu.setInputUserId(inputUserId);
             roleMenu.setInputTime(LocalDateTime.now());
-            roleMenu.setRoleId(roleMenuReq.getRoleId());
+            roleMenu.setRoleId(query.getRoleId());
             roleMenu.setMenuId(r);
             roleMenuMapper.insert(roleMenu);
         });
         Role role = new Role();
-        role.setId(roleMenuReq.getRoleId());
-        role.setCheckedMenuIds(roleMenuReq.getCheckedMenuIds());
+        role.setId(query.getRoleId());
+        role.setCheckedMenuIds(query.getCheckedMenuIds());
         roleMapper.updateById(role);
         return Json.success();
     }

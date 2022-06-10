@@ -1,6 +1,8 @@
 package com.example.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.example.api.system.entity.Menu;
+import com.example.api.system.entity.RoleMenu;
 import com.example.core.entity.Cascader;
 import com.example.core.entity.Json;
 import com.example.core.entity.MenuTree;
@@ -9,12 +11,9 @@ import com.example.core.enums.MenuType;
 import com.example.core.enums.RedisKey;
 import com.example.coreweb.cache.util.RedisUtil;
 import com.example.coreweb.exception.ApplicationException;
-import com.example.api.system.entity.Menu;
-import com.example.api.system.entity.RoleMenu;
-import com.example.system.req.MenuReq;
+import com.example.coreweb.rescode.system.MenuResponseCode;
 import com.example.system.mapper.MenuMapper;
 import com.example.system.mapper.RoleMenuMapper;
-import com.example.coreweb.rescode.system.MenuResponseCode;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,8 +39,8 @@ public class MenuService {
     @Autowired
     private RedisUtil redisUtil;
 
-    public List<Menu> menuTableList(MenuReq menuReq) {
-        return reconstructMenuList(this.menuList(menuReq, null), menuReq.getType());
+    public List<Menu> menuTableList(Menu menu) {
+        return reconstructMenuList(this.menuList(menu, null), menu.getType());
     }
 
     private List<Menu> reconstructMenuList(List<Menu> all, Integer type) {
@@ -57,17 +56,17 @@ public class MenuService {
     }
 
     /**
-     * @param menuReq:
+     * @param menu:
      * @param pageInfo:
      * @author: 朱伟伟
      * @date: 2021-06-14 16:57
      * @description: 菜单列表数据
      **/
-    public List<Menu> menuList(MenuReq menuReq, PageInfo pageInfo) {
+    public List<Menu> menuList(Menu menu, PageInfo pageInfo) {
         if (pageInfo != null) {
             PageHelper.startPage(pageInfo.getPageNum(), pageInfo.getPageSize());
         }
-        return menuMapper.menuList(menuReq);
+        return menuMapper.menuList(menu);
     }
 
     /**
@@ -112,7 +111,7 @@ public class MenuService {
                 throw new ApplicationException(MenuResponseCode.PATH_IS_NULL);
             }
         }
-        List<Menu> menus = this.menuList(new MenuReq(), null);
+        List<Menu> menus = this.menuList(new Menu(), null);
         boolean existFlag = menus.stream().anyMatch(m -> m.getCode().equals(menu.getCode()) && !m.getId().equals(menu.getId()));
         if (existFlag) {
             throw new ApplicationException(MenuResponseCode.CODE_EXIST);
@@ -233,15 +232,15 @@ public class MenuService {
     }
 
     public List<Cascader> cascaderTrees(Integer type) {
-        MenuReq menuReq = new MenuReq();
+        Menu query = new Menu();
         if (MenuType.MENU_MODEL.getValue().equals(type)) {
             return Collections.emptyList();
         } else if (MenuType.MENU_NAVIGATION.getValue().equals(type)) {
-            menuReq.setTypes(Arrays.asList(MenuType.MENU_MODEL.getValue(), MenuType.MENU_NAVIGATION.getValue()));
+            query.setTypes(Arrays.asList(MenuType.MENU_MODEL.getValue(), MenuType.MENU_NAVIGATION.getValue()));
         } else {
-            menuReq.setType(MenuType.MENU_NAVIGATION.getValue());
+            query.setType(MenuType.MENU_NAVIGATION.getValue());
         }
-        List<Menu> allMenus = this.menuList(menuReq, null);
+        List<Menu> allMenus = this.menuList(query, null);
         List<Cascader> allCascaders = allMenus.stream().map(m -> {
             Cascader cascader = new Cascader();
             cascader.setLabel(m.getName());
