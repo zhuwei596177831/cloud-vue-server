@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author 朱伟伟
  * @date 2020-12-27 11:52:23
@@ -53,9 +55,13 @@ public class GenericJson<T> extends BaseEntity {
         return new GenericJson<>(Constants.SUCCESS_CODE_STRING, Constants.SUCCESS_MSG_STRING, true, data);
     }
 
-    public static <E> GenericJson<PageData<E>> page(Page<E> page) {
-        return new GenericJson<>(Constants.SUCCESS_CODE_STRING, Constants.SUCCESS_MSG_STRING,
-                true, new PageData<>(page));
+    public static <E> GenericJson<PageData<E>> page(List<E> data) {
+        if (data instanceof Page) {
+            Page<E> page = (Page<E>) data;
+            return new GenericJson<>(Constants.SUCCESS_CODE_STRING, Constants.SUCCESS_MSG_STRING,
+                    true, new PageData<>(page));
+        }
+        return new GenericJson<>(Constants.SUCCESS_CODE_STRING, Constants.SUCCESS_MSG_STRING, true, new PageData<>(data));
     }
 
     public static <E> GenericJson<PageData<E>> page(com.baomidou.mybatisplus.extension.plugins.pagination.Page<E> page) {
