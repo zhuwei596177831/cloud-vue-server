@@ -13,7 +13,7 @@ import lombok.Setter;
 /**
  * @author 朱伟伟
  * @date 2020-12-27 11:52:23
- * @description
+ * @description 通用的返回结果
  */
 @Getter
 @Setter
