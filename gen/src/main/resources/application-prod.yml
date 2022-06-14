@@ -1,9 +1,9 @@
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://127.0.0.1:3306/system?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-      username: cloud-vue
-      password: cloud-vue
+      url: jdbc:mysql://101.37.117.70:3306/system?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: eb29fbfc4d46d9e5
 knife4j:
   #prod swagger文档登录保护
   basic:
