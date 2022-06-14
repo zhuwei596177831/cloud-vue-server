@@ -98,7 +98,7 @@ seata:
   enabled: true
   application-id: ${spring.application.name}
   #事务分组名称 若不配置，默认获取属性spring.application.name的值+"-fescar-service-group"
-  tx-service-group: system_test_tx_group
+  tx-service-group: ${spring.application.name}_group
   enable-auto-data-source-proxy: true
   data-source-proxy-mode: AT
   use-jdk-proxy: false

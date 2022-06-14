@@ -10,3 +10,6 @@ knife4j:
     enable: true
     username: swagger
     password: swagger
+#生产内存太小 为了测试暂时关闭
+seata:
+  enabled: false
