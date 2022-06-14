@@ -361,9 +361,9 @@
                 <!--nacos配置-->
                 <nacos.address>127.0.0.1:8848</nacos.address>
                 <nacos.userName>nacos</nacos.userName>
-                <nacos.passWord>nacos</nacos.passWord>
+                <nacos.passWord>zhuweiwei</nacos.passWord>
                 <!--redis地址与database 格式：redis://user:password@example.com:6379-->
-                <redis.url>redis://127.0.0.1:6379</redis.url>
+                <redis.url>redis://zhuweiwei@127.0.0.1:6379</redis.url>
                 <redis.database>0</redis.database>
                 <!--监控中心登录用户名、密码、标题-->
                 <monitor.login.username>admin</monitor.login.username>
@@ -373,11 +373,11 @@
                 <job-admin.login.username>admin</job-admin.login.username>
                 <job-admin.login.password>123456</job-admin.login.password>
                 <!--系统监控新开窗口地址 job、nacos、monitor-->
-                <open.address.job>http://127.0.0.1:8081/job-admin</open.address.job>
-                <open.address.nacos>http://127.0.0.1:8848/nacos</open.address.nacos>
-                <open.address.monitor>http://127.0.0.1:9094/monitor</open.address.monitor>
+                <open.address.job>http://101.37.117.70:8081/job-admin</open.address.job>
+                <open.address.nacos>http://101.37.117.70:8848/nacos</open.address.nacos>
+                <open.address.monitor>http://101.37.117.70:9094/monitor</open.address.monitor>
                 <!--minio文件服务配置-->
-                <minio.url>http://127.0.0.1:9000</minio.url>
+                <minio.url>http://101.37.117.70:9000</minio.url>
                 <minio.access-key>minioadmin</minio.access-key>
                 <minio.secret-key>minioadmin</minio.secret-key>
                 <minio.bucket-name>test</minio.bucket-name>
