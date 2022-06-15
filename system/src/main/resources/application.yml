@@ -104,7 +104,7 @@ seata:
   use-jdk-proxy: false
   service:
     vgroup-mapping:
-      system_test_tx_group: default
+      system_group: default
   registry:
     type: nacos
     load-balance: RandomLoadBalance
