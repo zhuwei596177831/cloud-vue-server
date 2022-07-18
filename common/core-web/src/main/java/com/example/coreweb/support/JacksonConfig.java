@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 /**
  * @author 朱伟伟
  * @date 2021-07-09 17:07:27
@@ -18,6 +20,9 @@ public class JacksonConfig {
      *
      * @author: 朱伟伟
      * @date: 2021-07-08 18:27
+     * @see org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
+     * @see org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor
+     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport#configureMessageConverters(List)
      **/
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {

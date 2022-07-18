@@ -1,15 +1,25 @@
 package com.example.coreweb.exception;
 
 import com.example.core.entity.Json;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.util.WebUtils;
 
 import javax.validation.ConstraintViolationException;
+import java.util.Set;
 
 /**
  * @author 朱伟伟
@@ -20,10 +30,10 @@ import javax.validation.ConstraintViolationException;
  * {@link RequestMappingHandlerAdapter#getDataBinderFactory}
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
-     * 处理手动抛出的自定义异常ApplicationException
+     * 处理应用异常ApplicationException
      *
      * @param e:
      * @author: 朱伟伟
@@ -38,59 +48,56 @@ public class GlobalExceptionHandler {
         return Json.fail(e.getMessage());
     }
 
-
     @ExceptionHandler(ConstraintViolationException.class)
     public Json constraintViolationExceptionHandler(ConstraintViolationException e) {
         e.printStackTrace();
         return Json.fail(e.getMessage());
     }
 
-    /**
-     * @param e:
-     * @author: 朱伟伟
-     * @date: 2021-01-14 18:21
-     * @description:
-     * @see org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor#resolveArgument
-     **/
-    @ExceptionHandler(java.net.BindException.class)
-    public Json MethodArgumentNotValidExceptionHandler(BindException e) {
-        e.printStackTrace();
-        ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
-        return Json.fail(objectError.getDefaultMessage());
-    }
-
-    /**
-     * @param e:
-     * @author: 朱伟伟
-     * @date: 2021-01-14 18:19
-     * @description:
-     * @see org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor#resolveArgument
-     **/
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Json MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
-        e.printStackTrace();
-        ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
-        return Json.fail(objectError.getDefaultMessage());
-    }
-
-    /**
-     * @param e:
-     * @author: 朱伟伟
-     * @date: 2021-01-19 15:03
-     * @description:
-     * @see org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor#readWithMessageConverters
-     **/
-    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
-    public Json httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        e.printStackTrace();
-        return Json.fail(e.getMessage());
-    }
-
-    @ExceptionHandler(value = {Exception.class})
+    @ExceptionHandler(Exception.class)
     public Json exception(Exception e) {
         e.printStackTrace();
         return Json.fail(e.getMessage());
     }
 
+    @Override
+    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        Set<HttpMethod> supportedMethods = ex.getSupportedHttpMethods();
+        if (!CollectionUtils.isEmpty(supportedMethods)) {
+            headers.setAllow(supportedMethods);
+        }
+        return handleExceptionInternal(ex, Json.fail(ex.getMessage()), headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ObjectError objectError = ex.getBindingResult().getAllErrors().get(0);
+        Json body = Json.fail(objectError.getDefaultMessage());
+        return handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ObjectError objectError = ex.getBindingResult().getAllErrors().get(0);
+        Json body = Json.fail(objectError.getDefaultMessage());
+        return handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return handleExceptionInternal(ex, Json.fail(ex.getMessage()), headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ex.printStackTrace();
+        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
+            request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);
+        }
+        if (body == null) {
+            body = Json.fail(ex.getMessage());
+        }
+        return new ResponseEntity<>(body, headers, status);
+    }
 
 }
