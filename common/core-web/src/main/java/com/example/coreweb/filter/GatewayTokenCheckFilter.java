@@ -26,7 +26,7 @@ import java.util.Arrays;
  * @description 校验是否是网关路由过来的请求
  */
 @Component
-public class GatewayTokenCheckFilter implements Filter, OrderedFilter {
+public class GatewayTokenCheckFilter implements OrderedFilter {
 
     private final Logger logger = LogManager.getLogger(getClass());
 
@@ -80,7 +80,7 @@ public class GatewayTokenCheckFilter implements Filter, OrderedFilter {
      * @param servletPath:
      * @author: 朱伟伟
      * @date: 2021-06-01 15:50
-     * @description: 过滤feign rest调用
+     * @description: 白名单 直接放行
      **/
     private boolean isWhitelistUrl(String servletPath) {
         return Arrays.stream(GatewayCheckWhiteListUrl.values()).anyMatch(i -> antPathMatcher.match(i.getUrl(), servletPath));

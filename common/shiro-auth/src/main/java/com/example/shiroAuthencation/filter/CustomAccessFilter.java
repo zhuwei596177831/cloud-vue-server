@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author 朱伟伟
  * @date 2021-05-24 16:03:06
- * @description 权限认证filter
+ * @description shiro 权限认证 filter
  */
 public class CustomAccessFilter extends AccessControlFilter implements OrderedFilter {
     @Override
@@ -30,17 +30,11 @@ public class CustomAccessFilter extends AccessControlFilter implements OrderedFi
         if (authenticated) {
             return true;
         }
-        //判断是不是模块之间使用open feign调用
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String SHIRO_ANON_TIME = httpRequest.getHeader(Constants.SHIRO_ANON_TIME);
-        String SHIRO_ANON_NONCE = httpRequest.getHeader(Constants.SHIRO_ANON_NONCE);
-        String SHIRO_ANON_TOKEN = httpRequest.getHeader(Constants.SHIRO_ANON_TOKEN);
-        if (StringUtils.isEmpty(SHIRO_ANON_TIME) || StringUtils.isEmpty(SHIRO_ANON_NONCE)
-                || StringUtils.isEmpty(SHIRO_ANON_TOKEN)) {
-            return false;
+        if (isInternalFeignCall(httpRequest)) {
+            return true;
         }
-        String sign = DigestUtils.md5DigestAsHex((SHIRO_ANON_TIME + Constants.SHIRO_ANON_SIGN_KEY + SHIRO_ANON_NONCE).getBytes());
-        return sign.equals(SHIRO_ANON_TOKEN);
+        return false;
     }
 
     @Override
@@ -64,6 +58,25 @@ public class CustomAccessFilter extends AccessControlFilter implements OrderedFi
         writer.write(json.toString());
         writer.flush();
         writer.close();
+    }
+
+    /**
+     * 判断是不是模块之间使用open feign内部调用
+     *
+     * @param httpRequest:
+     * @author: 朱伟伟
+     * @date: 2022-07-22 14:13
+     **/
+    private boolean isInternalFeignCall(HttpServletRequest httpRequest) {
+        String SHIRO_ANON_TIME = httpRequest.getHeader(Constants.SHIRO_ANON_TIME);
+        String SHIRO_ANON_NONCE = httpRequest.getHeader(Constants.SHIRO_ANON_NONCE);
+        String SHIRO_ANON_TOKEN = httpRequest.getHeader(Constants.SHIRO_ANON_TOKEN);
+        if (StringUtils.isEmpty(SHIRO_ANON_TIME) || StringUtils.isEmpty(SHIRO_ANON_NONCE)
+                || StringUtils.isEmpty(SHIRO_ANON_TOKEN)) {
+            return false;
+        }
+        String sign = DigestUtils.md5DigestAsHex((SHIRO_ANON_TIME + Constants.SHIRO_ANON_SIGN_KEY + SHIRO_ANON_NONCE).getBytes());
+        return sign.equals(SHIRO_ANON_TOKEN);
     }
 
     @Override
