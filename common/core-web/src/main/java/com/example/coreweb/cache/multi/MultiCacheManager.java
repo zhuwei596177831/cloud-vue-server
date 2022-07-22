@@ -33,13 +33,8 @@ public class MultiCacheManager implements CacheManager {
     public Cache getCache(String name) {
         Cache cache = cacheMap.get(name);
         if (cache == null) {
-            synchronized (this.cacheMap) {
-                cache = cacheMap.get(name);
-                if (cache == null) {
-                    cache = createCache(name);
-                    this.cacheMap.put(name, cache);
-                }
-            }
+            cache = createCache(name);
+            this.cacheMap.put(name, cache);
         }
         return cache;
     }

@@ -111,7 +111,10 @@ public class LogAspect {
             if (StringUtils.isNotEmpty(ipAddr)) {
                 IpAddressVo ipAddressVo = AddressUtils.getIpAddressVo(ipAddr);
                 if (ipAddressVo != null) {
-                    loginLogVo.setIpLocation(ipAddressVo.getProvince() + ipAddressVo.getCity());
+                    String country = ipAddressVo.getCountry();
+                    String province = ipAddressVo.getProvince();
+                    String prefix = "0".equals(province) ? country : province;
+                    loginLogVo.setIpLocation(prefix + ipAddressVo.getCity());
                 }
             }
             loginLogVo.setLoginName(request.getParameter("username"));
@@ -158,7 +161,10 @@ public class LogAspect {
             if (StringUtils.isNotEmpty(ipAddr)) {
                 IpAddressVo ipAddressVo = AddressUtils.getIpAddressVo(ipAddr);
                 if (ipAddressVo != null) {
-                    opeLogVo.setOpeLocation(ipAddressVo.getProvince() + ipAddressVo.getCity());
+                    String country = ipAddressVo.getCountry();
+                    String province = ipAddressVo.getProvince();
+                    String prefix = "0".equals(province) ? country : province;
+                    opeLogVo.setOpeLocation(prefix + ipAddressVo.getCity());
                 }
             }
             opeLogVo.setOpeUrl(request.getRequestURI());
