@@ -111,10 +111,7 @@ public class LogAspect {
             if (StringUtils.isNotEmpty(ipAddr)) {
                 IpAddressVo ipAddressVo = AddressUtils.getIpAddressVo(ipAddr);
                 if (ipAddressVo != null) {
-                    String country = ipAddressVo.getCountry();
-                    String province = ipAddressVo.getProvince();
-                    String prefix = "0".equals(province) ? country : province;
-                    loginLogVo.setIpLocation(prefix + ipAddressVo.getCity());
+                    loginLogVo.setIpLocation(calculateAddress(ipAddressVo));
                 }
             }
             loginLogVo.setLoginName(request.getParameter("username"));
@@ -161,10 +158,7 @@ public class LogAspect {
             if (StringUtils.isNotEmpty(ipAddr)) {
                 IpAddressVo ipAddressVo = AddressUtils.getIpAddressVo(ipAddr);
                 if (ipAddressVo != null) {
-                    String country = ipAddressVo.getCountry();
-                    String province = ipAddressVo.getProvince();
-                    String prefix = "0".equals(province) ? country : province;
-                    opeLogVo.setOpeLocation(prefix + ipAddressVo.getCity());
+                    opeLogVo.setOpeLocation(calculateAddress(ipAddressVo));
                 }
             }
             opeLogVo.setOpeUrl(request.getRequestURI());
@@ -267,4 +261,25 @@ public class LogAspect {
         return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse
                 || o instanceof BindingResult;
     }
+
+    private String calculateAddress(IpAddressVo ipAddressVo) {
+        String country = ipAddressVo.getCountry();
+        String province = ipAddressVo.getProvince();
+        String city = ipAddressVo.getCity();
+        String isp = ipAddressVo.getIsp();
+        if ("0".equals(isp)) {
+            if (province.equals(city)) {
+                return country + province;
+            } else if ("0".equals(province)) {
+                return country + city;
+            } else if ("0".equals(city)) {
+                return country + province;
+            } else {
+                return country + province + city;
+            }
+        } else {
+            return province + city;
+        }
+    }
+
 }

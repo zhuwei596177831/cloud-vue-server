@@ -5,8 +5,6 @@ import org.lionsoul.ip2region.DataBlock;
 import org.lionsoul.ip2region.DbConfig;
 import org.lionsoul.ip2region.DbSearcher;
 import org.lionsoul.ip2region.Util;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
@@ -22,12 +20,13 @@ import java.net.URL;
  */
 public class AddressUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(AddressUtils.class);
+    //private static final Logger logger = LoggerFactory.getLogger(AddressUtils.class);
 
     public static void main(String[] args) {
         //国家|大区|城市|网络运营商
         //中国|0|浙江省|杭州市|阿里云
-        //System.out.println(getAddress("101.37.117.70"));
+        System.out.println(getAddress("101.37.117.70"));
+        System.out.println(getAddress("103.135.248.233"));
         System.out.println(getAddress("27.102.130.167"));
 
         //中国|0|北京|北京市|移动
@@ -37,7 +36,9 @@ public class AddressUtils {
         //System.out.println(getAddress("103.146.78.22"));
 
         //美国|0|德克萨斯|达拉斯|0
-        //System.out.println(getAddress("103.136.149.1"));
+        System.out.println(getAddress("103.136.149.1"));
+
+        System.out.println(getAddress("114.100.182.144"));
 
         //System.out.println(getAddress("127.0.0.1"));
 
@@ -74,7 +75,7 @@ public class AddressUtils {
             //    logger.error("Error: ip2region.db 文件 不存在");
             //}
             URL url = AddressUtils.class.getClassLoader().getResource("com/example/coreweb/util/ip2region.db");
-            logger.info("ip2region.db 文件路径：{}", url.getPath());
+            //logger.info("ip2region.db 文件路径：{}", url.getPath());
             UrlResource urlResource = new UrlResource(url);
             InputStream inputStream = urlResource.getInputStream();
             //查询算法
@@ -110,7 +111,7 @@ public class AddressUtils {
 
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("获取ip所属地失败：{}", e.getMessage());
+            //logger.error("获取ip所属地失败：{}", e.getMessage());
         }
 
         return null;
