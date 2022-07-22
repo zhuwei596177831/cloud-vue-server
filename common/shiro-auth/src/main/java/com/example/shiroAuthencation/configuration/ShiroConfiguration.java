@@ -41,6 +41,8 @@ import java.util.Map;
 @Configuration
 public class ShiroConfiguration {
 
+    public static final String SHIRO_FILTER_BEAN_NAME = "shiroFilterFactoryBean";
+
     /**
      * 配置登录时的认证Realm
      *
@@ -171,7 +173,7 @@ public class ShiroConfiguration {
      * @author: 朱伟伟
      * @date: 2022-05-13 15:22
      **/
-    @Bean
+    @Bean(name = SHIRO_FILTER_BEAN_NAME)
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager defaultWebSecurityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);

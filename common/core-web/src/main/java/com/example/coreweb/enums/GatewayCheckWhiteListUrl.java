@@ -9,6 +9,7 @@ import lombok.Getter;
  */
 @Getter
 public enum GatewayCheckWhiteListUrl {
+    static_path("/static/**", "static"),
     ACTUATOR_MONITOR("/actuator/**", "monitor监控不校验"),
     SWAGGER_API_DOC("/v2/api-docs/**", "swagger文档不校验"),
     ;
