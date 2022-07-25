@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://101.37.117.70:3306/system?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: eb29fbfc4d46d9e5
+knife4j:
+  #prod swagger文档登录保护
+  basic:
+    enable: true
+    username: swagger
+    password: swagger
+#生产内存太小 为了测试暂时关闭
+seata:
+  enabled: false

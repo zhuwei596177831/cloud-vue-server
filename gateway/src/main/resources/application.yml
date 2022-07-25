@@ -41,6 +41,13 @@ spring:
             - Path=/api/gen/**
           filters:
             - StripPrefix=1
+        #app路由配置
+        - id: app
+          uri: lb://app
+          predicates:
+            - Path=/api/app/**
+          filters:
+            - StripPrefix=1
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-d HH:mm:ss

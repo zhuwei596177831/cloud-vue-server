@@ -26,9 +26,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
@@ -245,21 +252,33 @@ public class LogAspect {
     public boolean isFilterObject(final Object o) {
         Class<?> clazz = o.getClass();
         if (clazz.isArray()) {
-            return clazz.getComponentType().isAssignableFrom(MultipartFile.class);
+            return clazz.getComponentType().isAssignableFrom(MultipartFile.class)
+                    || clazz.getComponentType().isAssignableFrom(Part.class);
         } else if (Collection.class.isAssignableFrom(clazz)) {
             Collection collection = (Collection) o;
             for (Object value : collection) {
-                return value instanceof MultipartFile;
+                return value instanceof MultipartFile || value instanceof Part;
             }
         } else if (Map.class.isAssignableFrom(clazz)) {
             Map map = (Map) o;
             for (Object value : map.entrySet()) {
                 Map.Entry entry = (Map.Entry) value;
-                return entry.getValue() instanceof MultipartFile;
+                return entry.getValue() instanceof MultipartFile
+                        || entry.getValue() instanceof Part;
             }
         }
-        return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse
-                || o instanceof BindingResult;
+        return o instanceof MultipartFile
+                || o instanceof Part
+                || o instanceof HttpServletRequest
+                || o instanceof HttpServletResponse
+                || o instanceof MultipartRequest
+                || o instanceof HttpSession
+                || o instanceof InputStream
+                || o instanceof Reader
+                || o instanceof OutputStream
+                || o instanceof Writer
+                || o instanceof BindingResult
+                ;
     }
 
     private String calculateAddress(IpAddressVo ipAddressVo) {
