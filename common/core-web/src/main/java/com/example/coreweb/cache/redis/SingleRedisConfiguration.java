@@ -21,8 +21,8 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 public class SingleRedisConfiguration {
 
     @Bean
-    public JacksonRedisTemplate jacksonRedisTemplate(ObjectProvider<RedisConnectionFactory> redisConnectionFactory) {
-        return new JacksonRedisTemplate(redisConnectionFactory.getObject());
+    public JacksonRedisTemplate jacksonRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        return new JacksonRedisTemplate(redisConnectionFactory);
     }
 
     /**
@@ -34,9 +34,9 @@ public class SingleRedisConfiguration {
      * @date: 2022-02-15 17:02
      **/
     @Bean
-    public RedisCacheConfiguration redisCacheConfiguration(ObjectProvider<CacheProperties> cacheProperties,
+    public RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties,
                                                            JacksonRedisTemplate jacksonRedisTemplate) {
-        CacheProperties.Redis redisProperties = cacheProperties.getObject().getRedis();
+        CacheProperties.Redis redisProperties = cacheProperties.getRedis();
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
         config = config.serializeValuesWith(
                 RedisSerializationContext.SerializationPair.fromSerializer(jacksonRedisTemplate.getValueSerializer()));

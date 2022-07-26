@@ -3,7 +3,6 @@ package com.example.coreweb.cache.multi;
 import com.example.core.util.Constants;
 import com.example.coreweb.cache.redis.JacksonRedisTemplate;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -30,8 +29,8 @@ import java.util.concurrent.TimeUnit;
 public class MultiCacheConfig {
 
     @Bean
-    public JacksonRedisTemplate jacksonRedisTemplate(ObjectProvider<RedisConnectionFactory> redisConnectionFactory) {
-        return new JacksonRedisTemplate(redisConnectionFactory.getObject());
+    public JacksonRedisTemplate jacksonRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        return new JacksonRedisTemplate(redisConnectionFactory);
     }
 
     @Bean(name = Constants.multiCacheManagerName)
@@ -75,9 +74,9 @@ public class MultiCacheConfig {
     @Bean(name = Constants.redisCacheManagerName)
     public RedisCacheManager createRedisCacheManager(CacheProperties cacheProperties,
                                                      JacksonRedisTemplate jacksonRedisTemplate,
-                                                     ObjectProvider<RedisConnectionFactory> redisConnectionFactory) {
+                                                     RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = createRedisCacheConfiguration(cacheProperties, jacksonRedisTemplate);
-        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.builder(redisConnectionFactory.getObject())
+        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(redisCacheConfiguration);
         List<String> cacheNames = cacheProperties.getCacheNames();
         if (!cacheNames.isEmpty()) {

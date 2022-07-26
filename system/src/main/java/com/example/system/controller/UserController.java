@@ -152,14 +152,14 @@ public class UserController extends BaseController {
     }
 
     /**
-     * @param username:
+     * @param loginName:
      * @author: 朱伟伟
      * @date: 2021-05-22 18:48
-     * @description: 根据用户名查询用户
+     * @description: 根据登录名查询用户
      **/
     @PostMapping("/findByLoginName")
-    public GenericJson<User> findByLoginName(@RequestParam String username) {
-        return GenericJson.ok(userService.findByLoginName(username));
+    public GenericJson<User> findByLoginName(@RequestParam String loginName) {
+        return GenericJson.ok(userService.findByLoginName(loginName));
     }
 
 }

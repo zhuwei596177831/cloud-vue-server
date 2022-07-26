@@ -149,18 +149,17 @@ public class ShiroConfiguration {
      * 配置认证相关的DefaultWebSecurityManager
      *
      * @param sessionManager:
-     * @param userNamePasswordRealm:
      * @author: 朱伟伟
      * @date: 2022-05-13 15:19
      **/
     @Bean
-    public DefaultWebSecurityManager defaultWebSecurityManager(SessionManager sessionManager, UserNamePasswordRealm userNamePasswordRealm) {
+    public DefaultWebSecurityManager defaultWebSecurityManager(SessionManager sessionManager) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setSessionManager(sessionManager);
         //使用TokenSessionManager时不需要RememberMeCookie
         defaultWebSecurityManager.setRememberMeManager(null);
         List<Realm> realms = new ArrayList<>();
-        realms.add(userNamePasswordRealm);
+        realms.add(userNamePasswordRealm());
         defaultWebSecurityManager.setRealms(realms);
         return defaultWebSecurityManager;
     }

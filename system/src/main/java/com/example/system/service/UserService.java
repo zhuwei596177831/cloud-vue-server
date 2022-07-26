@@ -62,14 +62,14 @@ public class UserService {
     private ShiroReisCache shiroReisCache;
 
     /**
-     * @param username:
+     * @param loginName:
      * @author: 朱伟伟
      * @date: 2021-05-22 18:38
-     * @description: 根据用户名查询用户
+     * @description: 根据登录名查询用户
      **/
-    public User findByLoginName(String username) {
+    public User findByLoginName(String loginName) {
         LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        userLambdaQueryWrapper.eq(User::getLoginName, username);
+        userLambdaQueryWrapper.eq(User::getLoginName, loginName);
         return userMapper.selectOne(userLambdaQueryWrapper);
     }
 

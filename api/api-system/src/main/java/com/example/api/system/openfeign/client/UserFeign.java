@@ -26,9 +26,9 @@ public interface UserFeign {
      * @param loginName:
      * @author: 朱伟伟
      * @date: 2021-05-22 19:01
-     * @description: 根据用户名查询用户
+     * @description: 根据登录名查询用户
      **/
     @PostMapping("/findByLoginName")
-    GenericJson<User> findByLoginName(@RequestParam(value = "username") String loginName);
+    GenericJson<User> findByLoginName(@RequestParam(value = "loginName") String loginName);
 
 }

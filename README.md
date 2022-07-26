@@ -3,6 +3,7 @@
 # file:9093
 # monitor:9094
 # gen:9095
+# app:9096
 # job-admin:8081
 # job-executor:8082
 

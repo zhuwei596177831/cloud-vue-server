@@ -16,6 +16,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,11 +30,16 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
 
     public static final String REALM_NAME = "UserNamePasswordRealm";
 
-    @Autowired(required = false)
+    @Autowired
+    @Lazy
     private UserFeign userFeign;
+
     @Autowired(required = false)
+    @Lazy
     private RoleFeign roleFeign;
-    @Autowired(required = false)
+
+    @Autowired
+    @Lazy
     private MenuFeign menuFeign;
 
     @Override
@@ -49,15 +55,15 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
-        String username = usernamePasswordToken.getUsername();
-        GenericJson<User> genericJson = userFeign.findByLoginName(username);
+        String loginName = usernamePasswordToken.getUsername();
+        GenericJson<User> genericJson = userFeign.findByLoginName(loginName);
         User user = genericJson.getData();
         if (user == null || user.getId() == null) {
             return null;
         }
         ShiroUser shiroUser = new ShiroUser();
         BeanUtils.copyProperties(user, shiroUser);
-        return new SimpleAuthenticationInfo(shiroUser, shiroUser.getPassword(), ByteSource.Util.bytes(username), getName());
+        return new SimpleAuthenticationInfo(shiroUser, shiroUser.getPassword(), ByteSource.Util.bytes(loginName), getName());
     }
 
     @Override

@@ -32,6 +32,8 @@ public class SpringShiroFilterProcessor implements ServletContextAware, Applicat
 
     private static final String[] DEFAULT_URL_MAPPINGS = {"/*"};
 
+    private static final String FILTER_NAME = ShiroConfiguration.SHIRO_FILTER_BEAN_NAME;
+
     private ServletContext servletContext;
 
     @Override
@@ -41,7 +43,7 @@ public class SpringShiroFilterProcessor implements ServletContextAware, Applicat
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        FilterRegistration shiroFilterFilterRegistration = servletContext.getFilterRegistration(ShiroConfiguration.SHIRO_FILTER_BEAN_NAME);
+        FilterRegistration shiroFilterFilterRegistration = servletContext.getFilterRegistration(FILTER_NAME);
         shiroFilterFilterRegistration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC),
                 false, DEFAULT_URL_MAPPINGS);
     }
