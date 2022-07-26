@@ -51,12 +51,14 @@ public abstract class Constants {
      * 各个服务的application name
      */
     public static final String APPLICATION_NAME_SYSTEM = "system";
+    public static final String APPLICATION_NAME_APP = "app";
     public static final String APPLICATION_NAME_SYSTEM_LOG = "系统";
 
     /**
      * 各个服务的context-path
      */
     public static final String CONTEXT_PATH_SYSTEM = "/system";
+    public static final String CONTEXT_PATH_APP = "/app";
 
 
     /**

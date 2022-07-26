@@ -25,6 +25,12 @@ import java.util.stream.Collectors;
  * @author 朱伟伟
  * @date 2021-05-19 10:04:36
  * @description 用户名/密码登录认证源
+ * 说明：Realm中注入Feign时不可直接注入，否则会使FeignContext在AbstractApplicationContext的registerBeanPostProcessors阶段就会被实例化
+ * 导致SeataContextBeanPostProcessor失效，无法将FeignContext包装为SeataFeignContext，最终导致Seata的全局事务id：Xid无法正确传递
+ * 根本原因：ShiroFilterFactoryBean是一个BeanPostProcessor
+ * @see com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration
+ * @see org.springframework.cloud.openfeign.FeignAutoConfiguration
+ * @see org.apache.shiro.spring.web.ShiroFilterFactoryBean
  */
 public class UserNamePasswordRealm extends AuthorizingRealm {
 
