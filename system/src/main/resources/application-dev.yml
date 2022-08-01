@@ -2,5 +2,7 @@ spring:
   datasource:
     druid:
       url: jdbc:mysql://127.0.0.1:3306/system?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-      username: cloud-vue
-      password: cloud-vue
+#      username: cloud-vue
+#      password: cloud-vue
+      username: '{cipher}e855NXPXiPNjHHOuh9svPG/okVNP7VFzoTuG/cpDtQqbZ3dGR0Te5FZypzBfUOJqBgqkteTZqIIOIvy6vd2kdIQTHUfXNYNpnsw16m6Pn6+7M8KbyKay8qPwLNh7zgH3WAlZVVDwn4lqyqiL4v7xiVZnjz3twnfa9aEoq0+EGx4='
+      password: '{cipher}I51BQhJ8MhM5KToM6l0BRpR4wQJFusY5Y9HM5PFd0cWaclPShpk5K22a/SK6x+KRLUc3/cYbWcsRFErj6XDYVpV9aG41GAsa1I1KqaX68kM9TR4ObmNFBCP57dlqjbVvBLg1sJHuliWRPQbq3R285UoME0oWcdVTsJbQqXs4y5U='

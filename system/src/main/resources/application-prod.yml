@@ -2,8 +2,10 @@ spring:
   datasource:
     druid:
       url: jdbc:mysql://101.37.117.70:3306/system?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-      username: root
-      password: eb29fbfc4d46d9e5
+#      username: root
+#      password: eb29fbfc4d46d9e5
+      username: '{cipher}cRveviLG5ryGaR8C6zmwYbHoO0np+vOwjEqEq6tcs0MuGKQZQNVoBMi6y/1tNLD3GC2jXdwC/2yWTRJ/D51bZMiU2x6mDNdHgvJdqamIvoT2Pcllzg7nMWMag5SUmehIdynHRQ2Foan+NnMu8DqrfLo+t+l1YOL2gWH/4LN71lU='
+      password: '{cipher}D68ZfU/cTjJdcF0MLthbG/5imOJvsjLl+Csj1/0Czqc3UJ/1JwE7rqeh9C9ltSA1MELQIo/cjwQ6qSWU+1cyvqf+xzP8l0SuH5V6ZvDEspBOXjUT7fJCxr3GiG/H4vhY++OPFgoVbE9biNs6QOBGRmta4CiIMG8IRywQ8vzdB94='
 knife4j:
   #prod swagger文档登录保护
   basic:

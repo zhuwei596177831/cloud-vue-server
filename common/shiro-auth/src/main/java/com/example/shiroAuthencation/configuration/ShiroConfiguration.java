@@ -98,7 +98,7 @@ public class ShiroConfiguration {
      * @date: 2022-05-16 16:50
      **/
     @Bean
-    public TokenSessionManager customSessionManager(CacheManager cacheManager) {
+    public TokenSessionManager tokenSessionManager(CacheManager cacheManager) {
         TokenSessionManager tokenSessionManager = new TokenSessionManager();
         tokenSessionManager.setSessionValidationSchedulerEnabled(true);
         //设置每10分钟进行一次Session是否失效的检测（默认60分钟一次）
