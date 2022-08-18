@@ -11,6 +11,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+
 import java.util.*;
 
 @SpringBootApplication(scanBasePackages = {"com.example"})
@@ -44,7 +45,10 @@ public class GatewayApplication {
      **/
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.serializerByType(Long.class, ToStringSerializer.instance);
+        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder
+                .serializerByType(Long.class, ToStringSerializer.instance)
+                .failOnUnknownProperties(false)
+                ;
     }
 
 }

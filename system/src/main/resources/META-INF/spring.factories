@@ -1,2 +1,2 @@
 org.springframework.cloud.bootstrap.BootstrapConfiguration=\
-com.example.coreweb.encrypt.EnvironmentEncryptorConfig
+com.example.coreweb.encrypt.MyEncryptorBootstrapConfig

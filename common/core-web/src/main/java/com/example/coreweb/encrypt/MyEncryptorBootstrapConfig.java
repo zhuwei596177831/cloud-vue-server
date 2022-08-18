@@ -10,11 +10,11 @@ import org.springframework.security.crypto.encrypt.TextEncryptor;
  * @description
  */
 @Configuration(proxyBeanMethods = false)
-public class EnvironmentEncryptorConfig {
+public class MyEncryptorBootstrapConfig {
 
     @Bean
     public TextEncryptor textEncryptor() {
-        return new EnvironmentEncryptor();
+        return new MyEncryptor();
     }
 
 

@@ -25,11 +25,14 @@ import java.util.stream.Collectors;
  * @author 朱伟伟
  * @date 2021-05-19 10:04:36
  * @description 用户名/密码登录认证源
- * 说明：Realm中注入Feign时不可直接注入，否则会使FeignContext在AbstractApplicationContext的registerBeanPostProcessors阶段就会被实例化
- * 导致SeataContextBeanPostProcessor失效，无法将FeignContext包装为SeataFeignContext，最终导致Seata的全局事务id：Xid无法正确传递
+ * 说明：Realm中的Feign不可直接注入，只要有一个提前注入了，那么在执行FeignClientFactoryBean的getObject时，默认会从父容器获取
+ * 唯一的feign.Client类型的Bean，此时Client在registerBeanPostProcessors阶段被实例化，导致SeataBeanPostProcessor失效，
+ * 无法将父容器中的LoadBalancerFeignClient封装为SeataLoadBalancerFeignClient，最终在执行Client的execute时无法传递Xid
  * 根本原因：ShiroFilterFactoryBean是一个BeanPostProcessor
+ * @see org.springframework.cloud.openfeign.FeignClientFactoryBean
  * @see com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration
- * @see org.springframework.cloud.openfeign.FeignAutoConfiguration
+ * @see org.springframework.cloud.openfeign.ribbon.FeignRibbonClientAutoConfiguration
+ * @see org.springframework.cloud.openfeign.ribbon.HttpClientFeignLoadBalancedConfiguration
  * @see org.apache.shiro.spring.web.ShiroFilterFactoryBean
  */
 public class UserNamePasswordRealm extends AuthorizingRealm {
@@ -40,7 +43,7 @@ public class UserNamePasswordRealm extends AuthorizingRealm {
     @Lazy
     private UserFeign userFeign;
 
-    @Autowired(required = false)
+    @Autowired
     @Lazy
     private RoleFeign roleFeign;
 

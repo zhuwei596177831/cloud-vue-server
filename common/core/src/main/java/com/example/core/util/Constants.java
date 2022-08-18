@@ -52,6 +52,7 @@ public abstract class Constants {
      */
     public static final String APPLICATION_NAME_SYSTEM = "system";
     public static final String APPLICATION_NAME_APP = "app";
+    public static final String APPLICATION_NAME_FILE = "file";
     public static final String APPLICATION_NAME_SYSTEM_LOG = "系统";
 
     /**
@@ -59,6 +60,7 @@ public abstract class Constants {
      */
     public static final String CONTEXT_PATH_SYSTEM = "/system";
     public static final String CONTEXT_PATH_APP = "/app";
+    public static final String CONTEXT_PATH_FILE = "/file";
 
 
     /**

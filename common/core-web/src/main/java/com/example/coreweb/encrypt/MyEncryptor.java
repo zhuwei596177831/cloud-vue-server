@@ -11,7 +11,7 @@ import org.springframework.security.crypto.encrypt.TextEncryptor;
  * @date 2022-08-01 10:43:22
  * @description
  */
-public class EnvironmentEncryptor implements TextEncryptor {
+public class MyEncryptor implements TextEncryptor {
 
     @Override
     public String encrypt(String text) {

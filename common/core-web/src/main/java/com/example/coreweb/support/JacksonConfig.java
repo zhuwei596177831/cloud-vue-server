@@ -26,7 +26,11 @@ public class JacksonConfig {
      **/
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.serializerByType(Long.class, ToStringSerializer.instance);
+        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder
+                .serializerByType(Long.class, ToStringSerializer.instance)
+                //忽略 反序列化时 实体中有自定的get方法的报错
+                .failOnUnknownProperties(false)
+                ;
     }
 
 }
