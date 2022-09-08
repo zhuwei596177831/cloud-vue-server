@@ -13,9 +13,15 @@ feign:
         loggerLevel: FULL
   httpclient:
     enabled: true
+  compression:
+    response:
+      enabled: true
+      #使用feign.httpclient后 ApacheHttpClient会自动处理response的Content-Encoding，useGzipDecoder就用不着开启了
+#      useGzipDecoder: true
 #openfeign中启用hystrix时, hystrix的默认超时时间是 1000 milliseconds.
 #会使上面feign的connectTimeout和readTimeout配置失效 添加如下配置
 #1、关闭hystrix超时功能 或者 2、延长hystrix默认的超时时间
+#feign的fallback功能底层还是使用的HystrixCommand类来实现的
 hystrix:
   command:
     default:

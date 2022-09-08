@@ -5,6 +5,9 @@ server:
     encoding:
       force-request: true
       force-response: true
+  # 当request header中存在 Accept-Encoding时 对response压缩
+  compression:
+    enabled: true
 spring:
   application:
     name: app

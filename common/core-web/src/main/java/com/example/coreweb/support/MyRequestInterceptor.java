@@ -13,7 +13,7 @@ import java.util.UUID;
  * @author 朱伟伟
  * @date 2021-12-04 21:54:36
  * @description openfeign调用拦截器
- * seata的xid未传递 {@link com.alibaba.cloud.seata.feign.SeataFeignClient}
+ * seata的xid传递 {@link com.alibaba.cloud.seata.feign.SeataFeignClient}
  */
 @Component
 public class MyRequestInterceptor implements RequestInterceptor {
