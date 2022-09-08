@@ -1,8 +1,8 @@
 package com.example.coreweb.filter;
 
 import com.example.core.uuid.UUID;
-import com.example.coreweb.MyThreadLocalHolder;
-import com.example.coreweb.MyTransmittableThreadLocal;
+import com.example.coreweb.support.MyThreadLocalHolder;
+import com.example.coreweb.support.MyTransmittableThreadLocal;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
