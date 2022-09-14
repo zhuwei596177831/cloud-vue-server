@@ -1,6 +1,6 @@
 package com.example.shiroAuthencation.configuration;
 
-import com.example.shiroAuthencation.enums.ShiroWhiteListUrl;
+import com.example.shiroAuthencation.enums.ShiroWhiteList;
 import com.example.shiroAuthencation.filter.CustomAccessFilter;
 import com.example.shiroAuthencation.listener.ShiroSessionListener;
 import com.example.shiroAuthencation.realm.UserNamePasswordRealm;
@@ -214,8 +214,8 @@ public class ShiroConfiguration {
      * @date: 2022-05-13 15:29
      **/
     private void addWhiteListUrl(Map<String, String> filterChainDefinitionMap) {
-        for (ShiroWhiteListUrl shiroWhiteListUrl : ShiroWhiteListUrl.values()) {
-            filterChainDefinitionMap.put(shiroWhiteListUrl.getUrl(), DefaultFilter.anon.name());
+        for (ShiroWhiteList shiroWhiteList : ShiroWhiteList.values()) {
+            filterChainDefinitionMap.put(shiroWhiteList.getUrl(), DefaultFilter.anon.name());
         }
     }
 

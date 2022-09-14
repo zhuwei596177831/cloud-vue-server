@@ -1,7 +1,7 @@
 package com.example.coreweb.filter;
 
 import com.example.core.entity.Json;
-import com.example.coreweb.enums.GatewayCheckWhiteListUrl;
+import com.example.coreweb.enums.GatewayCheckWhiteList;
 import com.example.core.rescode.ApplicationResponseCode;
 import com.example.core.util.Constants;
 import org.apache.logging.log4j.LogManager;
@@ -83,7 +83,7 @@ public class GatewayTokenCheckFilter implements OrderedFilter {
      * @description: 白名单 直接放行
      **/
     private boolean isWhitelistUrl(String servletPath) {
-        return Arrays.stream(GatewayCheckWhiteListUrl.values()).anyMatch(i -> antPathMatcher.match(i.getUrl(), servletPath));
+        return Arrays.stream(GatewayCheckWhiteList.values()).anyMatch(i -> antPathMatcher.match(i.getUrl(), servletPath));
     }
 
     @Override

@@ -10,7 +10,7 @@ feign:
         #is applied from the time of connection establishment and is triggered when returning the response takes too long.
         readTimeout: 3000
         #Log the headers, body, and metadata for both requests and responses. NONE、BASIC、HEADERS、FULL
-        loggerLevel: FULL
+        loggerLevel: BASIC
   httpclient:
     enabled: true
   compression:

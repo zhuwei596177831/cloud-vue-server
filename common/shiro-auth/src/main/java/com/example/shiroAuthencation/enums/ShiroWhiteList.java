@@ -9,17 +9,18 @@ import lombok.Getter;
  * @see com.example.shiroAuthencation.filter.CustomAccessFilter
  */
 @Getter
-public enum ShiroWhiteListUrl {
+public enum ShiroWhiteList {
     LOGIN("/login", "登录接口"),
     ACTUATOR_MONITOR("/actuator/**", "monitor监控不校验"),
-    static_path("/static/**", "static"),
     SWAGGER_API_DOC("/v2/api-docs/**", "swagger文档"),
+    static_path("/static/**", "static"),
+    test_path("/test/**", "test_path"),
     ;
 
     private final String url;
     private final String desc;
 
-    ShiroWhiteListUrl(String url, String desc) {
+    ShiroWhiteList(String url, String desc) {
         this.url = url;
         this.desc = desc;
     }
