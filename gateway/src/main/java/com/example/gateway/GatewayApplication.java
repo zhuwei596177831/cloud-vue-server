@@ -1,20 +1,23 @@
 package com.example.gateway;
 
+import com.example.core.util.ObjectMapperUtil;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication(scanBasePackages = {"com.example"})
+@EnableFeignClients(basePackages = {"com.example"})
 public class GatewayApplication {
 
     public static void main(String[] args) {
@@ -25,16 +28,16 @@ public class GatewayApplication {
      * @author: 朱伟伟
      * @date: 2021-06-01 22:22
      * @description: gateway使用openfeign时配置HttpMessageConverters
-     * @see EnableFeignClients
-     * @see FeignClientsConfiguration
+     * @see org.springframework.cloud.openfeign.EnableFeignClients
+     * @see org.springframework.cloud.openfeign.FeignClientsConfiguration
      **/
     @Bean
     public HttpMessageConverters httpMessageConverters() {
         List<HttpMessageConverter<?>> httpMessageConverters = new ArrayList<>();
         httpMessageConverters.add(new ByteArrayHttpMessageConverter());
         httpMessageConverters.add(new StringHttpMessageConverter());
-        httpMessageConverters.add(new MappingJackson2HttpMessageConverter(Jackson2ObjectMapperBuilder.json().build()));
-        return new HttpMessageConverters(httpMessageConverters);
+        httpMessageConverters.add(new MappingJackson2HttpMessageConverter(ObjectMapperUtil.instance()));
+        return new HttpMessageConverters(false, httpMessageConverters);
     }
 
     /**
