@@ -1,4 +1,4 @@
-package com.example.system.websocket;
+package com.example.system.websocket.scheduler;
 
 import com.example.core.entity.Json;
 import com.example.system.applicationevent.JsonApplicationEvent;
