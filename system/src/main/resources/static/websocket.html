@@ -10,10 +10,10 @@
     //当WebSocket创建成功时，触发onopen事件
     webSocket.onopen = function () {
         console.log("webSocket onopen");
-        // let send = '{"code":"111","name":"zhuweiwei"}';
-        // console.log("webSocket发送：" + send);
+        let send = '{"code":"111","name":"zhuweiwei"}';
+        console.log("webSocket发送：" + send);
         console.log("\n")
-        // webSocket.send(send);
+        webSocket.send(send);
     }
 
     //当客户端收到服务端发来的消息时，触发onmessage事件，参数e.data包含server传递过来的数据
@@ -43,10 +43,10 @@
     let webSocket1 = new WebSocket("ws://127.0.0.1:9091/api/system/websocket/test");
     webSocket1.onopen = function () {
         console.log("webSocket1 onopen");
-        // let send = '{"code":"222","name":"zhuweiwei"}';
-        // console.log("webSocket1发送：" + send);
+        let send = '{"code":"222","name":"zhuweiwei"}';
+        console.log("webSocket1发送：" + send);
         console.log("\n")
-        // webSocket1.send(send);
+        webSocket1.send(send);
     }
     webSocket1.onmessage = function (event) {
         console.log("webSocket1 onmessage");

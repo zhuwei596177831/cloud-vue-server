@@ -1,5 +1,6 @@
 package com.example.system.websocket.handler;
 
+import com.example.coreweb.websocket.GenericWebSocketHandler;
 import com.example.system.applicationevent.JsonApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;

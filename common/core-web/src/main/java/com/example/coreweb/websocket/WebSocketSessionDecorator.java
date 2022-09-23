@@ -1,4 +1,4 @@
-package com.example.system.websocket.support;
+package com.example.coreweb.websocket;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.socket.CloseStatus;

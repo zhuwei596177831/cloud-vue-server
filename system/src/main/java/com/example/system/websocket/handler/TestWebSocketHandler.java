@@ -1,5 +1,6 @@
 package com.example.system.websocket.handler;
 
+import com.example.coreweb.websocket.GenericWebSocketHandler;
 import org.springframework.stereotype.Component;
 
 /**
