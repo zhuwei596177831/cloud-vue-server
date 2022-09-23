@@ -1,7 +1,8 @@
 package com.example.core.entity;
 
 
-import com.alibaba.fastjson.JSON;
+import com.example.core.util.ObjectMapperUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.Serializable;
 
@@ -15,6 +16,11 @@ public class BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return JSON.toJSONString(this);
+        try {
+            return ObjectMapperUtil.instance().writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

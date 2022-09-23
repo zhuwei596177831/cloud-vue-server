@@ -15,6 +15,7 @@ public enum ShiroWhiteList {
     SWAGGER_API_DOC("/v2/api-docs/**", "swagger文档"),
     static_path("/static/**", "static"),
     test_path("/test/**", "test_path"),
+    websocket_path("/websocket/**", "websocket_path"),
     ;
 
     private final String url;
