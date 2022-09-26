@@ -77,11 +77,8 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
             if (webSocketSessionDecorator != null) {
                 webSocketSessionDecorator.setAuthenticated(true);
             }
-            String send = JSON.toJSONString(Json.ok(object.getString("code")));
-            logger.info("发送：{}", send);
-            session.sendMessage(new TextMessage(send));
         } else {
-            String send = JSON.toJSONString(Json.fail("鉴权失败"));
+            String send = Json.fail("鉴权失败").toString();
             logger.info("发送：{}", send);
             session.sendMessage(new TextMessage(send));
             webSocketSessionMap.remove(session.getId());
@@ -100,11 +97,14 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
             for (; ; ) {
                 try {
                     Object value = this.queue.take();
-                    logger.info("从队列取得数据：{}", value.toString());
+                    logger.info("从队列取得数据：{}", JSON.toJSONString(value));
                     if (!webSocketSessionMap.isEmpty()) {
                         for (WebSocketSessionDecorator session : webSocketSessionMap.values()) {
                             if (session.isAuthenticated() && session.isOpen()) {
                                 session.sendMessage(new TextMessage(ObjectMapperUtil.instance().writeValueAsString(value)));
+                            } else {
+                                webSocketSessionMap.remove(session.getId());
+                                session.close();
                             }
                         }
                     }

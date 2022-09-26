@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -40,7 +39,7 @@ public class WebSocketSessionValidator implements CommandLineRunner {
                             try {
                                 myWebSocketSessionMap.remove(session.getId());
                                 session.close();
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }

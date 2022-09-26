@@ -20,6 +20,12 @@
     webSocket.onmessage = function (event) {
         console.log("webSocket onmessage");
         console.log("webSocket接收：" + event.data);
+        if (event.data !== undefined && event.data !== null) {
+            let data = JSON.parse(event.data);
+            if (data.success === false) {
+                console.log(data.msg);
+            }
+        }
         console.log("\n")
     }
     // webSocket.addEventListener("message", function (event) {
@@ -40,23 +46,23 @@
     }
 
 
-    let webSocket1 = new WebSocket("ws://127.0.0.1:9091/api/system/websocket/test");
-    webSocket1.onopen = function () {
-        console.log("webSocket1 onopen");
-        let send = '{"code":"222","name":"zhuweiwei"}';
-        console.log("webSocket1发送：" + send);
-        console.log("\n")
-        webSocket1.send(send);
-    }
-    webSocket1.onmessage = function (event) {
-        console.log("webSocket1 onmessage");
-        console.log("webSocket1 接收：" + event.data);
-        console.log("\n")
-    }
-    webSocket1.onclose = function (event) {
-        console.log("webSocket1 onclose");
-        console.log("\n")
-    }
+    // let webSocket1 = new WebSocket("ws://127.0.0.1:9091/api/system/websocket/test");
+    // webSocket1.onopen = function () {
+    //     console.log("webSocket1 onopen");
+    //     let send = '{"code":"222","name":"zhuweiwei"}';
+    //     console.log("webSocket1发送：" + send);
+    //     console.log("\n")
+    //     webSocket1.send(send);
+    // }
+    // webSocket1.onmessage = function (event) {
+    //     console.log("webSocket1 onmessage");
+    //     console.log("webSocket1 接收：" + event.data);
+    //     console.log("\n")
+    // }
+    // webSocket1.onclose = function (event) {
+    //     console.log("webSocket1 onclose");
+    //     console.log("\n")
+    // }
 
 </script>
 </body>
