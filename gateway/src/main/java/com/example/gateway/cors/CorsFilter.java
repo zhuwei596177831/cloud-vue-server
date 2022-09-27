@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
  * @author 朱伟伟
  * @date 2021-05-22 23:37:24
  * @description cors filter（跨域）
- * 方案一：自定义WebFilter，添加固定的请求头
+ * 方案二：自定义WebFilter，添加固定的请求头
  */
 //@Component
 public class CorsFilter implements WebFilter {
