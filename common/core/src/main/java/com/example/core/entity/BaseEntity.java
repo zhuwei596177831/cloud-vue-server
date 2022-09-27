@@ -20,7 +20,7 @@ public class BaseEntity implements Serializable {
             return ObjectMapperUtil.instance().writeValueAsString(this);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
     }
 }

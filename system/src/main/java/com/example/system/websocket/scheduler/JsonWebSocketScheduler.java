@@ -14,7 +14,7 @@ import java.util.UUID;
  * @date 2022-09-23 11:03:41
  * @description
  */
-@Component
+//@Component
 public class JsonWebSocketScheduler implements ApplicationEventPublisherAware {
 
     private ApplicationEventPublisher applicationEventPublisher;

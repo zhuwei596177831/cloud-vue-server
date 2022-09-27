@@ -11,7 +11,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
  * @author 朱伟伟
  * @date 2021-05-23 16:50:57
  * @description cors跨域配置
- * 解决问题：发送非简单请求时,options预检请求 无法进入{@link CorsFilter}
+ * 方案二：使用webflux提供的CorsWebFilter
  */
 @Configuration(proxyBeanMethods = false)
 public class CorsConfig {
