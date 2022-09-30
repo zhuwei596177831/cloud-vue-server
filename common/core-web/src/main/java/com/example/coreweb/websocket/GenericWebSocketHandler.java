@@ -30,7 +30,7 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
 
     private final BlockingQueue<Object> queue = new LinkedBlockingQueue<>();
 
-    private final Map<String, WebSocketSessionDecorator> webSocketSessionMap = new ConcurrentHashMap<>();
+    private final Map<String, WebSocketSessionDecorator> webSocketSessionMap = new ConcurrentHashMap<>(64);
 
     public Map<String, WebSocketSessionDecorator> getWebSocketSessionMap() {
         return webSocketSessionMap;
@@ -90,18 +90,19 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
     public final void run(String... args) throws Exception {
         //启动守护线程向认证通过、连接存活的WebSocketSession推送数据
         Executors.newSingleThreadExecutor(r -> {
-            Thread thread = new Thread(r, "JsonWebSocketHandler-Thread");
+            Thread thread = new Thread(r, getClass().getName() + "-Daemon-Thread");
             thread.setDaemon(true);
             return thread;
         }).execute(() -> {
             for (; ; ) {
                 try {
                     Object value = this.queue.take();
-                    logger.info("从队列取得数据：{}", JSON.toJSONString(value));
+                    String message = ObjectMapperUtil.instance().writeValueAsString(value);
+                    logger.info("从队列取得数据：{}", message);
                     if (!webSocketSessionMap.isEmpty()) {
                         for (WebSocketSessionDecorator session : webSocketSessionMap.values()) {
                             if (session.isAuthenticated() && session.isOpen()) {
-                                session.sendMessage(new TextMessage(ObjectMapperUtil.instance().writeValueAsString(value)));
+                                session.sendMessage(new TextMessage(message));
                             } else {
                                 webSocketSessionMap.remove(session.getId());
                                 session.close();

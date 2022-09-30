@@ -35,17 +35,19 @@ public class WebSocketSessionValidator implements CommandLineRunner {
                 for (GenericWebSocketHandler genericWebSocketHandler : genericWebSocketHandlers) {
                     Map<String, WebSocketSessionDecorator> myWebSocketSessionMap = genericWebSocketHandler.getWebSocketSessionMap();
                     for (WebSocketSessionDecorator session : myWebSocketSessionMap.values()) {
-                        if (!session.isAuthenticated()) {
-                            try {
+                        try {
+                            if (!session.isAuthenticated()) {
                                 myWebSocketSessionMap.remove(session.getId());
                                 session.close();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                            } else if (!session.isOpen()) {
+                                myWebSocketSessionMap.remove(session.getId());
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }
-            }, 5, 10, TimeUnit.SECONDS);
+            }, 5, 60, TimeUnit.SECONDS);
         }
     }
 }
