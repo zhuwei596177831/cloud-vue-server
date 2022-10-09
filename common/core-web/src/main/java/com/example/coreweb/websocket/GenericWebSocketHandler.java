@@ -101,16 +101,20 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
                     logger.info("从队列取得数据：{}", message);
                     if (!webSocketSessionMap.isEmpty()) {
                         for (WebSocketSessionDecorator session : webSocketSessionMap.values()) {
-                            if (session.isAuthenticated() && session.isOpen()) {
-                                session.sendMessage(new TextMessage(message));
-                            } else {
-                                webSocketSessionMap.remove(session.getId());
-                                session.close();
+                            try {
+                                if (session.isAuthenticated() && session.isOpen()) {
+                                    session.sendMessage(new TextMessage(message));
+                                } else {
+                                    webSocketSessionMap.remove(session.getId());
+                                    session.close();
+                                }
+                            } catch (Throwable ex) {
+                                ex.printStackTrace();
                             }
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Throwable ex) {
+                    ex.printStackTrace();
                 }
             }
         });
