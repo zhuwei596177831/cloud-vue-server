@@ -1,7 +1,7 @@
 package com.example.system.websocket.scheduler;
 
-import com.example.core.entity.Json;
-import com.example.system.applicationevent.JsonApplicationEvent;
+import com.example.coreweb.websocket.WSJson;
+import com.example.system.applicationevent.WSJsonApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,7 +14,7 @@ import java.util.UUID;
  * @date 2022-09-23 11:03:41
  * @description
  */
-//@Component
+@Component
 public class JsonWebSocketScheduler implements ApplicationEventPublisherAware {
 
     private ApplicationEventPublisher applicationEventPublisher;
@@ -26,8 +26,8 @@ public class JsonWebSocketScheduler implements ApplicationEventPublisherAware {
 
     @Scheduled(cron = "0/5 * * * * ?")
     public void createJson() {
-        Json json = Json.ok(UUID.randomUUID().toString());
-        applicationEventPublisher.publishEvent(new JsonApplicationEvent(json));
+        WSJson wsJson = WSJson.ok("111", UUID.randomUUID().toString());
+        applicationEventPublisher.publishEvent(new WSJsonApplicationEvent(wsJson));
     }
 
 }

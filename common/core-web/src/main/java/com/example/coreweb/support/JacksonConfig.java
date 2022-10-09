@@ -30,6 +30,7 @@ public class JacksonConfig {
                 .serializerByType(Long.class, ToStringSerializer.instance)
                 //忽略 反序列化时 实体中有自定的get方法的报错
                 .failOnUnknownProperties(false)
+                .serializers()
                 ;
     }
 

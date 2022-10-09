@@ -27,6 +27,11 @@ public class WebSocketSessionDecorator implements WebSocketSession {
      */
     private boolean authenticated = false;
 
+    /**
+     * 数据标识
+     */
+    private String flagId;
+
     public WebSocketSessionDecorator(WebSocketSession delegate) {
         this.delegate = delegate;
     }
@@ -41,6 +46,14 @@ public class WebSocketSessionDecorator implements WebSocketSession {
 
     public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
+    }
+
+    public String getFlagId() {
+        return flagId;
+    }
+
+    public void setFlagId(String flagId) {
+        this.flagId = flagId;
     }
 
     @Override

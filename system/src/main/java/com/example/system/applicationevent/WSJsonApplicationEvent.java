@@ -1,6 +1,6 @@
 package com.example.system.applicationevent;
 
-import com.example.core.entity.Json;
+import com.example.coreweb.websocket.WSJson;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationEvent;
  * @date 2022-09-23 09:20:22
  * @description
  */
-public class JsonApplicationEvent extends ApplicationEvent {
+public class WSJsonApplicationEvent extends ApplicationEvent {
 
     private static final long serialVersionUID = 2078838923332335138L;
 
@@ -18,12 +18,12 @@ public class JsonApplicationEvent extends ApplicationEvent {
      * @param source the object on which the event initially occurred or with
      *               which the event is associated (never {@code null})
      */
-    public JsonApplicationEvent(Json source) {
+    public WSJsonApplicationEvent(WSJson source) {
         super(source);
     }
 
-    public Json getJson() {
-        return (Json) getSource();
+    public WSJson getWsJson() {
+        return (WSJson) getSource();
     }
 
 }

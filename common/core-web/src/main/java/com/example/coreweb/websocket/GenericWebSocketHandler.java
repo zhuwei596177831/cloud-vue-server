@@ -2,12 +2,11 @@ package com.example.coreweb.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.core.entity.Json;
-import com.example.core.util.ObjectMapperUtil;
 import com.example.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -28,7 +27,7 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final BlockingQueue<Object> queue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<WSJson> queue = new LinkedBlockingQueue<>();
 
     private final Map<String, WebSocketSessionDecorator> webSocketSessionMap = new ConcurrentHashMap<>(64);
 
@@ -36,11 +35,11 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
         return webSocketSessionMap;
     }
 
-    protected BlockingQueue<Object> getQueue() {
+    protected BlockingQueue<WSJson> getQueue() {
         return queue;
     }
 
-    public boolean offer(Object o) {
+    public boolean offer(WSJson o) {
         return getQueue().offer(o);
     }
 
@@ -72,13 +71,15 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
         logger.info("接收：{}", payload);
         JSONObject object = JSON.parseObject(payload, JSONObject.class);
         String name = object.getString("name");
-        if (StringUtils.hasText(name) && name.equals("zhuweiwei")) {
+        String flagId = object.getString("flagId");
+        if (StringUtils.hasText(name) && name.equals("zhuweiwei") && StringUtils.hasText(flagId)) {
             WebSocketSessionDecorator webSocketSessionDecorator = webSocketSessionMap.get(session.getId());
             if (webSocketSessionDecorator != null) {
                 webSocketSessionDecorator.setAuthenticated(true);
+                webSocketSessionDecorator.setFlagId(flagId);
             }
         } else {
-            String send = Json.fail("鉴权失败").toString();
+            String send = WSJson.fail(HttpStatus.UNAUTHORIZED.value() + "", "链接不可信").toString();
             logger.info("发送：{}", send);
             session.sendMessage(new TextMessage(send));
             webSocketSessionMap.remove(session.getId());
@@ -96,14 +97,17 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
         }).execute(() -> {
             for (; ; ) {
                 try {
-                    Object value = this.queue.take();
-                    String message = ObjectMapperUtil.instance().writeValueAsString(value);
+                    WSJson wsJson = this.queue.take();
+                    String message = wsJson.toString();
                     logger.info("从队列取得数据：{}", message);
                     if (!webSocketSessionMap.isEmpty()) {
                         for (WebSocketSessionDecorator session : webSocketSessionMap.values()) {
                             try {
                                 if (session.isAuthenticated() && session.isOpen()) {
-                                    session.sendMessage(new TextMessage(message));
+                                    String flagId = session.getFlagId();
+                                    if (StringUtils.hasText(flagId) && flagId.equals(wsJson.getFlagId())) {
+                                        session.sendMessage(new TextMessage(message));
+                                    }
                                 } else {
                                     webSocketSessionMap.remove(session.getId());
                                     session.close();

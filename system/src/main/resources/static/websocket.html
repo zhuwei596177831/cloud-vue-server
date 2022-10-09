@@ -6,11 +6,12 @@
 </head>
 <body>
 <script>
-    let webSocket = new WebSocket("ws://127.0.0.1:9091/api/system/websocket/json");
+    let webSocket = new WebSocket("ws://127.0.0.1:9091/api/system/websocket/test");
     //当WebSocket创建成功时，触发onopen事件
     webSocket.onopen = function () {
         console.log("webSocket onopen");
-        let send = '{"code":"111","name":"zhuweiwei"}';
+        // let send = '{"code":"111","name":"zhuweiwei"}';
+        let send = '{"code":"111","name":"zhuweiwei","flagId":"222"}';
         console.log("webSocket发送：" + send);
         console.log("\n")
         webSocket.send(send);
@@ -18,13 +19,12 @@
 
     //当客户端收到服务端发来的消息时，触发onmessage事件，参数e.data包含server传递过来的数据
     webSocket.onmessage = function (event) {
-        console.log("webSocket onmessage");
-        console.log("webSocket接收：" + event.data);
-        if (event.data !== undefined && event.data !== null) {
-            let data = JSON.parse(event.data);
-            if (data.success === false) {
-                console.log(data.msg);
-            }
+        console.log("webSocket onmessage：" + event.data);
+        let json = JSON.parse(event.data);
+        if (json.code === '401') {
+            console.log(json.msg);
+        } else {
+            console.log("json data：" + JSON.stringify(json.data));
         }
         console.log("\n")
     }
@@ -49,14 +49,19 @@
     // let webSocket1 = new WebSocket("ws://127.0.0.1:9091/api/system/websocket/test");
     // webSocket1.onopen = function () {
     //     console.log("webSocket1 onopen");
-    //     let send = '{"code":"222","name":"zhuweiwei"}';
+    //     let send = '{"code":"222","name":"zhuweiwei","flagId":"222"}';
     //     console.log("webSocket1发送：" + send);
     //     console.log("\n")
     //     webSocket1.send(send);
     // }
     // webSocket1.onmessage = function (event) {
-    //     console.log("webSocket1 onmessage");
-    //     console.log("webSocket1 接收：" + event.data);
+    //     console.log("webSocket1 onmessage：" + event.data);
+    //     let json = JSON.parse(event.data);
+    //     if (json.code === '401') {
+    //         console.log(json.msg);
+    //     } else {
+    //         console.log("json data：" + json.data);
+    //     }
     //     console.log("\n")
     // }
     // webSocket1.onclose = function (event) {
