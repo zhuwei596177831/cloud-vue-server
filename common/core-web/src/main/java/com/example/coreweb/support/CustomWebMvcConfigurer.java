@@ -40,7 +40,18 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     }
 
     /**
-     * 配置Spring MVC基于Servlet3.0异步模式实现Servlet异步处理需要的线程池
+     * 1、配置Spring MVC基于Servlet3.0异步模式实现Servlet异步处理需要的线程池
+     * 2、默认使用TaskExecutionAutoConfiguration配置的
+     * 可以通过{@link org.springframework.boot.autoconfigure.task.TaskExecutionProperties}修改默认线程池的参数
+     * 3、Servlet3.0异步模式，就是将耗时的操作交给自定义的线程池执行，执行结束后，Servlet容器将请求再次转发给DispatcherServlet，
+     * 然后将原始的HandlerMethod重新包装成一个含有Callable类型的Handler的HandlerMethod，然后invoke将前面异步任务的结果返回，
+     * 4、整个request流程有三个Thread，主线程、异步任务线程（Controller中方法返回的Callable，DeferredResult,WebAsyncTask）、Servlet容器后来转发的线程（DispatcherType：Async）
+     * 5、默认情况下，Filter只会拦截一次，即：拦截主线程，解决方式：
+     * 1、修改Filter的DispatcherType为Async
+     * 2、继承Spring的OncePerRequestFilter
+     *
+     * @see org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#configureAsyncSupport(AsyncSupportConfigurer)
+     * @see org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
      */
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
@@ -53,7 +64,9 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy()); // 拒绝策略（一共四种，此处省略）
         executor.initialize();
         configurer.setTaskExecutor(executor);
-
+        //注册MVC异步请求处理线程的拦截接口，特别是当异步处理出现超时、异常时很有用（即：Callable、DeferredResult的调用）
+        //configurer.registerCallableInterceptors();
+        //configurer.registerDeferredResultInterceptors();
     }
 
     /**

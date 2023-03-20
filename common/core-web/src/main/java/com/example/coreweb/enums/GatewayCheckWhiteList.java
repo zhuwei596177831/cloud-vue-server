@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 @Getter
 public enum GatewayCheckWhiteList {
-    websocket_path("/websocket/**", "websocket_path"),
+    websocket_path("/websocket/**", "websocket链接不校验"),
     test_path("/test/**", "test_path"),
     static_path("/static/**", "static"),
     ACTUATOR_MONITOR("/actuator/**", "monitor监控不校验"),

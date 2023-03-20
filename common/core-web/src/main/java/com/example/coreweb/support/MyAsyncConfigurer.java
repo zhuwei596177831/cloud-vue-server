@@ -2,6 +2,7 @@ package com.example.coreweb.support;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -14,8 +15,11 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author 朱伟伟
  * @date 2020-12-07 09:43:27
  * @description 自定义 异步任务的线程池
+ * 默认使用 {@link org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration}配置的
+ * @see org.springframework.scheduling.annotation.AnnotationAsyncExecutionInterceptor#getDefaultExecutor(BeanFactory)
  * @see org.springframework.scheduling.annotation.Async
- * @see org.springframework.aop.interceptor.AsyncExecutionInterceptor
+ * @see org.springframework.scheduling.annotation.AsyncAnnotationAdvisor
+ * @see org.springframework.scheduling.annotation.AnnotationAsyncExecutionInterceptor
  */
 @Component
 public class MyAsyncConfigurer implements AsyncConfigurer {

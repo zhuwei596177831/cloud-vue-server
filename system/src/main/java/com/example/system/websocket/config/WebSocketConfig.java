@@ -1,7 +1,7 @@
 package com.example.system.websocket.config;
 
-import com.example.system.websocket.handler.JsonWebSocketHandler;
-import com.example.system.websocket.handler.TestWebSocketHandler;
+import com.example.system.websocket.handler.JsonWebSocketHandlerSupport;
+import com.example.system.websocket.handler.TestWebSocketHandlerSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -19,9 +19,9 @@ import org.springframework.web.socket.handler.ExceptionWebSocketHandlerDecorator
 public class WebSocketConfig implements WebSocketConfigurer {
 
     @Autowired
-    private JsonWebSocketHandler jsonWebSocketHandler;
+    private JsonWebSocketHandlerSupport jsonWebSocketHandler;
     @Autowired
-    private TestWebSocketHandler testWebSocketHandler;
+    private TestWebSocketHandlerSupport testWebSocketHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {

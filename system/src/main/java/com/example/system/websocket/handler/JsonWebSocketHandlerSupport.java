@@ -1,6 +1,6 @@
 package com.example.system.websocket.handler;
 
-import com.example.coreweb.websocket.GenericWebSocketHandler;
+import com.example.coreweb.websocket.TextWebSocketHandlerSupport;
 import com.example.system.applicationevent.WSJsonApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @description
  */
 @Component
-public class JsonWebSocketHandler extends GenericWebSocketHandler implements ApplicationListener<WSJsonApplicationEvent> {
+public class JsonWebSocketHandlerSupport extends TextWebSocketHandlerSupport implements ApplicationListener<WSJsonApplicationEvent> {
     @Override
     public void onApplicationEvent(WSJsonApplicationEvent event) {
         getQueue().offer(event.getWsJson());

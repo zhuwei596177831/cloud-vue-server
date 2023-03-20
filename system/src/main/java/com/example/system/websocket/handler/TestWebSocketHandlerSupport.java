@@ -1,6 +1,6 @@
 package com.example.system.websocket.handler;
 
-import com.example.coreweb.websocket.GenericWebSocketHandler;
+import com.example.coreweb.websocket.TextWebSocketHandlerSupport;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,5 +9,5 @@ import org.springframework.stereotype.Component;
  * @description
  */
 @Component
-public class TestWebSocketHandler extends GenericWebSocketHandler {
+public class TestWebSocketHandlerSupport extends TextWebSocketHandlerSupport {
 }

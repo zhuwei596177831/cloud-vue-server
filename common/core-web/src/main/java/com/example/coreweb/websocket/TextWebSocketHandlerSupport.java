@@ -12,6 +12,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,7 +24,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @date 2022-09-23 16:55:09
  * @description
  */
-public abstract class GenericWebSocketHandler extends TextWebSocketHandler implements CommandLineRunner {
+public abstract class TextWebSocketHandlerSupport extends TextWebSocketHandler implements CommandLineRunner {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -79,7 +80,10 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
                 webSocketSessionDecorator.setFlagId(flagId);
             }
         } else {
-            String send = WSJson.fail(HttpStatus.UNAUTHORIZED.value() + "", "链接不可信").toString();
+            Map<String, String> map = new HashMap<>();
+            map.put("code", HttpStatus.UNAUTHORIZED.value() + "");
+            map.put("msg", "链接不可信");
+            String send = JSON.toJSONString(map);
             logger.info("发送：{}", send);
             session.sendMessage(new TextMessage(send));
             webSocketSessionMap.remove(session.getId());
@@ -104,8 +108,7 @@ public abstract class GenericWebSocketHandler extends TextWebSocketHandler imple
                         for (WebSocketSessionDecorator session : webSocketSessionMap.values()) {
                             try {
                                 if (session.isAuthenticated() && session.isOpen()) {
-                                    String flagId = session.getFlagId();
-                                    if (StringUtils.hasText(flagId) && flagId.equals(wsJson.getFlagId())) {
+                                    if (session.getFlagId().equals(wsJson.getFlagId())) {
                                         session.sendMessage(new TextMessage(message));
                                     }
                                 } else {

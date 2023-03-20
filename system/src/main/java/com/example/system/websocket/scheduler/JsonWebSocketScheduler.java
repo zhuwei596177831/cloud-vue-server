@@ -5,7 +5,6 @@ import com.example.system.applicationevent.WSJsonApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
@@ -14,7 +13,7 @@ import java.util.UUID;
  * @date 2022-09-23 11:03:41
  * @description
  */
-@Component
+//@Component
 public class JsonWebSocketScheduler implements ApplicationEventPublisherAware {
 
     private ApplicationEventPublisher applicationEventPublisher;

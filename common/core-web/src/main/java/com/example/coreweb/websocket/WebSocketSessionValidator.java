@@ -19,11 +19,11 @@ import java.util.concurrent.TimeUnit;
 public class WebSocketSessionValidator implements CommandLineRunner {
 
     @Autowired(required = false)
-    private Collection<GenericWebSocketHandler> genericWebSocketHandlers;
+    private Collection<TextWebSocketHandlerSupport> textWebSocketHandlerSupports;
 
     @Override
     public void run(String... args) throws Exception {
-        if (!CollectionUtils.isEmpty(genericWebSocketHandlers)) {
+        if (!CollectionUtils.isEmpty(textWebSocketHandlerSupports)) {
             //启动守护线程定时扫描webSocketSessionMap，清除和关闭未认证的WebSocketSession，
             // 延迟5秒间隔60秒自动执行
             Executors.newSingleThreadScheduledExecutor(r -> {
@@ -33,8 +33,8 @@ public class WebSocketSessionValidator implements CommandLineRunner {
                 return thread;
             }).scheduleWithFixedDelay(() -> {
                 try {
-                    for (GenericWebSocketHandler genericWebSocketHandler : genericWebSocketHandlers) {
-                        Map<String, WebSocketSessionDecorator> myWebSocketSessionMap = genericWebSocketHandler.getWebSocketSessionMap();
+                    for (TextWebSocketHandlerSupport textWebSocketHandlerSupport : textWebSocketHandlerSupports) {
+                        Map<String, WebSocketSessionDecorator> myWebSocketSessionMap = textWebSocketHandlerSupport.getWebSocketSessionMap();
                         for (WebSocketSessionDecorator session : myWebSocketSessionMap.values()) {
                             try {
                                 if (!session.isAuthenticated()) {

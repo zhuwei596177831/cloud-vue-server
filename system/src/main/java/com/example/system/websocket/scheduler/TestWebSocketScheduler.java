@@ -2,10 +2,9 @@ package com.example.system.websocket.scheduler;
 
 import com.example.api.system.entity.Test;
 import com.example.coreweb.websocket.WSJson;
-import com.example.system.websocket.handler.TestWebSocketHandler;
+import com.example.system.websocket.handler.TestWebSocketHandlerSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -15,11 +14,11 @@ import java.util.Date;
  * @date 2022-09-23 11:03:41
  * @description
  */
-@Component
+//@Component
 public class TestWebSocketScheduler {
 
     @Autowired
-    private TestWebSocketHandler testWebSocketHandler;
+    private TestWebSocketHandlerSupport testWebSocketHandler;
 
     @Scheduled(cron = "0/5 * * * * ?")
     public void createJson() {
