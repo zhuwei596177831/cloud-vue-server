@@ -9,6 +9,7 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
 
+import javax.servlet.DispatcherType;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -47,8 +48,11 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
      * 然后将原始的HandlerMethod重新包装成一个含有Callable类型的Handler的HandlerMethod，然后invoke将前面异步任务的结果返回，
      * 4、整个request流程有三个Thread，主线程、异步任务线程（Controller中方法返回的Callable，DeferredResult,WebAsyncTask）、Servlet容器后来转发的线程（DispatcherType：Async）
      * 5、默认情况下，Filter只会拦截一次，即：拦截主线程，解决方式：
-     * 1、修改Filter的DispatcherType为Async
+     * 1、修改Filter的DispatcherType，添加ASYNC {@link DispatcherType}
      * 2、继承Spring的OncePerRequestFilter
+     * <p>
+     * {@link org.springframework.boot.web.servlet.AbstractFilterRegistrationBean#configure(FilterRegistration.Dynamic)}
+     * 对OncePerRequestFilter做了特殊处理
      *
      * @see org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#configureAsyncSupport(AsyncSupportConfigurer)
      * @see org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration

@@ -11,17 +11,17 @@ import org.springframework.security.crypto.encrypt.TextEncryptor;
  * @date 2022-08-01 10:43:22
  * @description
  */
-public class MyEncryptor implements TextEncryptor {
+public class MyRsaEncryptor implements TextEncryptor {
+
+    private static final RSA rsa = SecureUtil.rsa(Constants.PWD_RSA_PRIVATE_KEY, Constants.PWD_RSA_PUBLIC_KEY);
 
     @Override
     public String encrypt(String text) {
-        RSA rsa = SecureUtil.rsa(Constants.PWD_RSA_PRIVATE_KEY, Constants.PWD_RSA_PUBLIC_KEY);
         return rsa.encryptBase64(text, KeyType.PublicKey);
     }
 
     @Override
     public String decrypt(String encryptedText) {
-        RSA rsa = SecureUtil.rsa(Constants.PWD_RSA_PRIVATE_KEY, Constants.PWD_RSA_PUBLIC_KEY);
         return rsa.decryptStr(encryptedText, KeyType.PrivateKey);
     }
 
