@@ -1,4 +1,4 @@
-package com.example.coreweb.cache.multi;
+package com.example.coreweb.cache.composite;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -13,11 +13,11 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 /**
  * @author 朱伟伟
  * @date 2022-02-15 14:20:24
- * @description 配置默认缓存, 默认使用RedisCacheManager缓存数据
+ * @description 配置默认缓存（默认使用redis缓存，需要多级缓存时通过注解指定CacheManager即可）
  */
 @EnableCaching(proxyTargetClass = true)
 @Configuration(proxyBeanMethods = false)
-public class MultiCacheConfigurer extends CachingConfigurerSupport {
+public class DefaultRedisCacheConfigurer extends CachingConfigurerSupport {
 
     @Autowired
     private RedisCacheManager redisCacheManager;

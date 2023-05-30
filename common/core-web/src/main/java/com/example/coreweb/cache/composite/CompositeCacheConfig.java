@@ -1,10 +1,11 @@
-package com.example.coreweb.cache.multi;
+package com.example.coreweb.cache.composite;
 
-import com.example.core.util.Constants;
 import com.example.coreweb.cache.redis.JacksonRedisTemplate;
+import com.example.coreweb.cache.util.CacheConstants;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.Cache;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,26 +21,54 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 多级缓存配置
+ * </p>
+ * 当前：Caffeine一级内存缓存，redis二级远程缓存
+ *
  * @author 朱伟伟
- * @date 2022-02-17 20:40:56
- * @description 多级缓存配置 Caffeine做一级内存缓存 redis二级远程缓存
- */
+ * @date 2023-05-30 10:39
+ **/
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(CacheProperties.class)
-public class MultiCacheConfig {
+public class CompositeCacheConfig {
 
+    /**
+     * 配置使用自定义{@link com.fasterxml.jackson.databind.ObjectMapper}的RedisTemplate
+     *
+     * @param redisConnectionFactory Redis连接的线程安全工厂。
+     * @author 朱伟伟
+     * @date 2023-05-30 10:40
+     **/
     @Bean
     public JacksonRedisTemplate jacksonRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         return new JacksonRedisTemplate(redisConnectionFactory);
     }
 
-    @Bean(name = Constants.multiCacheManagerName)
-    public MultiCacheManager multiCacheManager(CacheProperties cacheProperties, RedisCacheManager redisCacheManager) {
-        CaffeineCacheManager caffeineCacheManager = createCaffeineCacheManager(cacheProperties);
-        return new MultiCacheManager(caffeineCacheManager, redisCacheManager);
+    /**
+     * 创建复合{@link org.springframework.cache.CacheManager}
+     *
+     * @param cacheProperties      缓存属性
+     * @param caffeineCacheManager caffeine对应的CacheManager
+     * @param redisCacheManager    redis对应的CacheManager
+     * @author 朱伟伟
+     * @date 2023-05-30 10:36
+     **/
+    @Bean(name = CacheConstants.COMPOSITE_CACHE_MANAGER_NAME)
+    public CompositeCacheManager compositeCacheManager(CacheProperties cacheProperties,
+                                                       CaffeineCacheManager caffeineCacheManager,
+                                                       RedisCacheManager redisCacheManager) {
+        return new CompositeCacheManager(caffeineCacheManager, redisCacheManager);
     }
 
-    private CaffeineCacheManager createCaffeineCacheManager(CacheProperties cacheProperties) {
+    /**
+     * 创建{@link CaffeineCacheManager}
+     *
+     * @param cacheProperties 缓存属性
+     * @author 朱伟伟
+     * @date 2023-05-30 10:25
+     **/
+    @Bean(name = CacheConstants.CAFFEINE_CACHE_MANAGER_NAME)
+    public CaffeineCacheManager caffeineCacheManager(CacheProperties cacheProperties) {
         CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
         String specification = cacheProperties.getCaffeine().getSpec();
         if (StringUtils.hasText(specification)) {
@@ -63,18 +92,21 @@ public class MultiCacheConfig {
     }
 
     /**
-     * 创建 RedisCacheManager
+     * 创建{@link RedisCacheManager}
      *
      * @param cacheProperties:
      * @param jacksonRedisTemplate:
      * @param redisConnectionFactory:
      * @author: 朱伟伟
      * @date: 2022-02-17 20:46
+     * @see org.springframework.cache.transaction.AbstractTransactionSupportingCacheManager#decorateCache(Cache)
+     * @see org.springframework.cache.transaction.TransactionAwareCacheDecorator
+     * @see org.springframework.cache.transaction.TransactionAwareCacheManagerProxy
      **/
-    @Bean(name = Constants.redisCacheManagerName)
-    public RedisCacheManager createRedisCacheManager(CacheProperties cacheProperties,
-                                                     JacksonRedisTemplate jacksonRedisTemplate,
-                                                     RedisConnectionFactory redisConnectionFactory) {
+    @Bean(name = CacheConstants.REDIS_CACHE_MANAGER_NAME)
+    public RedisCacheManager redisCacheManager(CacheProperties cacheProperties,
+                                               JacksonRedisTemplate jacksonRedisTemplate,
+                                               RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = createRedisCacheConfiguration(cacheProperties, jacksonRedisTemplate);
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(redisCacheConfiguration);
@@ -82,11 +114,13 @@ public class MultiCacheConfig {
         if (!cacheNames.isEmpty()) {
             builder.initialCacheNames(new LinkedHashSet<>(cacheNames));
         }
+        //启用RedisCaches以同步正在进行的spring管理事务的缓存放入/退出操作
+        builder.transactionAware();
         return builder.build();
     }
 
     /**
-     * 自定义RedisCacheConfiguration用于缓存注解方式 缓存数据的序列化
+     * 自定义RedisCacheConfiguration定制化注解方式缓存配置，使用{@link JacksonRedisTemplate}实现数据的序列化和反序列化
      *
      * @param cacheProperties:
      * @param jacksonRedisTemplate:
@@ -113,5 +147,6 @@ public class MultiCacheConfig {
         }
         return config;
     }
+
 
 }
