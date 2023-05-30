@@ -119,8 +119,6 @@ public class CompositeCacheConfig {
         if (!cacheNames.isEmpty()) {
             builder.initialCacheNames(new LinkedHashSet<>(cacheNames));
         }
-        //启用RedisCaches以同步正在进行的spring管理事务的缓存放入/退出操作
-        builder.transactionAware();
         redisCacheManagerBuilderCustomizers.orderedStream().forEach((customizer) -> customizer.customize(builder));
         return cacheManagerCustomizers.customize(builder.build());
     }
