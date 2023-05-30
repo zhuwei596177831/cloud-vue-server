@@ -3,7 +3,11 @@ package com.example.coreweb.cache.composite;
 import com.example.coreweb.cache.redis.JacksonRedisTemplate;
 import com.example.coreweb.cache.util.CacheConstants;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizer;
+import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.Cache;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -19,6 +23,7 @@ import org.springframework.util.StringUtils;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 多级缓存配置
@@ -35,7 +40,7 @@ public class CompositeCacheConfig {
     /**
      * 配置使用自定义{@link com.fasterxml.jackson.databind.ObjectMapper}的RedisTemplate
      *
-     * @param redisConnectionFactory Redis连接的线程安全工厂。
+     * @param redisConnectionFactory Redis连接的线程安全工厂
      * @author 朱伟伟
      * @date 2023-05-30 10:40
      **/
@@ -47,16 +52,13 @@ public class CompositeCacheConfig {
     /**
      * 创建复合{@link org.springframework.cache.CacheManager}
      *
-     * @param cacheProperties      缓存属性
      * @param caffeineCacheManager caffeine对应的CacheManager
      * @param redisCacheManager    redis对应的CacheManager
      * @author 朱伟伟
      * @date 2023-05-30 10:36
      **/
     @Bean(name = CacheConstants.COMPOSITE_CACHE_MANAGER_NAME)
-    public CompositeCacheManager compositeCacheManager(CacheProperties cacheProperties,
-                                                       CaffeineCacheManager caffeineCacheManager,
-                                                       RedisCacheManager redisCacheManager) {
+    public CompositeCacheManager compositeCacheManager(CaffeineCacheManager caffeineCacheManager, RedisCacheManager redisCacheManager) {
         return new CompositeCacheManager(caffeineCacheManager, redisCacheManager);
     }
 
@@ -68,7 +70,8 @@ public class CompositeCacheConfig {
      * @date 2023-05-30 10:25
      **/
     @Bean(name = CacheConstants.CAFFEINE_CACHE_MANAGER_NAME)
-    public CaffeineCacheManager caffeineCacheManager(CacheProperties cacheProperties) {
+    public CaffeineCacheManager caffeineCacheManager(CacheProperties cacheProperties,
+                                                     CacheManagerCustomizers cacheManagerCustomizers) {
         CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
         String specification = cacheProperties.getCaffeine().getSpec();
         if (StringUtils.hasText(specification)) {
@@ -88,7 +91,7 @@ public class CompositeCacheConfig {
         if (!CollectionUtils.isEmpty(cacheNames)) {
             caffeineCacheManager.setCacheNames(cacheNames);
         }
-        return caffeineCacheManager;
+        return cacheManagerCustomizers.customize(caffeineCacheManager);
     }
 
     /**
@@ -106,7 +109,9 @@ public class CompositeCacheConfig {
     @Bean(name = CacheConstants.REDIS_CACHE_MANAGER_NAME)
     public RedisCacheManager redisCacheManager(CacheProperties cacheProperties,
                                                JacksonRedisTemplate jacksonRedisTemplate,
-                                               RedisConnectionFactory redisConnectionFactory) {
+                                               RedisConnectionFactory redisConnectionFactory,
+                                               ObjectProvider<RedisCacheManagerBuilderCustomizer> redisCacheManagerBuilderCustomizers,
+                                               CacheManagerCustomizers cacheManagerCustomizers) {
         RedisCacheConfiguration redisCacheConfiguration = createRedisCacheConfiguration(cacheProperties, jacksonRedisTemplate);
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(redisCacheConfiguration);
@@ -116,7 +121,8 @@ public class CompositeCacheConfig {
         }
         //启用RedisCaches以同步正在进行的spring管理事务的缓存放入/退出操作
         builder.transactionAware();
-        return builder.build();
+        redisCacheManagerBuilderCustomizers.orderedStream().forEach((customizer) -> customizer.customize(builder));
+        return cacheManagerCustomizers.customize(builder.build());
     }
 
     /**
@@ -146,6 +152,11 @@ public class CompositeCacheConfig {
             config = config.disableKeyPrefix();
         }
         return config;
+    }
+
+    @Bean
+    public CacheManagerCustomizers cacheManagerCustomizers(ObjectProvider<CacheManagerCustomizer<?>> customizers) {
+        return new CacheManagerCustomizers(customizers.orderedStream().collect(Collectors.toList()));
     }
 
 
