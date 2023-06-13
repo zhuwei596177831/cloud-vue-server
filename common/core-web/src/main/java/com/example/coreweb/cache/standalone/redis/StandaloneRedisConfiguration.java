@@ -1,4 +1,4 @@
-package com.example.coreweb.cache.redis;
+package com.example.coreweb.cache.standalone.redis;
 
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
  * {@link org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration}
  */
 //@Configuration(proxyBeanMethods = false)
-public class SingleRedisConfiguration {
+public class StandaloneRedisConfiguration {
 
     @Bean
     public JacksonRedisTemplate jacksonRedisTemplate(RedisConnectionFactory redisConnectionFactory) {

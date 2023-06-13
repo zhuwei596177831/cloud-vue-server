@@ -1,4 +1,4 @@
-package com.example.coreweb.cache.redis;
+package com.example.coreweb.cache.standalone.redis;
 
 import com.example.core.util.ObjectMapperUtil;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

@@ -1,7 +1,7 @@
 package com.example.coreweb.cache.util;
 
 import com.example.core.util.Constants;
-import com.example.coreweb.cache.redis.JacksonRedisTemplate;
+import com.example.coreweb.cache.standalone.redis.JacksonRedisTemplate;
 import com.github.pagehelper.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

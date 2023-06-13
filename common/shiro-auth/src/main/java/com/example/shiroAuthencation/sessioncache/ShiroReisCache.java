@@ -25,7 +25,7 @@ public class ShiroReisCache implements Cache<Serializable, Session> {
     /**
      * 缓存session
      */
-    private final ConcurrentMap<Serializable, Session> sessions = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Serializable, Session> sessions = new ConcurrentHashMap<>(1024);
 
 
     private final RedisSessionTemplate redisSessionTemplate;

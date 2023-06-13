@@ -1,4 +1,4 @@
-package com.example.coreweb.lock.redis.single;
+package com.example.coreweb.distribution_lock.redis.standalone;
 
 import com.example.core.threadpool.MyExecutor;
 import org.slf4j.Logger;

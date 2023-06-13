@@ -1,6 +1,6 @@
 package com.example.coreweb.cache.composite;
 
-import com.example.coreweb.cache.redis.JacksonRedisTemplate;
+import com.example.coreweb.cache.standalone.redis.JacksonRedisTemplate;
 import com.example.coreweb.cache.util.CacheConstants;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.beans.factory.ObjectProvider;
