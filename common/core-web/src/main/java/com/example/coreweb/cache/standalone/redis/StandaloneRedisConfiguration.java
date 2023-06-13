@@ -16,6 +16,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
  * @see org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
  * {@link org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration}
  */
+//@EnableCaching(proxyTargetClass = true)
 //@Configuration(proxyBeanMethods = false)
 public class StandaloneRedisConfiguration {
 
